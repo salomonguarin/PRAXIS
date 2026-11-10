@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Forja Praxis</title>
+<style>
+:root{--bg:#121212;--card:#1c1c1e;--line:#2c2c2e;--tx:#f2f2f2;--mut:#9a9a9f;--ac:#c8553d;--ok:#6fae6f;--warn:#d9a441}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.45 system-ui,Segoe UI,Roboto,sans-serif;padding:0 16px 80px;max-width:720px;margin:auto}
+h1{font-size:20px;margin:16px 0 4px}h2{font-size:16px;margin:0 0 8px}
+.mut{color:var(--mut);font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden}.bar>i{display:block;height:100%;background:var(--ac)}
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:center}
+nav button{flex:1;max-width:180px;background:none;border:0;color:var(--mut);padding:14px 4px;font-size:15px}
+nav button.on{color:var(--tx);border-top:2px solid var(--ac);margin-top:-1px}
+label.chk{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line)}
+label.chk:last-child{border:0}
+input[type=checkbox]{width:22px;height:22px;accent-color:var(--ac);flex:none;margin-top:2px}
+input[type=text],input[type=number],textarea{width:100%;background:#111;color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:10px;font:inherit;margin:4px 0 10px}
+button.b{background:var(--ac);color:#fff;border:0;border-radius:8px;padding:10px 14px;font:inherit}
+button.g{background:none;color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font:inherit}
+.quote{border-left:3px solid var(--ac);padding-left:12px;font-style:italic}
+.row{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.d{aspect-ratio:1;border-radius:8px;border:1px solid var(--line);background:none;color:var(--tx);font-size:14px}
+.d.full{background:var(--ok);color:#000;border-color:var(--ok)}.d.part{background:var(--warn);color:#000;border-color:var(--warn)}.d.cur{outline:2px solid var(--ac)}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left}
+.k{font-size:30px;font-weight:700}
+.pill{display:inline-block;padding:2px 8px;border-radius:99px;font-size:12px;border:1px solid var(--line)}
+</style>
+</head>
+<body>
+<h1>Forja Praxis</h1>
+<div id="app"></div>
+<nav id="nav"></nav>
+<script>
+const SCHEMA = 1, KEY = 'forja-praxis-v1';
+const WEEKS = [
+ {t:'Gemba + 5S', d:[
+  ['Registra tu dia real cada 30 min. Al final, lista en que se fue el tiempo.','Define la accion incomoda que mas evitas.'],
+  ['Seiri (Clasificar): saca del espacio fisico todo lo que no usaras esta semana.','Regala o bota algo que te cuesta soltar.'],
+  ['Seiri digital: desinstala apps, cancela suscripciones, vacia la bandeja de entrada.','Elimina una app que te distrae.'],
+  ['Seiton (Ordenar): un lugar para cada cosa. Ordena archivos y carpetas de Praxis.','Nombra y ubica todo en 15 minutos.'],
+  ['Seiso (Limpiar): limpia espacio y escritorio digital. Define como evitar que se ensucie.','Limpia primero lo que mas evitas.'],
+  ['Seiketsu (Estandarizar): escribe el estandar del puesto y toma foto de como debe quedar.','Muestrale el estandar a alguien.'],
+  ['Shitsuke (Disciplina): audita el 5S. Calcula tu linea base de indicadores (revision semanal).','Di en voz alta que vas a cambiar.']]},
+ {t:'PHVA + 7 desperdicios', d:[
+  ['PHVA completo: plan escrito en la apertura, verificacion en el cierre. Desperdicio de hoy: espera.','Elimina una espera hoy.'],
+  ['Sobreproduccion de ideas: lista todos tus proyectos. Solo Praxis sigue; el resto va a la lista de espera.','Archiva un proyecto que amas.'],
+  ['Inventario: libros y cursos sin aplicar. Elige uno y aplica hoy lo aprendido.','Aplica algo en la vida real, no en notas.'],
+  ['Movimiento y transporte: cuenta cuantas veces cambiaste de tarea. Reduce a la mitad manana.','Un solo bloque sin cambiar de tarea.'],
+  ['Defectos y retrabajo: que repites? Haz 5 porques hasta la causa raiz.','Corrige la causa, no el sintoma.'],
+  ['Sobreprocesamiento: planear sin ejecutar. Tope de 15 min de planeacion por tarea.','Ejecuta algo imperfecto hoy.'],
+  ['Talento sin usar: que fortaleza no estas usando? Ajuste y revision semanal.','Usa esa fortaleza frente a otra persona.']]},
+ {t:'Teoria de Restricciones + estandar', d:[
+  ['Identifica tu restriccion y confirmala con datos de tu registro.','Escribe la restriccion y compartela.'],
+  ['Explota la restriccion: disena tu rutina matutina estandar, hora por hora.','Sigue la rutina desde el primer minuto.'],
+  ['Poka-yoke: disena barreras (celular fuera, bloqueadores, una sola pestana).','Instala una barrera ahora.'],
+  ['Andon: define la senal de alerta cuando te desvias y que haces al recibirla.','Activa la senal las veces que haga falta.'],
+  ['Trabajo estandarizado: ejecuta la rutina tal cual y anota las desviaciones.','Sostiene la rutina aunque no tengas ganas.'],
+  ['Subordinar: revisa tus compromisos; recorta los que no alimentan la restriccion.','Dile no a algo hoy.'],
+  ['Revision semanal: la restriccion se movio? Cual es la siguiente?','Cuentale a alguien tu avance.']]},
+ {t:'Kaizen 1%', d:[
+  ['Elige 1 mejora medible de 1%. Define metrica y valor base.','Compromete la mejora con una fecha.'],
+  ['Aplica la mejora (PHVA) y mide el resultado.','Mide con datos, no con sensaciones.'],
+  ['Segunda mejora: elige, define metrica y aplica.','Hazlo antes de las 10 am.'],
+  ['Estandariza lo que funciono. Escribe el nuevo estandar.','Enseña el estandar a otra persona.'],
+  ['Tercera mejora. Elimina algo que no funciono.','Corta algo querido que no rinde.'],
+  ['Documenta tu antes/despues con datos reales del registro: primer caso de Praxis.','Presentalo en 2 minutos sin libreto.'],
+  ['Auditoria final y puerta a Fase 2: evalua los 3 indicadores.','Dilo directo: pasaste o no pasaste.']]}
+];
+const FORJA = [
+ 'Estudia a un estratega (Anibal, Escipion, Musashi, Napoleon): 15 min y una decision aplicable hoy.',
+ 'Explica un concepto Lean en 2 minutos, sin libreto, en voz alta o en video.',
+ 'Haz hoy lo que mas evitas, antes del mediodia.',
+ 'Caza un desperdicio propio y eliminalo hoy.'];
+const QUOTES = [
+ ['Simplificar antes de complejizar.','Principio de Praxis'],
+ ['Mejorar 1% cada dia.','Principio de Praxis'],
+ ['Aprender haciendo, no solo leyendo.','Principio de Praxis'],
+ ['Eliminar el desperdicio antes de trabajar mas.','Principio de Praxis'],
+ ['El que predica debe aplicar.','Principio de Praxis'],
+ ['Una sola cosa, y darla toda.','Principio de Praxis'],
+ ['No hagas nada que no sirva.','Miyamoto Musashi, Dokkodo (atribuida)'],
+ ['Encontrare un camino o lo abrire.','Anibal Barca (atribuida)'],
+ ['Donde no hay estandar no puede haber kaizen.','Taiichi Ohno (atribuida)'],
+ ['Somos lo que hacemos repetidamente.','Will Durant, sobre Aristoteles (atribuida)'],
+ ['La disciplina de hoy es la libertad de manana.','Principio de Praxis']
+];
+const $ = s => document.querySelector(s);
+let S = load(), view = 'hoy', cur = 1;
+
+function load(){
+ try{ const r = JSON.parse(localStorage.getItem(KEY)); if(r && r.schema===SCHEMA) return r; }catch(e){}
+ return {schema:SCHEMA,start:null,days:{},wait:[],targets:{blocks:null,mej:null},proj:{1:1,2:1,3:1,4:1}};
+}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function ymd(d){ const z=new Date(d.getTime()-d.getTimezoneOffset()*6e4); return z.toISOString().slice(0,10); }
+function dayNum(){ if(!S.start) return 0; const a=new Date(S.start+'T00:00'), b=new Date(ymd(new Date())+'T00:00'); return Math.round((b-a)/864e5)+1; }
+function dd(n){ if(!S.days[n]) S.days[n]={b:[false,false,false],main:'',waste:'',unc:'',uncDone:false,kzDone:false,imp:''}; return S.days[n]; }
+function weekOf(n){ return Math.ceil(n/7); }
+function dayData(n){ const w=WEEKS[weekOf(n)-1], i=(n-1)%7; return {tool:w.t, task:w.d[i][0], reto:w.d[i][1], forja:FORJA[(n-1)%4]}; }
+function stat(n){ const d=S.days[n]; if(!d) return 'none'; const c=d.b.filter(Boolean).length; return c===3?'full':c>0?'part':'none'; }
+function weekMetrics(w){
+ let done=0,prom=0,mej=0; const t=dayNum();
+ for(let n=(w-1)*7+1;n<=w*7;n++){ if(n>t) break; prom+=3; const d=S.days[n]; if(d){done+=d.b.filter(Boolean).length; mej+=(d.kzDone?1:0)+(d.uncDone?1:0);} }
+ return {done,prom,pct:prom?Math.round(done/prom*100):null,mej,complete:w*7<=t};
+}
+function weekPass(w){
+ const m=weekMetrics(w), T=S.targets;
+ if(!m.complete||T.blocks==null||T.mej==null) return null;
+ return m.pct>=T.blocks && m.mej>=T.mej && (S.proj[w]||1)<=1;
+}
+function streak(){ let s=0; for(let n=Math.min(dayNum(),28);n>=1;n--){ if(stat(n)==='full') s++; else if(n===dayNum()) continue; else break; } return s; }
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function head(){
+ const t=Math.min(Math.max(dayNum(),0),28), pct=Math.round(t/28*100);
+ return `<div class="mut">Fase 1: forjar a Salomon</div><div class="row mut"><span>${S.start?('Dia '+t+' de 28'):'Sin iniciar'}</span><span>${pct}%</span></div><div class="bar"><i style="width:${pct}%"></i></div>`;
+}
+function render(){
+ const nav=[['hoy','Hoy'],['plan','Plan'],['prog','Progreso'],['aj','Ajustes']];
+ $('#nav').innerHTML=nav.map(([k,l])=>`<button class="${view===k?'on':''}" onclick="go('${k}')">${l}</button>`).join('');
+ let h=head();
+ if(!S.start && view!=='aj'){ h+=`<div class="card"><h2>Inicia la Fase 1</h2><p class="mut">El dia 1 es hoy. Cuatro semanas, una herramienta Lean por semana, 4 horas cada manana.</p><button class="b" onclick="startNow()">Iniciar hoy</button></div>`; $('#app').innerHTML=h; return; }
+ h+= {hoy:vHoy,plan:vPlan,prog:vProg,aj:vAj}[view]();
+ $('#app').innerHTML=h;
+}
+function go(v){ view=v; if(v==='hoy') cur=Math.min(Math.max(dayNum(),1),28); render(); scrollTo(0,0); }
+function startNow(){ S.start=ymd(new Date()); cur=1; save(); render(); }
+
+function vHoy(){
+ const n=cur, d=dd(n), x=dayData(n), q=QUOTES[(n-1)%QUOTES.length], today=dayNum();
+ const blocks=['Apertura y 5S del puesto (30 min)','Bloque profundo (150 min)','Cierre y registro (30 min)'];
+ const wl=S.wait.map((w,i)=>{const left=30-Math.floor((Date.now()-w.t)/864e5);return `<div class="row mut"><span>${esc(w.x)}</span><span>${left>0?'faltan '+left+' d':'ya puedes evaluarla'} <button class="g" onclick="delWait(${i})">x</button></span></div>`}).join('');
+ return `<div class="card quote">${esc(q[0])}<div class="mut">${esc(q[1])}</div></div>
+ <div class="card"><div class="row"><button class="g" onclick="step(-1)">Ant</button><div style="text-align:center"><b>Dia ${n}${n===today?' (hoy)':''}</b><div class="mut">Semana ${weekOf(n)}: ${esc(x.tool)}</div></div><button class="g" onclick="step(1)">Sig</button></div></div>
+ <div class="card"><h2>Manana de 4 horas</h2>${blocks.map((b,i)=>`<label class="chk"><input type="checkbox" ${d.b[i]?'checked':''} onchange="setB(${n},${i},this.checked)"><span>${b}${i===1?'<div class="mut">'+esc(x.task)+'</div>':''}</span></label>`).join('')}</div>
+ <div class="card"><h2>Reto de forja</h2><div>${esc(x.forja)}</div><h2 style="margin-top:12px">Accion incomoda</h2><div class="mut">${esc(x.reto)}</div>
+ <label class="chk"><input type="checkbox" ${d.uncDone?'checked':''} onchange="setF(${n},'uncDone',this.checked)"><span>Ejecute la accion incomoda</span></label>
+ <label class="chk"><input type="checkbox" ${d.kzDone?'checked':''} onchange="setF(${n},'kzDone',this.checked)"><span>Hice mi mejora kaizen</span></label></div>
+ <div class="card"><h2>Registro del dia</h2>
+ <div class="mut">Compromiso principal</div><input type="text" value="${esc(d.main)}" oninput="setF(${n},'main',this.value)">
+ <div class="mut">Desperdicio detectado</div><input type="text" value="${esc(d.waste)}" oninput="setF(${n},'waste',this.value)">
+ <div class="mut">Accion incomoda (cual fue)</div><input type="text" value="${esc(d.unc)}" oninput="setF(${n},'unc',this.value)">
+ <div class="mut">Mejora para manana</div><input type="text" value="${esc(d.imp)}" oninput="setF(${n},'imp',this.value)"></div>
+ <div class="card"><h2>Lista de espera (Una Cosa)</h2><div class="mut">Idea nueva? Anotala. No se toca por 30 dias.</div>
+ <input type="text" id="wi" placeholder="Idea nueva"><button class="b" onclick="addWait()">Anotar</button><div style="margin-top:10px">${wl||'<div class="mut">Vacia.</div>'}</div></div>`;
+}
+function step(k){ cur=Math.min(28,Math.max(1,cur+k)); render(); }
+function setB(n,i,v){ dd(n).b[i]=v; save(); render(); }
+function setF(n,k,v){ dd(n)[k]=v; save(); if(typeof v==='boolean') render(); }
+function addWait(){ const v=$('#wi').value.trim(); if(!v) return; S.wait.push({x:v,t:Date.now()}); save(); render(); }
+function delWait(i){ S.wait.splice(i,1); save(); render(); }
+
+function vPlan(){
+ const t=dayNum();
+ return WEEKS.map((w,wi)=>`<div class="card"><h2>Semana ${wi+1}: ${esc(w.t)}</h2><div class="days">${[0,1,2,3,4,5,6].map(i=>{const n=wi*7+i+1;return `<button class="d ${stat(n)} ${n===t?'cur':''}" onclick="cur=${n};go2()">${n}</button>`}).join('')}</div></div>`).join('')+`<div class="mut">Verde: 3 de 3 bloques. Amarillo: parcial. Borde rojo: hoy.</div>`;
+}
+function go2(){ view='hoy'; render(); scrollTo(0,0); }
+
+function vProg(){
+ const t=Math.min(dayNum(),28), tot=weekMetrics(1), all=[1,2,3,4].map(weekMetrics);
+ const done=all.reduce((a,m)=>a+m.done,0), prom=all.reduce((a,m)=>a+m.prom,0), pct=prom?Math.round(done/prom*100):0;
+ const T=S.targets;
+ const rows=[1,2,3,4].map(w=>{const m=all[w-1], p=weekPass(w);return `<tr><td>S${w}</td><td>${m.pct==null?'-':m.pct+'%'}</td><td>${m.prom?m.mej:'-'}</td><td><input type="number" min="0" style="width:56px;margin:0" value="${S.proj[w]??1}" onchange="S.proj[${w}]=+this.value;save();render()"></td><td>${p==null?'<span class="pill">pendiente</span>':p?'<span class="pill" style="color:var(--ok)">cumple</span>':'<span class="pill" style="color:var(--ac)">no cumple</span>'}</td></tr>`}).join('');
+ const passes=[2,3,4].map(weekPass);
+ const gate = passes.every(p=>p===true);
+ const gateTxt = T.blocks==null||T.mej==null ? 'Fija tus metas en Ajustes tras la semana 1.' : passes.includes(false) ? 'No pasa la puerta: repite la Fase 1.' : gate ? 'Puerta superada: pasa a Fase 2 (Praxis).' : 'En evaluacion: faltan semanas por cerrar.';
+ return `<div class="card"><div class="row"><div><div class="k">${pct}%</div><div class="mut">Bloques cumplidos / prometidos</div></div><div><div class="k">${streak()}</div><div class="mut">Dias seguidos al 100%</div></div><div><div class="k">${t}/28</div><div class="mut">Dias transcurridos</div></div></div></div>
+ <div class="card"><h2>Indicadores por semana</h2><table><tr><th></th><th>Bloques</th><th>Mejoras</th><th>Proyectos activos</th><th>Estado</th></tr>${rows}</table>
+ <div class="mut" style="margin-top:8px">Metas: bloques ${T.blocks==null?'sin fijar':'>= '+T.blocks+'%'}, mejoras ${T.mej==null?'sin fijar':'>= '+T.mej+' por semana'}, proyectos activos <= 1.</div></div>
+ <div class="card"><h2>Puerta a Fase 2</h2><div>${gateTxt}</div><div class="mut">Regla: semanas 2, 3 y 4 seguidas cumpliendo los 3 indicadores, con tu antes/despues documentado.</div></div>`;
+}
+
+function vAj(){
+ const T=S.targets;
+ return `<div class="card"><h2>Fecha de inicio</h2><input type="text" id="sd" value="${S.start||''}" placeholder="AAAA-MM-DD"><button class="b" onclick="setStart()">Guardar</button></div>
+ <div class="card"><h2>Metas (fijalas tras la semana 1)</h2><div class="mut">Meta de bloques cumplidos (%)</div><input type="number" min="0" max="100" value="${T.blocks??''}" onchange="S.targets.blocks=this.value===''?null:+this.value;save()">
+ <div class="mut">Meta de mejoras + acciones incomodas por semana</div><input type="number" min="0" value="${T.mej??''}" onchange="S.targets.mej=this.value===''?null:+this.value;save()">
+ <div class="mut">Usa tu linea base real de la semana 1. No inventes metas.</div></div>
+ <div class="card"><h2>Respaldo</h2><div class="mut">Tus datos viven solo en este dispositivo. Exporta de vez en cuando.</div><div style="margin-top:8px"><button class="b" onclick="exp()">Exportar</button> <button class="g" onclick="$('#imp').click()">Importar</button><input id="imp" type="file" accept=".json" hidden onchange="imp(this.files[0])"></div></div>
+ <div class="card"><h2>Reiniciar</h2><button class="g" onclick="if(confirm('Borrar todo?')){localStorage.removeItem(KEY);S=load();render()}">Borrar todos los datos</button></div>`;
+}
+function setStart(){ const v=$('#sd').value.trim(); if(/^\d{4}-\d{2}-\d{2}$/.test(v)){S.start=v;save();render();} else alert('Formato AAAA-MM-DD'); }
+function exp(){ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:'application/json'})); a.download='forja-praxis-'+ymd(new Date())+'.json'; a.click(); }
+function imp(f){ if(!f) return; const r=new FileReader(); r.onload=()=>{ try{ const o=JSON.parse(r.result); if(o.schema!==SCHEMA) throw 0; S=o; save(); render(); }catch(e){ alert('Archivo no valido'); } }; r.readAsText(f); }
+
+cur=Math.min(Math.max(dayNum(),1),28);
+render();
+</script>
+</body>
+</html>
