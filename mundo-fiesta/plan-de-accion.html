@@ -2,471 +2,464 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
 <style>
-/* Layout: una sola columna de lectura (1080px), nav fija de secciones, cada bloque responde una pregunta de la gerencia.
-   Los colores de línea siguen el código de fábrica visual de la propuesta (naranja serpentinas, rojo velas, verde satélites, azul materia prima). */
+/* Layout: dos vistas por hash (#plan por defecto, #propuesta). Columna única de 960px, mucho aire, una idea por bloque.
+   Naranja = serpentinas (código de fábrica visual de la propuesta); los demás colores solo identifican frentes. */
 :root{
-  --bg:#F5F6F8; --surface:#FFFFFF; --ink:#1B1D2A; --muted:#5B6072; --line:#DEE1E8; --soft:#ECEEF3;
-  --serp:#D9480F; --serp-soft:#FFE8D9; --vela:#C92A2A; --sat:#2B8A3E; --mp:#1971C2; --pin:#7048E8;
-  --ok:#2B8A3E; --warn:#B7791F;
+  --bg:#F7F7F5; --surface:#FFFFFF; --ink:#1C1E26; --muted:#62677A; --line:#E3E4E8; --soft:#EFF0F2;
+  --serp:#D9480F; --serp-soft:#FDEBDF; --sat:#2B8A3E; --mp:#1971C2; --vela:#C92A2A; --pin:#7048E8;
   --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
   --f-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#111319; --surface:#1A1D27; --ink:#ECEEF4; --muted:#A1A7B8; --line:#2D3141; --soft:#222634;
-  --serp:#FF8A4C; --serp-soft:#3A2418; --vela:#FF6B6B; --sat:#5ECF73; --mp:#5AAEF5; --pin:#A48BFF;
-  --ok:#5ECF73; --warn:#F2C46B; color-scheme:dark}}
+  --bg:#121318; --surface:#1B1D25; --ink:#EDEEF2; --muted:#A3A8B8; --line:#2C2F3B; --soft:#23262F;
+  --serp:#FF8A4C; --serp-soft:#3A2418; --sat:#5ECF73; --mp:#5AAEF5; --vela:#FF6B6B; --pin:#A48BFF; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#111319; --surface:#1A1D27; --ink:#ECEEF4; --muted:#A1A7B8; --line:#2D3141; --soft:#222634;
-  --serp:#FF8A4C; --serp-soft:#3A2418; --vela:#FF6B6B; --sat:#5ECF73; --mp:#5AAEF5; --pin:#A48BFF;
-  --ok:#5ECF73; --warn:#F2C46B; color-scheme:dark}
+  --bg:#121318; --surface:#1B1D25; --ink:#EDEEF2; --muted:#A3A8B8; --line:#2C2F3B; --soft:#23262F;
+  --serp:#FF8A4C; --serp-soft:#3A2418; --sat:#5ECF73; --mp:#5AAEF5; --vela:#FF6B6B; --pin:#A48BFF; color-scheme:dark}
 
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
-h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.12}
-p{margin:0}
-.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.1}
+p,ul,ol{margin:0}
+.wrap{max-width:960px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
-.eyebrow{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.lab{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
 
-/* Navegación */
-nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
-nav .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
-nav a{flex:none;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:6px}
-nav a:hover,nav a:focus-visible{color:var(--ink);background:var(--soft);outline:none}
-nav a.on{color:var(--serp);background:var(--serp-soft)}
+/* Pestañas */
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.tabs .wrap{display:flex;align-items:center;gap:6px;padding-block:10px}
+.tabs .brand{font-family:var(--f-display);font-weight:800;margin-right:auto;font-size:15px}
+.tabs a{font-size:14px;font-weight:600;color:var(--muted);text-decoration:none;padding:7px 12px;border-radius:7px}
+.tabs a:hover,.tabs a:focus-visible{color:var(--ink);background:var(--soft);outline:none}
+.tabs a[aria-current="page"]{color:var(--serp);background:var(--serp-soft)}
 
-/* Portada */
-.hero{padding-block:48px 36px;display:grid;gap:28px}
-.hero h1{font-size:clamp(34px,5.6vw,58px);font-weight:800;letter-spacing:-.02em;max-width:17ch}
+section{padding-block:40px}
+section + section{border-top:1px solid var(--line)}
+.h2{display:grid;gap:6px;margin-bottom:22px}
+.h2 h2{font-size:clamp(24px,3.2vw,32px);font-weight:800;letter-spacing:-.01em}
+
+/* Portada del plan */
+.hero{padding-block:44px 36px;display:grid;gap:18px}
+.hero h1{font-size:clamp(34px,6vw,60px);font-weight:800;letter-spacing:-.02em;max-width:15ch}
 .hero h1 em{font-style:normal;color:var(--serp)}
-.hero .lead{font-size:18px;color:var(--muted);max-width:62ch}
-.ribbon{height:6px;border-radius:3px;background:repeating-linear-gradient(110deg,var(--serp) 0 26px,transparent 26px 34px,var(--mp) 34px 60px,transparent 60px 68px,var(--sat) 68px 94px,transparent 94px 102px,var(--vela) 102px 128px,transparent 128px 136px);opacity:.85;max-width:420px}
-.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.stat{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:6px;align-content:start}
-.stat b{font-family:var(--f-display);font-size:34px;font-weight:800;line-height:1}
-.stat span{font-size:14px;color:var(--muted)}
-.stat small{font-size:12px;color:var(--muted);opacity:.8}
+.hero p{font-size:18px;color:var(--muted);max-width:52ch}
 
-/* Secciones */
-section{padding-block:44px;border-top:1px solid var(--line)}
-.head{display:grid;gap:8px;margin-bottom:24px;max-width:70ch}
-.head h2{font-size:clamp(26px,3.4vw,36px);font-weight:700;letter-spacing:-.01em}
-.head p{color:var(--muted)}
+/* Objetivo: hoy -> meta */
+.goal{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:20px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:28px}
+.goal .side{display:grid;gap:4px}
+.goal .num{font-family:var(--f-display);font-weight:800;font-size:clamp(40px,7vw,64px);line-height:1}
+.goal .sub{font-size:14px;color:var(--muted)}
+.goal .arrow{font-size:32px;color:var(--serp);font-family:var(--f-display)}
+.goal .meta .num{color:var(--serp)}
+.objs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px}
+.obj{padding:16px 0 0;border-top:3px solid var(--serp);display:grid;gap:4px}
+.obj b{font-size:16px}
+.obj span{font-size:14px;color:var(--muted)}
 
-/* Restricción */
-.cuello{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:28px;align-items:start}
-.bars{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:18px}
-.bar{display:grid;gap:6px}
-.bar .lbl{display:flex;justify-content:space-between;gap:12px;font-size:14px}
-.bar .track{height:30px;background:var(--soft);border-radius:5px;overflow:hidden}
-.bar .fill{height:100%;border-radius:5px}
-.bar .note{font-size:12.5px;color:var(--muted)}
-.tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:4px}
-.tag.red{color:var(--serp);background:var(--serp-soft)}
-.tag.ok{color:var(--ok);background:var(--soft)}
-.src{font-size:12px;color:var(--muted)}
-.why{display:grid;gap:14px}
-.why li{list-style:none;display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px}
-.why ul{margin:0;padding:0;display:grid;gap:12px}
-.why li::before{content:"";width:10px;height:10px;margin-top:7px;border-radius:2px;background:var(--serp)}
-.callout{border:1px dashed var(--serp);border-radius:10px;padding:14px 16px;font-size:15px}
+/* Pasos */
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:10px;align-content:start}
+.step .top{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.step .n{font-family:var(--f-display);font-weight:800;font-size:30px;color:var(--serp);line-height:1}
+.step .when{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.step h3{font-size:19px}
+.step ul{padding-left:18px;font-size:14px;display:grid;gap:4px}
+.step .out{font-size:13px;border-top:1px solid var(--line);padding-top:10px;color:var(--muted)}
+.step .out b{color:var(--ink);font-weight:600}
+.toc{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--serp);font-weight:600}
 
-/* Prioridades */
-.prios{display:grid;gap:12px}
-.prio{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;grid-template-columns:64px minmax(0,1.1fr) minmax(0,1fr) minmax(0,.8fr);gap:20px;align-items:start}
-.prio .n{font-family:var(--f-display);font-size:44px;font-weight:800;line-height:.9;color:var(--c)}
-.prio h3{font-size:20px;font-weight:700;margin-bottom:6px}
-.prio .q{font-size:14.5px;color:var(--muted)}
-.prio ul{margin:0;padding-left:18px;font-size:14.5px;display:grid;gap:4px}
-.prio .k{display:grid;gap:8px;font-size:13.5px}
-.prio .k .meta{font-family:var(--f-mono);font-size:13px;color:var(--c);font-weight:500}
-.prio .k .who{color:var(--muted)}
-.lab{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:6px;display:block}
-.paralelo{font-size:13px;color:var(--muted);padding-left:4px}
-
-/* Método */
-.toc{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;counter-reset:p}
-.paso{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:8px;align-content:start;position:relative}
-.paso .v{font-family:var(--f-display);font-weight:700;font-size:18px}
-.paso .v span{color:var(--serp);margin-right:6px}
-.paso p{font-size:13.5px;color:var(--muted)}
-.paso.key{border-color:var(--serp)}
-.loop{margin-top:10px;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
-.tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:24px}
-.tool{padding:16px 0;border-top:2px solid var(--ink);display:grid;gap:4px}
-.tool b{font-family:var(--f-display);font-size:17px}
-.tool span{font-size:14px;color:var(--muted)}
-.rule{margin-top:24px;background:var(--ink);color:var(--bg);border-radius:10px;padding:18px 20px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center}
-.rule b{font-family:var(--f-display);font-size:20px}
-.rule p{font-size:15px;opacity:.85}
-
-/* Cronograma */
-.gantt-box{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
-.gantt{display:grid;grid-template-columns:220px repeat(8,minmax(64px,1fr));min-width:760px;font-size:13.5px}
-.gantt > div{padding:10px 8px;border-bottom:1px solid var(--line)}
-.gantt .mh{font-family:var(--f-mono);font-size:12px;color:var(--muted);text-align:center;background:var(--soft)}
-.gantt .mh.first{text-align:left}
-.gantt .rl{font-weight:500}
-.gantt .cell{position:relative;padding:10px 0}
-.gantt .b{height:18px;border-radius:4px;background:var(--c)}
-.gantt .b.l{margin-left:4px;border-top-right-radius:0;border-bottom-right-radius:0}
-.gantt .b.r{margin-right:4px;border-top-left-radius:0;border-bottom-left-radius:0}
-.gantt .b.m{border-radius:0}
-.gantt .b.lr{margin:0 4px}
-.gantt .b.hatch{background:repeating-linear-gradient(45deg,var(--vela) 0 5px,transparent 5px 10px);border:1px solid var(--vela)}
-.etapas{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px}
-.etapa{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:8px;align-content:start}
-.etapa .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.etapa h3{font-size:17px}
-.etapa .d{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
-.etapa p{font-size:13.5px;color:var(--muted)}
-.etapa .pay{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px}
-.etapa .pay b{font-family:var(--f-mono);color:var(--ink);font-size:14px}
-
-/* 30 días */
-.dias{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.dia{display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;align-items:start}
-.dia input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--ok)}
-.dia label{display:grid;gap:4px;cursor:pointer}
-.dia b{font-weight:600}
-.dia span{font-size:13.5px;color:var(--muted)}
-.dia .own{font-family:var(--f-mono);font-size:12px;color:var(--c)}
+/* Reglas */
+.rules{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.rules span{font-size:14px;padding:7px 12px;border-radius:999px;background:var(--soft)}
+.rules span::before{content:"✕";color:var(--vela);margin-right:7px;font-weight:700}
 
 /* Indicadores */
-.kpis{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
-table{width:100%;border-collapse:collapse;min-width:620px;font-size:14px}
-th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--soft)}
-td.m{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
-.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--c);margin-right:8px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:6px;align-content:start}
+.kpi .t{font-weight:600;font-size:15px}
+.kpi .row{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:6px}
+.kpi .row b{font-family:var(--f-mono);color:var(--ink);font-weight:500;text-align:right}
+.kpi .row b.go{color:var(--serp)}
+
+/* Después */
+.queue{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;counter-reset:q}
+.q{padding:14px 14px 14px 0;display:grid;gap:4px;border-top:3px solid var(--c);margin-right:10px}
+.q b{font-size:15px}
+.q span{font-size:13px;color:var(--muted)}
+.q .lab{color:var(--c)}
+
+/* Checklist */
+.check{display:grid;gap:8px}
+.ci{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
+.ci input{width:20px;height:20px;margin:0;accent-color:var(--sat)}
+.ci label{cursor:pointer;font-size:15px}
+.ci input:checked + label{color:var(--muted);text-decoration:line-through}
+.ci .who{font-family:var(--f-mono);font-size:12px;color:var(--muted);white-space:nowrap}
+.progress{display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:14px;color:var(--muted)}
+.progress .bar{flex:1;height:8px;background:var(--soft);border-radius:4px;overflow:hidden}
+.progress .fill{height:100%;width:0;background:var(--sat);transition:width .3s}
+
+/* Vista propuesta */
+.intro{padding-block:40px 24px;display:grid;gap:12px}
+.intro h1{font-size:clamp(30px,5vw,46px);font-weight:800}
+.intro p{color:var(--muted);max-width:60ch}
+.acc{display:grid;gap:10px;padding-bottom:48px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px}
+summary{list-style:none;cursor:pointer;padding:18px 20px;display:flex;align-items:center;gap:14px}
+summary::-webkit-details-marker{display:none}
+summary .dot{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none}
+summary h3{font-size:18px;flex:1}
+summary .hint{font-size:13px;color:var(--muted)}
+summary::after{content:"+";font-family:var(--f-display);font-size:22px;color:var(--muted)}
+details[open] summary::after{content:"−"}
+summary:focus-visible{outline:2px solid var(--serp);outline-offset:-2px;border-radius:12px}
+.body{padding:0 20px 20px;display:grid;gap:14px;font-size:15px}
+.body ul{padding-left:20px;display:grid;gap:5px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.cell{background:var(--soft);border-radius:10px;padding:14px;display:grid;gap:4px;align-content:start}
+.cell b{font-size:15px}
+.cell span{font-size:13.5px;color:var(--muted)}
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:520px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td.m{font-family:var(--f-mono);white-space:nowrap}
 tr:last-child td{border-bottom:0}
+.cap{display:grid;gap:10px}
+.capbar{display:grid;grid-template-columns:110px minmax(0,1fr) 90px;gap:10px;align-items:center;font-size:14px}
+.capbar .tr{height:22px;background:var(--soft);border-radius:4px;overflow:hidden}
+.capbar .fi{height:100%;background:var(--c);border-radius:4px}
+.capbar .v{font-family:var(--f-mono);text-align:right}
+.note{font-size:12.5px;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding-block:20px 36px;font-size:12.5px;color:var(--muted)}
 
-/* Decisiones */
-.dec{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:20px}
-.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:12px;align-content:start}
-.box h3{font-size:18px}
-.box ol,.box ul{margin:0;padding-left:20px;display:grid;gap:8px;font-size:14.5px}
-.box.out{background:transparent;border-style:dashed}
-.box.val li{color:var(--muted)}
-.box.val li b{color:var(--ink);font-weight:600}
-.side{display:grid;gap:20px}
-footer{border-top:1px solid var(--line);padding-block:24px 40px;font-size:12.5px;color:var(--muted);display:grid;gap:6px}
-
-@media (max-width:860px){
-  .cuello,.dec{grid-template-columns:minmax(0,1fr)}
-  .prio{grid-template-columns:48px minmax(0,1fr)}
-  .prio .n{font-size:36px}
-  .prio > .acts,.prio > .k{grid-column:2}
-  .toc{grid-template-columns:minmax(0,1fr)}
-  .etapas{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:820px){
+  .steps,.kpis,.queue{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .q{margin-bottom:12px}
 }
-@media (max-width:600px){
-  .stats,.tools,.dias,.etapas{grid-template-columns:minmax(0,1fr)}
-  .hero{padding-block:32px 28px}
-  .rule{grid-template-columns:minmax(0,1fr)}
-}
-@media (prefers-reduced-motion:no-preference){
-  .bar .fill{transform-origin:left;animation:grow .9s ease-out both}
-  @keyframes grow{from{transform:scaleX(.15)}to{transform:scaleX(1)}}
+@media (max-width:560px){
+  .steps,.kpis,.queue,.objs,.grid2,.grid3{grid-template-columns:minmax(0,1fr)}
+  .goal{grid-template-columns:minmax(0,1fr);padding:22px}
+  .goal .arrow{transform:rotate(90deg);justify-self:start}
+  .ci{grid-template-columns:24px minmax(0,1fr)}
+  .ci .who{grid-column:2}
+  .tabs .brand{display:none}
 }
 </style>
 
-<nav aria-label="Secciones">
+<div class="tabs">
   <div class="wrap">
-    <a href="#freno">El freno</a>
-    <a href="#prioridades">Prioridades</a>
-    <a href="#metodo">Método</a>
-    <a href="#ruta">Ruta</a>
-    <a href="#arranque">Primeros 30 días</a>
-    <a href="#medicion">Indicadores</a>
-    <a href="#decisiones">Decisiones</a>
+    <span class="brand">Mundo Fiesta</span>
+    <a href="#plan" id="tab-plan">Plan de acción</a>
+    <a href="#propuesta" id="tab-prop">Propuesta completa</a>
   </div>
-</nav>
+</div>
 
-<header class="wrap hero">
-  <div class="eyebrow">Plan de acción · Creaciones Mundo Fiesta S.A.S. · Presentación a gerencia · 10 nov 2026 · Borrador v1</div>
-  <h1>Primero, que salga <em>lo que ya está vendido</em>.</h1>
-  <div class="ribbon" aria-hidden="true"></div>
-  <p class="lead">La empresa no tiene un problema de demanda. Tiene un problema de capacidad y de control. Este plan ataca primero el eslabón que limita la facturación, con el personal, las mesas y la planta que ya existen, y deja la operación medida antes de entrar a grandes superficies.</p>
-  <div class="stats">
-    <div class="stat"><b class="mono" style="color:var(--serp)">1.840</b><span>serpentinas al día como techo. 8 puestos × 230 unidades.</span><small>Acta 1</small></div>
-    <div class="stat"><b class="mono" style="color:var(--sat)">~70</b><span>satélites trabajan sin lista de materiales ni conciliación de saldos.</span><small>Acta 1</small></div>
-    <div class="stat"><b style="color:var(--mp)">Al otro día</b><span>es cuando hoy se descubren las paradas y caídas de ritmo.</span><small>Acta 1</small></div>
-  </div>
-</header>
+<!-- ============ VISTA 1: PLAN DE ACCIÓN ============ -->
+<main id="v-plan">
+  <header class="wrap hero">
+    <span class="lab">Plan de acción · Gerencia · Creaciones Mundo Fiesta S.A.S.</span>
+    <h1>Más <em>serpentinas</em> con lo que ya tenemos.</h1>
+    <p>Mismas 8 mesas, mismo equipo, misma jornada. Mejoramos el método, no el tamaño.</p>
+  </header>
 
-<section id="freno">
-  <div class="wrap">
-    <div class="head">
-      <span class="eyebrow">1 · Diagnóstico en una imagen</span>
-      <h2>La facturación la fija el eslabón más lento</h2>
-      <p>Según la teoría de restricciones, la planta despacha al ritmo de su proceso más lento. Hoy ese proceso es el corte y rebobinado manual de serpentinas.</p>
-    </div>
-    <div class="cuello">
-      <div class="bars" role="img" aria-label="Capacidad máxima diaria: velas 9.100 unidades, serpentinas 1.840 unidades">
-        <span class="lab">Capacidad máxima diaria del taller</span>
-        <div class="bar">
-          <div class="lbl"><span>Velas decorativas <span class="tag ok">Con holgura</span></span><span class="mono">9.100 u/día</span></div>
-          <div class="track"><div class="fill" style="width:100%;background:var(--vela)"></div></div>
-          <div class="note">7 operarios × 1.300 velas</div>
-        </div>
-        <div class="bar">
-          <div class="lbl"><span>Serpentinas <span class="tag red">Restricción</span></span><span class="mono">1.840 u/día</span></div>
-          <div class="track"><div class="fill" style="width:20.2%;background:var(--serp)"></div></div>
-          <div class="note">8 puestos × 230 unidades · más del 70 % del tiempo se va en manipular la cinta</div>
-        </div>
-        <p class="src">Fuente: Acta de la Sesión 1. Son productos distintos; la comparación muestra dónde se acumula la espera, no un rendimiento equivalente.</p>
+  <section>
+    <div class="wrap">
+      <div class="h2"><span class="lab">Objetivo</span><h2>De dónde partimos y a dónde vamos</h2></div>
+      <div class="goal">
+        <div class="side"><span class="lab">Hoy</span><span class="num mono">1.840</span><span class="sub">unidades/día · 8 mesas × 230</span></div>
+        <div class="arrow" aria-hidden="true">→</div>
+        <div class="side meta"><span class="lab">Meta</span><span class="num mono">&gt; 1.840</span><span class="sub">el número exacto sale de la medición del paso 1</span></div>
       </div>
-      <div class="why">
+      <div class="objs">
+        <div class="obj"><b>Más unidades por día</b><span>Ninguna mesa parada sin razón.</span></div>
+        <div class="obj"><b>Entregas cumplidas</b><span>≥ 95 % a tiempo y completas.</span></div>
+        <div class="obj"><b>Sin desgastar al equipo</b><span>Menos esfuerzo por unidad, no más horas.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="h2"><span class="lab">El plan</span><h2>Cuatro pasos, en orden</h2></div>
+      <div class="steps">
+        <div class="step">
+          <div class="top"><span class="n">1</span><span class="when">Sem 1–3</span></div>
+          <span class="toc">Identificar</span>
+          <h3>Medir</h3>
+          <ul><li>Tiempos por mesa y operaria</li><li>Unidades por día</li><li>Por qué se para cada mesa</li></ul>
+          <p class="out"><b>Sale:</b> línea base y meta en número</p>
+        </div>
+        <div class="step">
+          <div class="top"><span class="n">2</span><span class="when">Sem 4–6</span></div>
+          <span class="toc">Explotar</span>
+          <h3>Liberar la mesa</h3>
+          <ul><li>Rollos siempre junto a la mesa</li><li>Almuerzos escalonados</li><li>Empaque fuera de la mesa</li><li>5S en la zona</li></ul>
+          <p class="out"><b>Sale:</b> cero mesas paradas por espera</p>
+        </div>
+        <div class="step">
+          <div class="top"><span class="n">3</span><span class="when">Sem 7–10</span></div>
+          <span class="toc">Estandarizar</span>
+          <h3>Método de la mejor</h3>
+          <ul><li>Hoja de método de la más rápida</li><li>Todo a 15 cm del codo</li><li>Facilitadora de línea</li></ul>
+          <p class="out"><b>Sale:</b> todas al ritmo de las mejores</p>
+        </div>
+        <div class="step">
+          <div class="top"><span class="n">4</span><span class="when">Sem 11+</span></div>
+          <span class="toc">Controlar</span>
+          <h3>Ver y sostener</h3>
+          <ul><li>Tablero: programado vs. hecho</li><li>10 min diarios frente al tablero</li><li>Afilado de cuchillas programado</li></ul>
+          <p class="out"><b>Sale:</b> resultado que se mantiene</p>
+        </div>
+      </div>
+      <div class="rules" aria-label="Lo que no hace el plan">
+        <span>Sin contratar más personas</span><span>Sin alargar la jornada</span><span>Sin maquinaria nueva</span><span>Sin traslados en diciembre</span>
+      </div>
+      <p class="note" style="margin-top:12px">Semanas contadas desde el inicio que acordemos con Dani. Método: teoría de restricciones, una sola prioridad, revisión cada 30 días.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="h2"><span class="lab">Qué vamos a medir</span><h2>Cuatro números, todos los días</h2></div>
+      <div class="kpis">
+        <div class="kpi"><span class="t">Unidades por día</span><div class="row"><span>Hoy</span><b>1.840</b></div><div class="row"><span>Meta</span><b class="go">&gt; 1.840</b></div><div class="row"><span>Cada</span><b>día</b></div></div>
+        <div class="kpi"><span class="t">Programado vs. hecho</span><div class="row"><span>Hoy</span><b>no se ve</b></div><div class="row"><span>Meta</span><b class="go">100 %</b></div><div class="row"><span>Cada</span><b>turno</b></div></div>
+        <div class="kpi"><span class="t">Minutos de mesa parada</span><div class="row"><span>Hoy</span><b>por medir</b></div><div class="row"><span>Meta</span><b class="go">bajar</b></div><div class="row"><span>Cada</span><b>día</b></div></div>
+        <div class="kpi"><span class="t">Entregas a tiempo</span><div class="row"><span>Hoy</span><b>por medir</b></div><div class="row"><span>Meta</span><b class="go">≥ 95 %</b></div><div class="row"><span>Cada</span><b>semana</b></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="h2"><span class="lab">Después de serpentinas</span><h2>Lo que sigue en fila</h2></div>
+      <div class="queue">
+        <div class="q" style="--c:var(--sat)"><span class="lab">2</span><b>Satélites</b><span>Lista de materiales y saldos</span></div>
+        <div class="q" style="--c:var(--mp)"><span class="lab">3</span><b>Planta</b><span>Distribución, 5S y seguridad</span></div>
+        <div class="q" style="--c:var(--pin)"><span class="lab">4</span><b>Pantalla de planta</b><span>Toda la operación visible</span></div>
+        <div class="q" style="--c:var(--vela)"><span class="lab">5</span><b>Velas y compras</b><span>Método y matriz de compras</span></div>
+      </div>
+      <p class="note">El detalle de cada frente está en <a href="#propuesta" style="color:var(--serp)">Propuesta completa</a>.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="h2"><span class="lab">Para continuar</span><h2>Lo que necesitamos</h2></div>
+      <div class="progress"><span id="pg-t">0 de 8</span><div class="bar"><div class="fill" id="pg"></div></div></div>
+      <div class="check">
+        <div class="ci"><input type="checkbox" id="c1"><label for="c1">Fecha de inicio acordada con Dani</label><span class="who">Dani + Asesor</span></div>
+        <div class="ci"><input type="checkbox" id="c2"><label for="c2">Horas semanales de Dani para el proyecto</label><span class="who">Dani</span></div>
+        <div class="ci"><input type="checkbox" id="c3"><label for="c3">Permiso para medir tiempos en las 8 mesas</label><span class="who">Gerencia</span></div>
+        <div class="ci"><input type="checkbox" id="c4"><label for="c4">Equipo de serpentinas informado: se mide el proceso, no a la persona</label><span class="who">Dani</span></div>
+        <div class="ci"><input type="checkbox" id="c5"><label for="c5">Acceso a los registros de producción de serpentinas</label><span class="who">Gerencia</span></div>
+        <div class="ci"><input type="checkbox" id="c6"><label for="c6">Pedidos pendientes de serpentinas (cantidad)</label><span class="who">David</span></div>
+        <div class="ci"><input type="checkbox" id="c7"><label for="c7">Facilitadora de línea elegida</label><span class="who">Dani</span></div>
+        <div class="ci"><input type="checkbox" id="c8"><label for="c8">Fecha de la revisión a 30 días</label><span class="who">Todos</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ VISTA 2: PROPUESTA COMPLETA ============ -->
+<main id="v-prop" hidden>
+  <header class="wrap intro">
+    <span class="lab">Propuesta de asesoría · Panorama completo</span>
+    <h1>Distribución de planta, desperdicios y eficiencia</h1>
+    <p>Todo lo que cubre la asesoría. El plan de acción es el primer frente; los demás se activan en orden.</p>
+  </header>
+
+  <div class="wrap acc">
+    <details open style="--c:var(--ink)">
+      <summary><span class="dot"></span><h3>Diagnóstico</h3><span class="hint">Actas 1 y 2</span></summary>
+      <div class="body">
+        <p>No falta demanda: falta capacidad y control.</p>
+        <div class="cap" role="img" aria-label="Capacidad diaria: velas 9.100, serpentinas 1.840">
+          <span class="lab">Capacidad máxima diaria</span>
+          <div class="capbar" style="--c:var(--vela)"><span>Velas</span><div class="tr"><div class="fi" style="width:100%"></div></div><span class="v">9.100</span></div>
+          <div class="capbar" style="--c:var(--serp)"><span>Serpentinas</span><div class="tr"><div class="fi" style="width:20.2%"></div></div><span class="v">1.840</span></div>
+          <span class="note">Productos distintos; muestra dónde se acumula la espera.</span>
+        </div>
+        <div class="grid3">
+          <div class="cell"><b>Capacidad</b><span>Serpentinas manuales: más del 70 % del tiempo es manipular la cinta.</span></div>
+          <div class="cell"><b>Control</b><span>~70 satélites sin lista de materiales ni saldos.</span></div>
+          <div class="cell"><b>Información</b><span>Datos transcritos a mano; las paradas se ven al otro día.</span></div>
+        </div>
+        <div class="grid2">
+          <div class="cell"><b>Fortalezas</b><span>Colorimetría, tres controles en velas, merma vendida como picadillo, afilado preventivo, Recuerdo Vivo, alta retención del personal.</span></div>
+          <div class="cell"><b>Riesgos</b><span>Pasillos con producto en proceso, parafina (causó un desalojo), rendimientos dispares de 250 a 520 u/día.</span></div>
+        </div>
+      </div>
+    </details>
+
+    <details style="--c:var(--serp)">
+      <summary><span class="dot"></span><h3>Método</h3><span class="hint">TOC · Lean · SLP · DMAIC</span></summary>
+      <div class="body">
+        <div class="tbl"><table>
+          <thead><tr><th>Paso TOC</th><th>En Mundo Fiesta</th></tr></thead>
+          <tbody>
+            <tr><td>1. Identificar</td><td>Corte y rebobinado manual de serpentinas</td></tr>
+            <tr><td>2. Explotar</td><td>Rollos a mano, almuerzos escalonados, empaque fuera de la mesa, método de la mejor</td></tr>
+            <tr><td>3. Subordinar</td><td>Bobinas siempre disponibles; entregas según capacidad real</td></tr>
+            <tr><td>4. Elevar</td><td>Solo si 2 y 3 no bastan (decisión de inversión, fuera del plan)</td></tr>
+            <tr><td>5. Repetir</td><td>Medir la nueva restricción y volver al paso 1</td></tr>
+          </tbody>
+        </table></div>
+        <div class="grid3">
+          <div class="cell"><b>Lean</b><span>5S, trabajo estandarizado, kanban, gestión visual.</span></div>
+          <div class="cell"><b>SLP</b><span>Qué va en cada piso y qué debe quedar cerca.</span></div>
+          <div class="cell"><b>DMAIC</b><span>Definir, medir, analizar, mejorar, controlar.</span></div>
+        </div>
+        <p><b>Regla de la prioridad única:</b> un frente a la vez, revisión cada 30 días.</p>
+      </div>
+    </details>
+
+    <details style="--c:var(--ink)">
+      <summary><span class="dot"></span><h3>Etapas</h3><span class="hint">I a IV</span></summary>
+      <div class="body">
+        <div class="tbl"><table>
+          <thead><tr><th>Etapa</th><th>Duración</th><th>Entrega</th></tr></thead>
+          <tbody>
+            <tr><td>I · Validar</td><td class="m">3 sem</td><td>Mediciones, plano, línea base, prioridades confirmadas</td></tr>
+            <tr><td>II · Diseñar</td><td class="m">5 sem</td><td>Distribución, método de serpentinas, BOM de satélites, indicadores</td></tr>
+            <tr><td>III · Implementar</td><td class="m">8 sem</td><td>Planta redistribuida, métodos en uso, manual de procesos</td></tr>
+            <tr><td>IV · Sostener</td><td class="m">≥ 8 sem</td><td>Seguimiento, prueba en pico, informe del antes y el después en pesos</td></tr>
+          </tbody>
+        </table></div>
+        <p class="note">Los cambios de distribución van en temporada baja; en diciembre no hay traslados.</p>
+      </div>
+    </details>
+
+    <details style="--c:var(--sat)">
+      <summary><span class="dot"></span><h3>Control de satélites</h3><span class="hint">Frente 2</span></summary>
+      <div class="body">
+        <div class="grid3">
+          <div class="cell"><b>1. BOM</b><span>Materiales por referencia de caja.</span></div>
+          <div class="cell"><b>2. Orden</b><span>Cantidad, fecha y satélite asignado.</span></div>
+          <div class="cell"><b>3. Kit contado</b><span>El inventario se descuenta al salir.</span></div>
+          <div class="cell"><b>4. Recibo</b><span>Buenas, defectuosas y devueltas.</span></div>
+          <div class="cell"><b>5. Conciliación</b><span>Entregado = recibido + devuelto + merma.</span></div>
+          <div class="cell"><b>6. Evaluación</b><span>Cumplimiento y merma por satélite.</span></div>
+        </div>
+        <p>Meta: 100 % de órdenes con BOM · ≥ 98 % conciliado.</p>
+      </div>
+    </details>
+
+    <details style="--c:var(--mp)">
+      <summary><span class="dot"></span><h3>Distribución de planta</h3><span class="hint">750 m² · 3 pisos · Frente 3</span></summary>
+      <div class="body">
+        <div class="grid3">
+          <div class="cell"><b>Piso 1 · Logística y serpentinas</b><span>Muelle, bobinas, mesas, empaque, producto terminado, centro de satélites. Flujo en U, sin cambiar de piso.</span></div>
+          <div class="cell"><b>Piso 2 · Control y armado</b><span>Oficinas, kitting de satélites, piñatería y Recuerdo Vivo, comedor, vestier.</span></div>
+          <div class="cell"><b>Piso 3 · Velas</b><span>Todo el proceso de velas como sector de incendio propio, lejos del papel.</span></div>
+        </div>
         <ul>
-          <li><span>Cada hora perdida en las mesas de serpentinas es una hora perdida de facturación de toda la empresa.</span></li>
-          <li><span>Hay pedidos acumulados y grandes cuentas (Torta la Negra, Deli) que no perdonan incumplimientos.</span></li>
-          <li><span>Las operarias van de 250 a 520 unidades: existe un método mejor que todavía no está estandarizado.</span></li>
+          <li>5S y pasillos demarcados (≥ 1,20 m, Res. 2400).</li>
+          <li>Áreas por piso son supuestos hasta tener el plano medido.</li>
+          <li>Terraza: reserva de crecimiento, fuera del plan.</li>
         </ul>
-        <div class="callout"><b>Agregar personas no lo resuelve.</b> Congestiona el espacio, sube los costos fijos y mantiene la variabilidad artesanal. Primero se explota lo que hay.</div>
+        <p>Meta: recorridos −50 % · 5S ≥ 80 %.</p>
       </div>
-    </div>
-  </div>
-</section>
+    </details>
 
-<section id="prioridades">
-  <div class="wrap">
-    <div class="head">
-      <span class="eyebrow">2 · Qué vamos a hacer y en qué orden</span>
-      <h2>Cinco prioridades, de la que más pesa a la que menos</h2>
-      <p>El orden sale del impacto en la facturación y del riesgo para el negocio. Las tres primeras son el núcleo del plan.</p>
-    </div>
-    <div class="prios">
-      <article class="prio" style="--c:var(--serp)">
-        <div class="n">1</div>
-        <div><h3>Subir la capacidad de serpentinas</h3><p class="q">Por qué: es la restricción. Lo que no sale de estas mesas no se factura.</p></div>
-        <div class="acts"><span class="lab">Qué haremos</span><ul>
-          <li>Medir tiempos por puesto y por operaria</li>
-          <li>Hoja de método con el movimiento de las más rápidas</li>
-          <li>Herramientas a menos de 15 cm del codo; facilitador de línea</li>
-          <li>Rollos junto a las mesas, almuerzos escalonados, empaque fuera de las mesas</li>
-        </ul></div>
-        <div class="k"><span class="lab">Cómo sabremos</span><span class="meta">&gt; 1.840 u/día</span><span>Meta exacta se fija con la línea base de la Etapa I</span><span class="meta">≥ 95 % entregas a tiempo</span><span class="who">Líder: Dirección Operativa</span></div>
-      </article>
-      <article class="prio" style="--c:var(--sat)">
-        <div class="n">2</div>
-        <div><h3>Controlar la red de satélites</h3><p class="q">Por qué: hay material y producto fuera de la planta que hoy nadie puede contar. Es dinero sin saldo.</p></div>
-        <div class="acts"><span class="lab">Qué haremos</span><ul>
-          <li>Lista de materiales (BOM) por referencia de caja</li>
-          <li>Orden de producción por satélite</li>
-          <li>Kit contado al salir y recibo contado al volver</li>
-          <li>Conciliación: entregado = recibido + devuelto + merma aceptada</li>
-        </ul></div>
-        <div class="k"><span class="lab">Cómo sabremos</span><span class="meta">100 % órdenes con BOM</span><span class="meta">≥ 98 % conciliado</span><span class="who">Líder: Dirección Operativa</span></div>
-      </article>
-      <article class="prio" style="--c:var(--mp)">
-        <div class="n">3</div>
-        <div><h3>Ordenar la planta y asegurar la parafina</h3><p class="q">Por qué: los pasillos están llenos de producto en proceso, y la parafina ya costó una sede.</p></div>
-        <div class="acts"><span class="lab">Qué haremos</span><ul>
-          <li>5S y demarcación de pasillos, estibas y producto terminado</li>
-          <li>Distribución por pisos con método SLP</li>
-          <li>Fundición documentada para aseguradora y ARL</li>
-        </ul></div>
-        <div class="k"><span class="lab">Cómo sabremos</span><span class="meta">−50 % recorridos</span><span class="meta">5S ≥ 80 % · 0 incidentes</span><span class="who">Líder: Dirección Operativa</span></div>
-      </article>
-      <article class="prio" style="--c:var(--pin)">
-        <div class="n">4</div>
-        <div><h3>Ver la planta durante el turno</h3><p class="q">Por qué: un problema que se ve al día siguiente ya no se puede corregir.</p></div>
-        <div class="acts"><span class="lab">Qué haremos</span><ul>
-          <li>Una pantalla con uno o dos indicadores: programado contra fabricado</li>
-          <li>Reunión diaria de 10 minutos frente al tablero</li>
-          <li>Conteo automático y tabletas solo si el costo se justifica</li>
-        </ul></div>
-        <div class="k"><span class="lab">Cómo sabremos</span><span class="meta">Indicador visible por turno</span><span>Menos transcripción manual</span><span class="who">Líder: Operativa + TI</span></div>
-      </article>
-      <article class="prio" style="--c:var(--vela)">
-        <div class="n">5</div>
-        <div><h3>Velas, compras y cultura</h3><p class="q">Por qué: no frenan hoy, pero protegen margen, liquidez y clima laboral. Avanzan en paralelo con su propio dueño.</p></div>
-        <div class="acts"><span class="lab">Qué haremos</span><ul>
-          <li>Velas: método de las operarias diestras; pruebas de enfriamiento</li>
-          <li>Compras: matriz de qué se importa y qué se compra local</li>
-          <li>Cultura: concurso del comedor y buzón de sugerencias activo</li>
-        </ul></div>
-        <div class="k"><span class="lab">Cómo sabremos</span><span class="meta">Velas ≥ 310 u/día promedio</span><span class="meta">Inventario ≥ 95 % exacto</span><span class="who">Dani (cultura) · David (compras)</span></div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section id="metodo">
-  <div class="wrap">
-    <div class="head">
-      <span class="eyebrow">3 · Cómo lo vamos a hacer</span>
-      <h2>Un método que decide dónde mejorar primero</h2>
-      <p>La teoría de restricciones marca el orden. Las demás herramientas se usan solo cuando el paso lo pide.</p>
-    </div>
-    <div class="toc">
-      <div class="paso key"><div class="v"><span>1</span>Identificar</div><p>La restricción es el corte y rebobinado manual de serpentinas.</p></div>
-      <div class="paso key"><div class="v"><span>2</span>Explotar</div><p>Ninguna mesa parada por falta de rollos, almuerzos escalonados, método de las más rápidas.</p></div>
-      <div class="paso"><div class="v"><span>3</span>Subordinar</div><p>Bobinas siempre disponibles y entregas comprometidas según la capacidad real.</p></div>
-      <div class="paso"><div class="v"><span>4</span>Elevar</div><p>Solo si 2 y 3 no bastan: decisión de inversión, como la maquinaria evaluada.</p></div>
-      <div class="paso"><div class="v"><span>5</span>Repetir</div><p>Medir la nueva restricción (empaque, bobinas o satélites) y volver a empezar.</p></div>
-    </div>
-    <p class="loop">El plan trabaja en los pasos 1 a 3. El paso 4 queda como decisión de la gerencia con datos medidos.</p>
-    <div class="tools">
-      <div class="tool"><b>Lean</b><span>Quitar desperdicios: 5S, trabajo estandarizado, kanban, gestión visual.</span></div>
-      <div class="tool"><b>SLP</b><span>Rediseñar la planta: qué va en cada piso y qué debe quedar cerca.</span></div>
-      <div class="tool"><b>DMAIC</b><span>Ciclo de gestión: definir, medir, analizar, mejorar y controlar.</span></div>
-    </div>
-    <div class="rule">
-      <b>Regla de la prioridad única</b>
-      <p>Una prioridad a la vez, con revisión cada 30 días. No se ejecutan todas las mejoras al mismo tiempo, para no saturar la planta (acuerdo de la Sesión 2).</p>
-    </div>
-  </div>
-</section>
-
-<section id="ruta">
-  <div class="wrap">
-    <div class="head">
-      <span class="eyebrow">4 · Ruta en el tiempo</span>
-      <h2>Ocho meses, sin tocar la planta en diciembre</h2>
-      <p>Los cambios grandes van en temporada baja. En diciembre solo se hacen acciones rápidas que no detienen despachos.</p>
-    </div>
-    <div class="gantt-box">
-      <div class="gantt" role="table" aria-label="Cronograma de noviembre 2026 a junio 2027">
-        <div class="mh first">Actividad</div><div class="mh">Nov 26</div><div class="mh">Dic 26</div><div class="mh">Ene 27</div><div class="mh">Feb 27</div><div class="mh">Mar 27</div><div class="mh">Abr 27</div><div class="mh">May 27</div><div class="mh">Jun 27</div>
-
-        <div class="rl">Etapa I · Inmersión y validación</div>
-        <div class="cell"><div class="b lr" style="--c:var(--ink)"></div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
-
-        <div class="rl">Acciones rápidas (5S, almuerzos)</div>
-        <div class="cell"><div class="b l" style="--c:var(--serp)"></div></div><div class="cell"><div class="b r" style="--c:var(--serp)"></div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
-
-        <div class="rl">Pico de temporada · sin traslados</div>
-        <div class="cell"></div><div class="cell"><div class="b lr hatch"></div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
-
-        <div class="rl">Etapa II · Diseño en detalle</div>
-        <div class="cell"></div><div class="cell"></div><div class="cell"><div class="b l" style="--c:var(--mp)"></div></div><div class="cell"><div class="b r" style="--c:var(--mp)"></div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
-
-        <div class="rl">Etapa III · Implementación</div>
-        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"><div class="b l" style="--c:var(--sat)"></div></div><div class="cell"><div class="b r" style="--c:var(--sat)"></div></div><div class="cell"></div><div class="cell"></div>
-
-        <div class="rl">Capacitaciones al personal</div>
-        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"><div class="b l" style="--c:var(--muted)"></div></div><div class="cell"><div class="b m" style="--c:var(--muted)"></div></div><div class="cell"><div class="b r" style="--c:var(--muted)"></div></div><div class="cell"></div>
-
-        <div class="rl">Etapa IV · Validación y seguimiento</div>
-        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"><div class="b l" style="--c:var(--pin)"></div></div><div class="cell"><div class="b r" style="--c:var(--pin)"></div></div>
-
-        <div class="rl">Informe del antes y el después en pesos</div>
-        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"><div class="b lr" style="--c:var(--serp)"></div></div>
+    <details style="--c:var(--vela)">
+      <summary><span class="dot"></span><h3>Seguridad de la parafina</h3><span class="hint">Asegurabilidad</span></summary>
+      <div class="body">
+        <ul>
+          <li>Fundición separada del papel y cartón, con extracción y ventilación.</li>
+          <li>Parafina en gabinete metálico; ollas con control de temperatura.</li>
+          <li>Extintores a menos de 10 m y detector de humo.</li>
+          <li>Plan de emergencia y evidencias en el SG-SST (Decreto 1072/2015, Res. 0312/2019).</li>
+        </ul>
+        <p>Meta: 0 incidentes · evidencias listas para aseguradora y ARL.</p>
       </div>
-    </div>
-    <div class="etapas">
-      <div class="etapa"><div class="top"><h3>I · Validar</h3><span class="d">3 semanas</span></div><p>Plano medido, tiempos en planta, inventario en satélites, pedidos pendientes y margen por unidad.</p><p><b style="color:var(--ink)">Entrega:</b> línea base y prioridades confirmadas.</p><div class="pay"><b>15 %</b> al aprobar el plan de trabajo</div></div>
-      <div class="etapa"><div class="top"><h3>II · Diseñar</h3><span class="d">5 semanas</span></div><p>Distribución por pisos, método de serpentinas, BOM y procedimiento de satélites, indicadores.</p><p><b style="color:var(--ink)">Entrega:</b> planos, hojas de método y formatos.</p><div class="pay"><b>25 %</b> contra entregables de I y II</div></div>
-      <div class="etapa"><div class="top"><h3>III · Implementar</h3><span class="d">8 semanas</span></div><p>Redistribución por fases, método en serpentinas, centro de satélites y gestión visual.</p><p><b style="color:var(--ink)">Entrega:</b> planta redistribuida y manual de procesos.</p><div class="pay"><b>35 %</b> verificado en planta</div></div>
-      <div class="etapa"><div class="top"><h3>IV · Sostener</h3><span class="d">≥ 8 semanas</span></div><p>Seguimiento semanal, prueba en un pico de demanda y nueva restricción identificada.</p><p><b style="color:var(--ink)">Entrega:</b> informe final en pesos y hoja de ruta.</p><div class="pay"><b>25 %</b> con acta de recibo a satisfacción</div></div>
-    </div>
-    <p class="src" style="margin-top:10px">Porcentajes de pago tomados de la propuesta, por confirmar junto con los honorarios. Ningún pago es anticipado al 100 %, según la política de contratación de la empresa.</p>
-  </div>
-</section>
+    </details>
 
-<section id="arranque">
-  <div class="wrap">
-    <div class="head">
-      <span class="eyebrow">5 · Arranque inmediato</span>
-      <h2>Lo que hacemos en los primeros 30 días</h2>
-      <p>Acciones que no requieren inversión ni detienen la producción antes de diciembre. Se pueden marcar a medida que se cumplen.</p>
-    </div>
-    <div class="dias">
-      <div class="dia" style="--c:var(--serp)"><input type="checkbox" id="d1"><label for="d1"><b>Almuerzos y pausas escalonados en serpentinas</b><span>La restricción no se detiene a ninguna hora del turno.</span><span class="own">Dirección Operativa</span></label></div>
-      <div class="dia" style="--c:var(--serp)"><input type="checkbox" id="d2"><label for="d2"><b>Toma de tiempos por puesto</b><span>Línea base real para fijar la meta de capacidad.</span><span class="own">Asesor</span></label></div>
-      <div class="dia" style="--c:var(--mp)"><input type="checkbox" id="d3"><label for="d3"><b>5S y demarcación provisional</b><span>Pasillos libres, zonas de estiba y de producto terminado marcadas.</span><span class="own">Dirección Operativa + Asesor</span></label></div>
-      <div class="dia" style="--c:var(--vela)"><input type="checkbox" id="d4"><label for="d4"><b>Revisión de seguridad de la fundición</b><span>Extintores, separación del papel y evidencias para aseguradora y ARL.</span><span class="own">Dirección Operativa</span></label></div>
-      <div class="dia" style="--c:var(--pin)"><input type="checkbox" id="d5"><label for="d5"><b>Concurso del comedor y buzón activo</b><span>Compromiso de la Sesión 2: el personal propone dónde va el comedor.</span><span class="own">Dani</span></label></div>
-      <div class="dia" style="--c:var(--sat)"><input type="checkbox" id="d6"><label for="d6"><b>Matriz de compras: importar o comprar local</b><span>Compromiso de la Sesión 2: no congelar capital en inventario lento.</span><span class="own">David</span></label></div>
-    </div>
-  </div>
-</section>
-
-<section id="medicion">
-  <div class="wrap">
-    <div class="head">
-      <span class="eyebrow">6 · Cómo vamos a medir</span>
-      <h2>Pocos indicadores, medidos antes y después</h2>
-      <p>Cada mejora se mide con los mismos instrumentos al inicio (Etapa I) y al cierre (Etapa IV). Al final, la diferencia se expresa en pesos.</p>
-    </div>
-    <div class="kpis">
-      <table>
-        <thead><tr><th>Indicador</th><th>Hoy</th><th>Meta</th><th>Frecuencia</th></tr></thead>
-        <tbody>
-          <tr><td><span class="dot" style="--c:var(--pin)"></span>Unidades programadas contra fabricadas</td><td>No se mide en el turno</td><td class="m">Cumplir el plan del día</td><td>Diaria</td></tr>
-          <tr><td><span class="dot" style="--c:var(--serp)"></span>Capacidad de serpentinas</td><td class="m">1.840 u/día</td><td class="m">&gt; 1.840 (por fijar)</td><td>Diaria</td></tr>
-          <tr><td><span class="dot" style="--c:var(--serp)"></span>Entregas a tiempo a grandes cuentas</td><td>Por medir</td><td class="m">≥ 95 %</td><td>Semanal</td></tr>
-          <tr><td><span class="dot" style="--c:var(--sat)"></span>Material de satélites conciliado</td><td>Sin registro</td><td class="m">≥ 98 %</td><td>Semanal</td></tr>
-          <tr><td><span class="dot" style="--c:var(--vela)"></span>Rendimiento promedio en velas</td><td class="m">250 a 520 u/día</td><td class="m">≥ 310 u/día</td><td>Semanal</td></tr>
-          <tr><td><span class="dot" style="--c:var(--mp)"></span>Recorridos internos por lote</td><td>Por medir</td><td class="m">−50 %</td><td>Trimestral</td></tr>
-          <tr><td><span class="dot" style="--c:var(--mp)"></span>Auditoría 5S</td><td>Por medir</td><td class="m">≥ 80 %</td><td>Mensual</td></tr>
-          <tr><td><span class="dot" style="--c:var(--vela)"></span>Incidentes de seguridad</td><td>Por medir</td><td class="m">0</td><td>Mensual</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<section id="decisiones">
-  <div class="wrap">
-    <div class="head">
-      <span class="eyebrow">7 · Para cerrar hoy</span>
-      <h2>Lo que necesitamos de la gerencia</h2>
-    </div>
-    <div class="dec">
-      <div class="box">
-        <h3>Decisiones para aprobar</h3>
-        <ol>
-          <li>Aprobar el inicio de la Etapa I y el orden de las cinco prioridades.</li>
-          <li>Designar a la Directora Operativa como líder del proyecto y a David como responsable de compras, contratos y grandes cuentas.</li>
-          <li>Dar acceso a los registros de producción, ventas, inventario y satélites, y autorizar la medición del inmueble.</li>
-          <li>Acordar que en diciembre no se hacen traslados de áreas.</li>
-          <li>Agendar la revisión de seguimiento a 30 días.</li>
-        </ol>
+    <details style="--c:var(--pin)">
+      <summary><span class="dot"></span><h3>Gestión visual</h3><span class="hint">Frente 4</span></summary>
+      <div class="body">
+        <ul>
+          <li>Una pantalla en planta con uno o dos indicadores: programado vs. hecho.</li>
+          <li>Colores por línea: naranja serpentinas, rojo velas, verde satélites, azul materia prima.</li>
+          <li>Conteo automático y tabletas industriales solo si el costo lo justifica.</li>
+        </ul>
       </div>
-      <div class="side">
-        <div class="box out">
-          <h3>Fuera de este plan</h3>
-          <ul>
-            <li>Compra de la maquinaria de cintas en China. El plan debe dar resultado con o sin ella; se decide con datos de la Etapa I.</li>
-            <li>Negociación o compra del inmueble.</li>
-            <li>Desarrollo de software.</li>
-          </ul>
-        </div>
-        <div class="box val">
-          <h3>Por validar antes de la versión final</h3>
-          <ul>
-            <li><b>Área de la planta:</b> el Acta 1 dice 750 m² y el Acta 2 habla de un área plana de unos 380 m².</li>
-            <li><b>Propiedad del inmueble:</b> el Acta 1 la presenta como opción de compra; el Acta 2, como adquirido.</li>
-            <li><b>Pedidos pendientes:</b> no están cuantificados en las actas.</li>
-            <li><b>Honorarios y horas:</b> por definir.</li>
-          </ul>
+    </details>
+
+    <details style="--c:var(--vela)">
+      <summary><span class="dot"></span><h3>Velas, compras y personas</h3><span class="hint">Frente 5</span></summary>
+      <div class="body">
+        <div class="grid3">
+          <div class="cell"><b>Velas</b><span>Método de las operarias diestras (meta ≥ 310 u/día). Prevenir defectos en el molde. Pruebas de enfriamiento escalonado.</span></div>
+          <div class="cell"><b>Compras</b><span>Matriz: importar solo lo exclusivo, comprar local lo demás. Kardex, ABC y kanban. Responsable: David.</span></div>
+          <div class="cell"><b>Personas</b><span>Concurso del comedor y buzón activo (Dani). Incentivos por experiencias familiares. Promoción interna con capacitación.</span></div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </details>
 
-<footer class="wrap">
-  <span>Fuentes: Acta de la Sesión 1 de Diagnóstico Operativo, Técnico y Estratégico (septiembre de 2024); Acta de la Sesión 2 de Diagnóstico Operativo, Cultura Organizacional y Escalamiento Técnico; Propuesta de asesoría extensa, versión 4.</span>
-  <span>Documento confidencial de trabajo. Las metas se ajustan con la línea base medida en la Etapa I.</span>
-</footer>
+    <details style="--c:var(--ink)">
+      <summary><span class="dot"></span><h3>Todos los indicadores</h3><span class="hint">Línea base en Etapa I</span></summary>
+      <div class="body tbl">
+        <table>
+          <thead><tr><th>Indicador</th><th>Meta</th><th>Frecuencia</th></tr></thead>
+          <tbody>
+            <tr><td>Programado vs. fabricado</td><td class="m">plan del día</td><td>Diaria</td></tr>
+            <tr><td>Capacidad de serpentinas</td><td class="m">&gt; 1.840 u/día</td><td>Diaria</td></tr>
+            <tr><td>Entregas a grandes cuentas</td><td class="m">≥ 95 %</td><td>Semanal</td></tr>
+            <tr><td>Conciliación de satélites</td><td class="m">≥ 98 %</td><td>Semanal</td></tr>
+            <tr><td>Órdenes a satélites con BOM</td><td class="m">100 %</td><td>Mensual</td></tr>
+            <tr><td>Rendimiento en velas</td><td class="m">≥ 310 u/día</td><td>Semanal</td></tr>
+            <tr><td>Exactitud de inventario</td><td class="m">≥ 95 %</td><td>Semanal</td></tr>
+            <tr><td>Merma de serpentinas</td><td class="m">≤ 4 %</td><td>Mensual</td></tr>
+            <tr><td>Recorridos internos</td><td class="m">−50 %</td><td>Trimestral</td></tr>
+            <tr><td>Auditoría 5S</td><td class="m">≥ 80 %</td><td>Mensual</td></tr>
+            <tr><td>Incidentes de seguridad</td><td class="m">0</td><td>Mensual</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <details style="--c:var(--muted)">
+      <summary><span class="dot"></span><h3>Fuera del alcance</h3><span class="hint">Decisiones de la empresa</span></summary>
+      <div class="body">
+        <ul>
+          <li>Maquinaria de cintas desde China: sugerencia aparte. El plan funciona sin ella.</li>
+          <li>Inmueble: alquilado; su compra no afecta la asesoría.</li>
+          <li>Desarrollo de software.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</main>
+
+<footer class="wrap">Fuentes: Actas de las Sesiones 1 y 2 de diagnóstico; Propuesta de asesoría extensa v4. Documento confidencial de trabajo.</footer>
 
 <script>
 (function(){
-  var links=[].slice.call(document.querySelectorAll('nav a'));
-  var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
-  if(!('IntersectionObserver' in window))return;
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(l){l.classList.remove('on')});var a=map[e.target.id];if(a)a.classList.add('on')}})},{rootMargin:'-40% 0px -55% 0px'});
-  Object.keys(map).forEach(function(id){var s=document.getElementById(id);if(s)io.observe(s)});
-  var boxes=document.querySelectorAll('.dia input');
-  boxes.forEach(function(b){try{if(localStorage.getItem('mf-'+b.id)==='1')b.checked=true}catch(e){}
-    b.addEventListener('change',function(){try{localStorage.setItem('mf-'+b.id,b.checked?'1':'0')}catch(e){}})});
+  var vp=document.getElementById('v-plan'),vr=document.getElementById('v-prop');
+  var tp=document.getElementById('tab-plan'),tr=document.getElementById('tab-prop');
+  function route(){
+    var prop=location.hash==='#propuesta';
+    vp.hidden=prop; vr.hidden=!prop;
+    tp.toggleAttribute('aria-current',!prop); tr.toggleAttribute('aria-current',prop);
+    if(prop)tr.setAttribute('aria-current','page'); else tp.setAttribute('aria-current','page');
+    window.scrollTo(0,0);
+  }
+  window.addEventListener('hashchange',route); route();
+
+  var boxes=[].slice.call(document.querySelectorAll('.ci input'));
+  var fill=document.getElementById('pg'),txt=document.getElementById('pg-t');
+  function upd(){var n=boxes.filter(function(b){return b.checked}).length;fill.style.width=(n/boxes.length*100)+'%';txt.textContent=n+' de '+boxes.length}
+  boxes.forEach(function(b){
+    try{if(localStorage.getItem('mf2-'+b.id)==='1')b.checked=true}catch(e){}
+    b.addEventListener('change',function(){try{localStorage.setItem('mf2-'+b.id,b.checked?'1':'0')}catch(e){}upd()});
+  });
+  upd();
 })();
 </script>
