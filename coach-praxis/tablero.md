@@ -14,6 +14,18 @@
 
 Datos faltantes: gastos mensuales, pista de caja (ahorros aprox. COP 5 M), casos de exito cuantificados.
 
+## Proposito
+Forjarme como prueba viva del metodo Praxis: aprender los metodos de mejoramiento viviendolos, ensenarlos de forma practica y despues venderlos. La app termina como herramienta de talleres de la Fabrica.
+
+| Fase | Foco | Se abre cuando |
+|---|---|---|
+| 1 Vivir | Metodos de mejoramiento en mi + caracter (70% persona / 30% negocio) | Ahora |
+| 2 Ensenar | Talleres en la Fabrica con ejemplos, historias y juegos | Paso la puerta de la Fase 1 |
+| 3 Vender | Venta consultiva: diagnostico, propuesta, cierre | Cierro la Fase 2 |
+
+Mentor: mi papa. Reportes: diario corto y semanal completo, calificados por Claude con la rubrica de `agente.md`.
+Banco del metodo: cada dia, una ficha (definicion, ejemplo, historia, juego de 10 min) en la pestana Metodo de la app.
+
 ## Fase 1: 4 semanas, una herramienta por semana
 | Semana | Herramienta | Que hago |
 |---|---|---|
@@ -46,8 +58,8 @@ Ritual diario: pregunta de enfoque (Keller) + si-entonces, bloque de 4 h, regist
 | 4 | Experimento personal, pre-mortem de Fase 2, mapa maestro, metas al ahora y feedback otra vez |
 Los demas dias: practica deliberada. No se lee nada nuevo en Fase 1.
 
-## Puerta a Fase 2 (dia 30)
-Tres semanas seguidas cumpliendo los 3 indicadores y antes/despues propio documentado. Si no, repetir Fase 1.
+## Puerta a Fase 2 (dia 28)
+Semanas 2, 3 y 4 seguidas cumpliendo los indicadores, antes/despues propio documentado y un juego del banco probado en la Fabrica. Si no, repetir Fase 1.
 
 ## Lista de espera (ideas nuevas, 30 dias sin tocar)
 -

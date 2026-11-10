@@ -67,7 +67,7 @@ ol.do li::marker{font-weight:700;color:var(--ac)}
 .dayrow .n.l3{background:var(--ok);color:var(--on-ac);border-color:var(--ok)}.dayrow .n.l1,.dayrow .n.l2{background:var(--acs);color:var(--ac)}
 .dayrow.cur .n{outline:3px solid var(--ac)}
 nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px);z-index:5}
-nav button{flex:1;max-width:170px;background:none;border:0;color:var(--mut);padding:16px 4px;font-weight:600;font-size:16px}
+nav button{flex:1;max-width:150px;background:none;border:0;color:var(--mut);padding:16px 2px;font-weight:600;font-size:15px}
 nav button.on{color:var(--ac);box-shadow:inset 0 3px 0 var(--ac)}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(80px + env(safe-area-inset-bottom,0px));background:var(--tx);color:var(--bg);padding:12px 18px;border-radius:12px;font-weight:600;z-index:9}
 .msg{color:var(--ac);font-weight:600;min-height:1.2em}
@@ -83,6 +83,9 @@ table{width:100%;border-collapse:collapse;font-size:16px;font-variant-numeric:ta
 .opt{border:1px solid var(--line);border-radius:12px;padding:12px}
 .timerc{display:flex;flex-direction:column;gap:10px;text-align:center}
 .timerc .timer{font-size:52px}
+.actions.col{flex-direction:column}.actions.col button{width:100%}
+ul.rep{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:17px}
+.ph{cursor:default}.ph.lock{opacity:.7}
 </style>
 <div id="app"></div>
 <nav id="nav"></nav>
@@ -120,7 +123,15 @@ const LEARN={
  rendicion:{t:'Rendición de cuentas',src:'Harkin 2016 · Hill',que:'Reportar tu progreso a otra persona aumenta el efecto de medirlo. Comprometerte en público te hace cumplir más.',fab:'Reunión diaria de 10 minutos donde cada líder reporta sus indicadores.',vida:'Cada domingo envías tus 3 indicadores a tu socio de rendición de cuentas.',q:'¿A quién le rindo cuentas esta semana?'}
 };
 
-const P=(c)=>({t:'Aplícalo a Praxis',min:20,learn:null,steps:['Explica '+c+' a un empresario en 3 frases, como si solo tuviera 5 minutos.','Diseña un ejercicio práctico de 15 minutos para enseñarlo en un taller de la Fábrica de Aprendizaje.','Escribe qué resultado medible esperarías en su empresa.'],f:[['p1','Mi explicación en 3 frases','area'],['p2','Mi ejercicio de taller','area'],['p3','Resultado medible esperado','text']]});
+const P=(c)=>({c,t:'Cómo lo enseñaría: '+c,min:20,learn:null,steps:['Escribe tu definición de '+c+' en una frase que entienda un operario.','Escribe un ejemplo real: de tu vida, de la Fábrica o de una empresa que conozcas.','Cuenta una historia de 4 líneas que lo muestre: tuya, de Toyota o de un estratega. Si no estás seguro de un hecho, usa tu propia historia.','Diseña un juego o dinámica de 10 minutos para la Fábrica: materiales, reglas y qué deben descubrir los participantes.'],f:[['m1','Mi definición en 1 frase','text'],['m2','Ejemplo real','area'],['m3','Historia','area'],['m4','Juego o dinámica de 10 min','area']]});
+const MF=[['m1','Definición'],['m2','Ejemplo real'],['m3','Historia'],['m4','Juego de 10 min']];
+const CHAR=[
+ {t:'Disciplina',src:'Musashi · Greene, Maestría',do:'Piensa en el momento de hoy en que quisiste aflojar.',q:'Qué hice aunque no tenía ganas, y qué me costó',why:'La disciplina se entrena cumpliendo cuando no hay ganas.'},
+ {t:'Manejo emocional',src:'Greene, 33 estrategias',do:'Recuerda el momento de hoy en que una emoción quiso decidir por ti.',q:'Qué emoción fue, qué quería que hiciera y qué hice',why:'Un líder que no gobierna sus emociones no puede guiar a otros.'},
+ {t:'Estrategia',src:'Greene, 33 estrategias',do:'Mira tu día como un general: dónde gastaste fuerzas que no movían tu Una Cosa.',q:'Qué batalla dejé de pelear hoy para proteger mi Una Cosa',why:'Estrategia es elegir dónde no pelear.'},
+ {t:'Decisión',src:'Keller · Lean',do:'Elige la decisión más importante que tomaste hoy.',q:'Qué decidí, con qué dato, y qué haría distinto',why:'Praxis enseña a decidir con información. Empieza por ti.'}
+];
+const RUB='Palabra (cumplí lo que dije), Aprendizaje (recuerdo sin mirar), Método (ficha del método), Carácter (acción incómoda y respuesta de carácter), Evidencia (datos completos)';
 const PD={t:'Práctica deliberada',src:'Ericsson · Dunlosky',min:30,learn:'pd',steps:['Elige el concepto de hoy.','Grábate explicándolo en 2 minutos, sin notas.','Escucha la grabación y encuentra 1 error o duda.','Grábate otra vez corrigiéndolo.'],f:[['e1','Concepto que expliqué','text'],['e2','Error o duda que encontré','area'],['e3','Qué mejoró en la segunda versión','area']]};
 const METAS=(extra)=>({t:'Metas al ahora',src:'Keller, Solo una cosa',min:30,learn:'metas',steps:['Responde cada nivel con una sola frase.','Ve de lo lejano a lo inmediato: cada respuesta prepara la siguiente.'].concat(extra||[]),f:[['e1','Algún día quiero...','text'],['e2','En 5 años...','text'],['e3','Este año...','text'],['e4','Este mes...','text'],['e5','Esta semana...','text'],['e6','Hoy...','text'],['e7','Ahora mismo...','text']]});
 const WOOP=(w,extra)=>({t:'WOOP de la semana '+w,src:'Oettingen',min:30,learn:'woop',steps:['Escribe tu deseo para la semana '+w+'.','Escribe el mejor resultado si lo logras.','Escribe tu obstáculo interno principal: algo en ti, no afuera.','Escribe qué harás cuando aparezca.'].concat(extra?[extra[0]]:[]),f:[['e1','Deseo','text'],['e2','Mejor resultado','text'],['e3','Obstáculo interno','text'],['e4','Si aparece ese obstáculo, entonces...','text']].concat(extra?[extra[1]]:[])});
@@ -268,7 +279,7 @@ const QUOTES=[
 ];
 
 function sessions(n){
- const D=DAYS[n-1], prev=S.days[n-1]&&S.days[n-1].imp, L=LEARN[D.learn];
+ const C=CHAR[Math.ceil(n/7)-1], D=DAYS[n-1], prev=S.days[n-1]&&S.days[n-1].imp, L=LEARN[D.learn];
  const dr=D.drills.map((x,i)=>({t:x.t,min:x.min,learn:x.learn,do:x.steps,f:x.f,stats:i===0&&D.stats,why:'Ejercicio práctico: se aprende haciendo. Inicia el contador y sigue los pasos.'}));
  return [
  {name:'Apertura',time:'30 min',desc:'Prepara tu mente y tu espacio',steps:[
@@ -281,22 +292,24 @@ function sessions(n){
   {t:'Aprende: '+L.t,learnOpen:D.learn,min:5,why:'20% teoría: lo justo para entender. El resto del bloque es práctica.',do:['Lee la tarjeta.','Escribe con tus palabras qué es y para qué te sirve hoy.'],f:[['lr','En una frase, con mis palabras','text']]}
  ].concat(dr,[
   {t:D.ex.t,src:D.ex.src,min:D.ex.min,learn:D.ex.learn,why:'Ejercicio del libro, aplicado a tu vida.',do:D.ex.steps,f:D.ex.f},
-  {t:D.praxis.t,min:D.praxis.min,why:'Enseñar lo que practicas es la forma más rápida de dominarlo, y construye tu método.',do:D.praxis.steps,f:D.praxis.f},
+  {t:D.praxis.t,praxis:true,min:D.praxis.min,why:'Enseñar lo que practicas es la forma más rápida de dominarlo. Esta ficha va a tu Banco del método.',do:D.praxis.steps,f:D.praxis.f},
   {t:'Tus interrupciones',why:'Lo que no se mide no se mejora. Este es tu dato de Gemba.',do:['Cuenta cuántas veces te desviaste durante el bloque.','Escribe qué te desvió.'],f:[['int','Veces que me desvié','num'],['intw','Qué me desvió','text']]}
  ])},
  {name:'Cierre',time:'30 min',desc:'Verifica, aprende y ajusta',steps:[
   {t:'Recupera lo aprendido',learn:'recuperacion',why:'Recordar sin mirar fija el aprendizaje mucho mejor que releer.',do:['No mires tus notas.','Escribe 3 cosas que aprendiste hoy.'],f:[['l1','Aprendizaje 1','text'],['l2','Aprendizaje 2','text'],['l3','Aprendizaje 3','text']]},
   {t:'Caza el desperdicio',learn:'muda',why:'Un desperdicio que ves es un desperdicio que puedes eliminar.',do:['Marca los desperdicios que viste hoy.','Describe el más grande.'],f:[['wl','Desperdicios de hoy','chips'],['waste','El más grande','text']]},
   {t:'Tu acción incómoda',why:'Tu crecimiento está en lo que evitas.',do:[D.reto],f:[['uncDone','La hice','yes'],['unc','Qué hice exactamente','text'],['uncF','Qué sentí antes y después','text']]},
+  {t:'Tu carácter: '+C.t,src:C.src,why:C.why,do:[C.do,'Escríbelo con honestidad, en 2 o 3 líneas.'],f:[['ch',C.q,'area']]},
   {t:'Kaizen del 1%',learn:'kaizen',why:'Pequeñas mejoras diarias, sostenidas, construyen el cambio grande.',do:[prev?'Tu mejora de ayer era: '+prev+'.':'Mañana revisarás si aplicaste la mejora que escribas hoy.','Escribe una mejora pequeña para mañana.'],f:[['kzDone','Hoy apliqué la mejora de ayer','yes'],['imp','Mi mejora para mañana','text']]},
   {t:'¿Cumpliste tu palabra?',why:'La coherencia entre lo que dices y lo que haces es la base de tu método.',do:['Califica tu día con honestidad.','Deja una frase para tu yo de mañana.'],f:[['sc','Cumplí mi palabra','scale'],['note','Para mi yo de mañana','text']]}
  ]}];
 }
 
 const $=s=>document.querySelector(s);
-let lOpen=null, ucOpen=0;
+let lOpen=null, ucOpen=0, mOpen=null, repW=null;
 let S=load(), view='hoy', cur=1, sess=null, confirmReset=false, msg='', tick=null;
 function load(){ try{const r=JSON.parse(localStorage.getItem(KEY)); if(r&&r.schema===SCHEMA) return r;}catch(e){} return {schema:SCHEMA,start:null,days:{},wait:[],targets:{blocks:null,mej:null},proj:{1:1,2:1,3:1,4:1}}; }
+function migrate(){ for(const n in S.days){ const d=S.days[n]; if(d.p1&&!d.m1) d.m1=d.p1; if(d.p2&&!d.m4) d.m4=d.p2+(d.p3?'\nResultado esperado: '+d.p3:''); } if(!S.fab) S.fab={tested:false,note:''}; }
 function save(){ try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){} }
 function ymd(d){ const z=new Date(d.getTime()-d.getTimezoneOffset()*6e4); return z.toISOString().slice(0,10); }
 function dayNum(){ if(!S.start) return 0; return Math.round((new Date(ymd(new Date())+'T00:00')-new Date(S.start+'T00:00'))/864e5)+1; }
@@ -310,10 +323,10 @@ function streak(){ let s=0; const t=Math.min(dayNum(),28); for(let n=t;n>=1;n--)
 
 function render(){
  clearInterval(tick);
- const nav=[['hoy','Hoy'],['plan','Plan'],['prog','Progreso'],['aj','Ajustes']];
+ const nav=[['hoy','Hoy'],['plan','Plan'],['met','Método'],['prog','Progreso'],['aj','Ajustes']];
  $('#nav').innerHTML=nav.map(([k,l])=>`<button class="${view===k&&!sess?'on':''}" onclick="go('${k}')">${l}</button>`).join('');
  $('#nav').hidden=!!sess;
- $('#app').innerHTML = sess ? vSess() : {hoy:vHoy,plan:vPlan,prog:vProg,aj:vAj}[view]();
+ $('#app').innerHTML = sess ? vSess() : {hoy:vHoy,plan:vPlan,met:vMet,prog:vProg,aj:vAj}[view]();
  if(sess && $('#tm')) { upTimer(); tick=setInterval(upTimer,1000); }
 }
 function go(v){ view=v; sess=null; msg=''; confirmReset=false; if(v==='hoy') cur=Math.min(Math.max(dayNum(),1),28); render(); scrollTo(0,0); }
@@ -331,6 +344,8 @@ function vHoy(){
  ${startCard}
  <div class="quote">${esc(q[0])}<div class="mut" style="font-style:normal">${esc(q[1])}</div></div>
  ${tiles}
+ ${d.b[2]?repCard('Reporte del día '+n,dayLines(n),`dailyReport(${n},'claude')`,`dailyReport(${n},'papa')`,'rd'):''}
+ ${d.b[2]&&n%7===0?repCard('Reporte de la semana '+n/7,weekLines(n/7),`weeklyReport(${n/7},'claude')`,`weeklyReport(${n/7},'papa')`,'rw'):''}
  <div class="actions" style="justify-content:space-between"><button class="btn2" onclick="step(-1)">‹ Día anterior</button><button class="btn2" onclick="step(1)">Día siguiente ›</button></div>
  <div class="card stack"><h3>¿Idea nueva?</h3><div class="mut">Anótala aquí y vuelve a tu Una Cosa. Se evalúa en 30 días.</div><input type="text" id="wi" placeholder="Escribe la idea" aria-label="Idea nueva"><button class="btn2" onclick="addWait()">Guardar en lista de espera</button>${wl}</div>
  </div>`;
@@ -388,14 +403,14 @@ function vSess(){
  </div>`;
 }
 function go2(k){ sess.s+=k; lOpen=null; ucOpen=0; render(); scrollTo(0,0); }
-function finish(){ const n=cur, d=dd(n); d.b[sess.k]=true; save(); const name=sessions(n)[sess.k].name; sess=null; render(); scrollTo(0,0); toast(name+' completada'); }
+function finish(){ const n=cur, d=dd(n), sessKdone=sess.k; d.b[sess.k]=true; save(); const name=sessions(n)[sess.k].name; sess=null; render(); const r=sessKdone===2&&$('#rd'); if(r) r.scrollIntoView(); else scrollTo(0,0); toast(r?'Cierre completada. Tu reporte está listo.':name+' completada'); }
 
 function timerBox(n,key,min){ const ts=dd(n)[key]; return `<div class="card timerc"><div class="timer" id="tm" data-k="${key}" data-m="${min}">${min}:00</div><div class="mut" id="tms">${min} minutos para este ejercicio</div>${ts?`<button class="btn2" onclick="dd(${n})['${key}']=null;save();render()">Reiniciar</button>`:`<button class="btn" onclick="dd(${n})['${key}']=Date.now();save();render()">Iniciar ${min} min</button>`}</div>`; }
 function upTimer(){ const e=$('#tm'); if(!e) return; const ts=dd(cur)[e.dataset.k], dur=e.dataset.m*60000; if(!ts) return; const left=Math.max(0,dur-(Date.now()-ts)); const m=Math.floor(left/60000), s=Math.floor(left%60000/1000); e.textContent=m+':'+String(s).padStart(2,'0'); $('#tms').textContent=left?'En curso: sigue los pasos.':'Tiempo cumplido. Completa tus respuestas y sigue.'; }
 
 function vPlan(){
  const t=dayNum();
- return `<div class="stack"><h1>Plan</h1><div class="mut">28 días, una herramienta por semana. Toca un día para abrirlo.</div>`+[0,1,2,3].map(w=>`<div class="card"><div class="eyebrow">Semana ${w+1}</div><h3 style="margin-bottom:6px">${TOOLS[w]}</h3>${[0,1,2,3,4,5,6].map(i=>{const n=w*7+i+1;return `<button class="dayrow ${n===t?'cur':''}" onclick="cur=${n};view='hoy';render();scrollTo(0,0)"><span class="n l${lvl(n)}">${n}</span><span>${esc(DAYS[n-1].t)}</span></button>`}).join('')}</div>`).join('')+`</div>`;
+ return `<div class="stack"><h1>Plan</h1>${phases()}<div class="mut">Fase 1: 28 días, una herramienta por semana. Toca un día para abrirlo.</div>`+[0,1,2,3].map(w=>`<div class="card"><div class="eyebrow">Semana ${w+1}</div><h3 style="margin-bottom:6px">${TOOLS[w]}</h3>${[0,1,2,3,4,5,6].map(i=>{const n=w*7+i+1;return `<button class="dayrow ${n===t?'cur':''}" onclick="cur=${n};view='hoy';render();scrollTo(0,0)"><span class="n l${lvl(n)}">${n}</span><span>${esc(DAYS[n-1].t)}</span></button>`}).join('')}</div>`).join('')+`</div>`;
 }
 
 function energyChart(){
@@ -410,7 +425,7 @@ function vProg(){
  const t=Math.min(dayNum(),28), all=[1,2,3,4].map(weekMetrics);
  const done=all.reduce((a,m)=>a+m.done,0), prom=all.reduce((a,m)=>a+m.prom,0), pct=prom?Math.round(done/prom*100):0, T=S.targets;
  const passes=[2,3,4].map(weekPass);
- const gate = T.blocks==null||T.mej==null ? ['nt','Fija tus metas en Ajustes al terminar la semana 1.'] : passes.includes(false) ? ['','No pasa: repite la Fase 1.'] : passes.every(p=>p===true) ? ['ok','Superada: pasa a Fase 2, Praxis.'] : ['nt','En evaluación.'];
+ const gate = T.blocks==null||T.mej==null ? ['nt','Fija tus metas en Ajustes al terminar la semana 1.'] : passes.includes(false) ? ['','No pasa: repite la Fase 1.'] : passes.every(p=>p===true) ? (S.fab&&S.fab.tested ? ['ok','Superada: pasa a Fase 2, Enseñar.'] : ['nt','Falta probar un juego del banco en la Fábrica (pestaña Método).']) : ['nt','En evaluación.'];
  const rows=[1,2,3,4].map(w=>{const m=all[w-1],p=weekPass(w);return `<tr><td>Semana ${w}</td><td>${m.pct==null?'–':m.pct+'%'}</td><td>${m.prom?m.mej:'–'}</td><td>${p==null?'<span class="pill nt">pendiente</span>':p?'<span class="pill ok">cumple</span>':'<span class="pill">no cumple</span>'}</td></tr>`}).join('');
  return `<div class="stack"><h1>Progreso</h1>
  <div class="card stats"><div><div class="k">${pct}%</div><div class="mut">Sesiones cumplidas</div></div><div><div class="k">${streak()}</div><div class="mut">Días seguidos al 100%</div></div><div><div class="k">${t}/28</div><div class="mut">Días</div></div></div>
@@ -418,21 +433,84 @@ function vProg(){
  <div class="legend"><span><i></i>0 sesiones</span><span><i style="background:var(--acs)"></i>1</span><span><i style="background:var(--warn)"></i>2</span><span><i style="background:var(--ok)"></i>3</span></div></div>
  <div class="card stack"><h3>Tu energía</h3>${energyChart()}</div>
  <div class="card stack"><h3>Indicadores por semana</h3><div class="tw"><table><tr><th></th><th>Sesiones</th><th>Mejoras</th><th>Estado</th></tr>${rows}</table></div><div class="mut">Metas: sesiones ${T.blocks==null?'sin fijar':'≥ '+T.blocks+'%'}, mejoras ${T.mej==null?'sin fijar':'≥ '+T.mej+' por semana'}, proyectos activos ≤ 1.</div></div>
- <div class="card stack"><h3>Puerta a Fase 2</h3><div class="pill ${gate[0]}" style="border-radius:12px;padding:10px 14px;font-size:16px">${gate[1]}</div><div class="mut">Regla: semanas 2, 3 y 4 seguidas cumpliendo, con tu antes y después documentado.</div></div>
- <div class="card stack"><h3>Contexto para tu coach</h3><div class="mut">Copia todo tu registro y pégalo en tu Claude Project. Así tu coach conoce tu avance real.</div><button class="btn" onclick="copyCtx()">Copiar mi registro</button><textarea id="ctx" aria-label="Registro en texto" hidden></textarea></div>
+ <div class="card stack"><h3>Puerta a Fase 2</h3><div class="pill ${gate[0]}" style="border-radius:12px;padding:10px 14px;font-size:16px">${gate[1]}</div><div class="mut">Regla: semanas 2, 3 y 4 seguidas cumpliendo, tu antes y después documentado y un juego del banco probado en la Fábrica.</div></div>
+ <div class="card stack"><h3>Reporte semanal</h3><div class="mut">Para que Claude lo califique y tu papá lo revise. Elige la semana.</div><div class="scale">${[1,2,3,4].map(w=>`<button class="${repW===w?'on':''}" onclick="repW=${w};render()">${w}</button>`).join('')}</div></div>
+ ${repW?repCard('Semana '+repW+' · '+TOOLS[repW-1],weekLines(repW),`weeklyReport(${repW},'claude')`,`weeklyReport(${repW},'papa')`,'rp'):''}
+ <div class="card stack"><h3>Registro completo</h3><div class="mut">Todo lo que has escrito, día por día. Pégalo en Claude cuando quieras una revisión a fondo.</div><button class="btn2" onclick="copyCtx()">Copiar mi registro</button><textarea id="ctx" aria-label="Registro en texto" hidden></textarea></div>
  </div>`;
 }
+function dayBlock(n){ const d=S.days[n]; if(!d) return ''; const lines=[];
+ sessions(n).forEach(s=>s.steps.forEach(st=>(st.f||[]).forEach(([k,l,ty])=>{ if(ty==='suggest'||ty==='onething') return; let v=d[k]; if(v===undefined||v===''||v===false||(Array.isArray(v)&&!v.length)) return; if(v===true) v='sí'; if(Array.isArray(v)) v=v.join(', '); lines.push(`- ${l}: ${v}`); })));
+ if(!lines.length&&!lvl(n)) return '';
+ return `\n## Día ${n} · ${DAYS[n-1].t} · sesiones ${lvl(n)}/3\n`+lines.join('\n')+'\n'; }
 function context(){
- const lab={};
  let out=`# Forja Praxis: registro de Salomon\nInicio: ${S.start||'sin iniciar'} · Día actual: ${Math.min(dayNum(),28)} de 28\n`;
- for(let n=1;n<=28;n++){ const d=S.days[n]; if(!d) continue; const ss=sessions(n); const lines=[];
-  ss.forEach(s=>s.steps.forEach(st=>(st.f||[]).forEach(([k,l,ty])=>{ if(ty==='suggest'||ty==='onething') return; let v=d[k]; if(v===undefined||v===''||v===false||(Array.isArray(v)&&!v.length)) return; if(v===true) v='sí'; if(Array.isArray(v)) v=v.join(', '); lines.push(`- ${l}: ${v}`); })));
-  if(!lines.length&&!lvl(n)) continue;
-  out+=`\n## Día ${n} · ${DAYS[n-1].t} · sesiones ${lvl(n)}/3\n`+lines.join('\n')+'\n'; }
+ for(let n=1;n<=28;n++) out+=dayBlock(n);
  if(S.wait.length) out+=`\n## Lista de espera\n`+S.wait.map(w=>'- '+w.x).join('\n')+'\n';
  return out;
 }
 function copyCtx(){ const t=$('#ctx'), txt=context(); t.value=txt; navigator.clipboard.writeText(txt).then(()=>toast('Registro copiado'),()=>{t.hidden=false;t.select();toast('Selecciona y copia el texto');}); }
+
+/* ---------- Reportes ---------- */
+function v_(x,u){ return x===undefined||x===null||x===''?'sin dato':x+(u||''); }
+function fichaN(d){ return MF.filter(([k])=>d&&d[k]&&String(d[k]).trim()).length; }
+function dateOf(n){ if(!S.start) return ''; const t=new Date(S.start+'T00:00'); t.setDate(t.getDate()+n-1); return ymd(t); }
+function dayLines(n){ const d=dd(n); return [
+ `Sesiones ${lvl(n)}/3 · Una Cosa: ${v_(d.main)} · Cumplí mi palabra: ${v_(d.sc,'/5')}`,
+ `Energía ${v_(d.en,'/5')} · Sueño ${v_(d.sl,' h')} · Interrupciones ${v_(d.int)}`,
+ `Aprendí: ${v_(d.l1)} · Ficha del método: ${fichaN(d)}/4`,
+ `Acción incómoda: ${d.uncDone?'hecha':'no hecha'}${d.unc?' · '+d.unc:''}`,
+ `Mejora para mañana: ${v_(d.imp)}`]; }
+function dailyReport(n,who){ const L=dayLines(n).map(x=>'- '+x).join('\n'), f=dateOf(n);
+ if(who==='papa') return `Papá, este es mi reporte del día ${n} de 28${f?' ('+f+')':''}:\n${L}\n\n¿Qué ves que debo corregir?`;
+ return `# Reporte diario · Día ${n} de 28${f?' · '+f:''} · ${DAYS[n-1].t}\n${L}\n\nCoach: califica de 1 a 5 cada eje: ${RUB}. Da el total sobre 25. Juzga con dureza lo que no cumplí y dime por qué importa. Señala un patrón si lo ves. Termina con un reto para mañana con hora exacta. No inventes datos: si falta uno, dilo y baja la nota de Evidencia.\n\n# Detalle del día`+(dayBlock(n)||'\nSin registros.'); }
+function weekData(w){ const r={en:[],int:0,intN:0,waste:{},uncY:0,uncN:0,uncL:[],fichas:0,imp:[],ch:[],full:0,days:[]};
+ for(let n=(w-1)*7+1;n<=w*7;n++){ const d=S.days[n]; if(!d) continue; r.days.push(n);
+  if(d.en) r.en.push(d.en); if(d.int!==undefined&&d.int!==''){r.int+=+d.int;r.intN++;}
+  (d.wl||[]).forEach(x=>r.waste[x]=(r.waste[x]||0)+1);
+  if(d.uncDone){r.uncY++; if(d.unc) r.uncL.push('Día '+n+': '+d.unc);} else if(d.b&&d.b[2]) r.uncN++;
+  if(fichaN(d)===4) r.fichas++; if(d.imp) r.imp.push('Día '+n+': '+d.imp); if(d.ch) r.ch.push('Día '+n+': '+d.ch); if(lvl(n)===3) r.full++; }
+ return r; }
+function weekLines(w){ const m=weekMetrics(w), x=weekData(w), T=S.targets, p=weekPass(w);
+ const avg=x.en.length?(x.en.reduce((a,b)=>a+b,0)/x.en.length).toFixed(1)+'/5':'sin dato';
+ const tr=x.en.length>1?(x.en[x.en.length-1]>x.en[0]?'sube':x.en[x.en.length-1]<x.en[0]?'baja':'estable'):'sin dato';
+ const top=Object.entries(x.waste).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([k,v])=>k+' ('+v+')').join(', ')||'sin registro';
+ return [
+ `Sesiones cumplidas: ${m.pct==null?'sin dato':m.pct+'%'} (meta ${T.blocks==null?'sin fijar':T.blocks+'%'}) · Días completos: ${x.full} de 7`,
+ `Mejoras y acciones incómodas: ${m.mej} (meta ${T.mej==null?'sin fijar':T.mej})`,
+ `Estado de la semana: ${p==null?'en evaluación':p?'cumple':'no cumple'}`,
+ `Energía promedio: ${avg}, tendencia ${tr}`,
+ `Interrupciones: ${x.int} en total${x.intN?', '+(x.int/x.intN).toFixed(1)+' por día':''}`,
+ `Desperdicios más repetidos: ${top}`,
+ `Acciones incómodas: ${x.uncY} hechas, ${x.uncN} evitadas`,
+ `Banco del método: ${x.fichas} de 7 fichas completas`]; }
+function weeklyReport(w,who){ const L=weekLines(w).map(x=>'- '+x).join('\n'), x=weekData(w), li=a=>a.length?a.map(v=>'- '+v).join('\n'):'- sin registro';
+ if(who==='papa') return `Papá, este es mi reporte de la semana ${w} de 4 (${TOOLS[w-1]}):\n${L}\n\nAcciones incómodas que hice:\n${li(x.uncL)}\n\n¿Qué me recomiendas corregir la próxima semana?`;
+ return `# Reporte semanal · Semana ${w} de 4 · ${TOOLS[w-1]} · Carácter: ${CHAR[w-1].t}\n${L}\n\n## Acciones incómodas hechas\n${li(x.uncL)}\n\n## Respuestas de carácter\n${li(x.ch)}\n\n## Mejoras propuestas\n${li(x.imp)}\n\nCoach: califica la semana de 1 a 5 en cada eje: ${RUB}. Da el total sobre 25 y compáralo con la semana anterior si la tienes. Dime con datos si la semana cumple o no. Juzga con dureza: qué evité, qué patrón se repite y qué desperdicio debo atacar. Termina con 1 sola prioridad para la semana siguiente y un reto con día y hora. No inventes datos.\n\n# Detalle de la semana`+(x.days.map(dayBlock).join('')||'\nSin registros.'); }
+function repCard(h,lines,a,b,id){ return `<div class="card stack" id="${id}"><div class="eyebrow">Reporte</div><h3>${esc(h)}</h3><ul class="rep">${lines.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><div class="actions col"><button class="btn" onclick="copyTxt('${id}t',${a})">Copiar para Claude</button><button class="btn2" onclick="copyTxt('${id}t',${b})">Copiar para mi papá</button></div><textarea id="${id}t" aria-label="Texto del reporte" hidden></textarea></div>`; }
+function copyTxt(id,txt){ const t=$('#'+id); t.value=txt; navigator.clipboard.writeText(txt).then(()=>toast('Reporte copiado'),()=>{t.hidden=false;t.select();toast('Selecciona y copia el texto');}); }
+
+/* ---------- Fases ---------- */
+function phases(){ const PH=[['1','Vivir','Los métodos de mejoramiento en ti, con carácter. 28 días.','Ahora','ok'],['2','Enseñar','Llevar cada método a la Fábrica con ejemplos, historias y juegos.','Se abre al pasar la puerta de la Fase 1','nt'],['3','Vender','Venta consultiva: diagnóstico, propuesta y cierre.','Se abre al cerrar la Fase 2','nt']];
+ return `<div class="card"><div class="eyebrow">Tu ruta</div>${PH.map(([n,t,d,st,c])=>`<div class="dayrow ph ${c==='nt'?'lock':''}"><span class="n ${c==='ok'?'l3':''}">${n}</span><span style="flex:1"><b style="font-size:19px">${t}</b><br><span class="mut">${d}</span><br><span class="pill ${c}" style="margin-top:6px">${st}</span></span></div>`).join('')}</div>`; }
+
+/* ---------- Método ---------- */
+function cap(x){ return x.charAt(0).toUpperCase()+x.slice(1); }
+function praxisIdx(n){ return sessions(n)[1].steps.findIndex(s=>s.praxis); }
+function fichaCard(n){ const d=S.days[n]||{}; return `<div class="learn stack" style="margin:8px 0 12px">${MF.map(([k,l])=>`<div><div class="eyebrow">${l}</div><div style="white-space:pre-wrap">${d[k]&&String(d[k]).trim()?esc(d[k]):'<span class="mut">Pendiente</span>'}</div></div>`).join('')}<button class="btn2" onclick="cur=${n};sess={k:1,s:praxisIdx(${n})};render();scrollTo(0,0)">${fichaN(d)===4?'Editar':'Completar'} en el día ${n}</button></div>`; }
+function vMet(){
+ const all=Array.from({length:28},(_,i)=>S.days[i+1]||{}), ok=all.filter(d=>fichaN(d)===4).length, games=all.filter(d=>d.m4&&String(d.m4).trim()).length, F=S.fab;
+ return `<div class="stack"><h1>Método</h1><div class="mut">Tu método Praxis, ficha por ficha. Cada día lo llenas en el paso Cómo lo enseñaría: definición, ejemplo, historia y juego.</div>
+ <div class="card stats"><div><div class="k">${ok}/28</div><div class="mut">Fichas completas</div></div><div><div class="k">${games}</div><div class="mut">Juegos diseñados</div></div><div><div class="k">${F.tested?'Sí':'No'}</div><div class="mut">Juego probado en la Fábrica</div></div></div>
+ ${[0,1,2,3].map(w=>`<div class="card"><div class="eyebrow">Semana ${w+1}</div><h3 style="margin-bottom:6px">${TOOLS[w]}</h3>${[0,1,2,3,4,5,6].map(i=>{const n=w*7+i+1,k=fichaN(all[n-1]),o=mOpen===n;return `<button class="dayrow" aria-expanded="${o}" onclick="mOpen=mOpen===${n}?null:${n};render()"><span class="n ${k===4?'l3':k?'l1':''}">${k===4?'✓':n}</span><span style="flex:1">${esc(cap(DAYS[n-1].praxis.c))}</span><span class="mut">${k}/4</span></button>${o?fichaCard(n):''}`}).join('')}</div>`).join('')}
+ <div class="card stack"><h3>Prueba en la Fábrica</h3><div class="mut">Antes de pasar a la Fase 2, lleva un juego del banco a la Fábrica y pruébalo con personas reales.</div><label class="chk" for="fbt"><input type="checkbox" id="fbt" ${F.tested?'checked':''} onchange="S.fab.tested=this.checked;save();render()"><span>Probé un juego en la Fábrica</span></label><div><label class="fl" for="fbn">Qué juego probé, con quién y qué pasó</label><textarea id="fbn" oninput="S.fab.note=this.value;save()">${esc(F.note)}</textarea></div></div>
+ <div class="card stack"><h3>Tu método en un documento</h3><div class="mut">Cópialo para revisarlo con tu papá o pegarlo en Claude.</div><button class="btn" onclick="copyTxt('mdt',methodDoc())">Copiar mi método</button><textarea id="mdt" aria-label="Método en texto" hidden></textarea></div>
+ </div>`;
+}
+function methodDoc(){ let o=`# Método Praxis · borrador\nConstruido en la Fase 1 (Vivir). Fichas completas: ${Array.from({length:28},(_,i)=>fichaN(S.days[i+1])).filter(k=>k===4).length} de 28.\n`;
+ for(let n=1;n<=28;n++){ const d=S.days[n]; if(!fichaN(d)) continue; o+=`\n## ${n}. ${cap(DAYS[n-1].praxis.c)}\n`+MF.map(([k,l])=>`- ${l}: ${d[k]&&String(d[k]).trim()?d[k]:'pendiente'}`).join('\n')+'\n'; }
+ if(S.fab.tested||S.fab.note) o+=`\n## Prueba en la Fábrica\n- Probado: ${S.fab.tested?'sí':'no'}\n- ${S.fab.note||'sin nota'}\n`;
+ return o; }
 
 function vAj(){
  const T=S.targets;
@@ -446,9 +524,10 @@ function vAj(){
 function say(t){ msg=t; const m=$('#msg'); if(m) m.textContent=t; }
 function setStart(){ const v=$('#sd').value.trim(); if(/^\d{4}-\d{2}-\d{2}$/.test(v)){S.start=v;save();toast('Fecha guardada');render();} else say('Escribe la fecha como AAAA-MM-DD.'); }
 function copyBk(){ const t=$('#bk'), txt=JSON.stringify(S); t.value=txt; navigator.clipboard.writeText(txt).then(()=>toast('Respaldo copiado'),()=>{t.select();say('Texto seleccionado: cópialo manualmente.');}); }
-function restore(txt){ try{const o=JSON.parse(txt); if(o.schema!==SCHEMA||!o.days) throw 0; S=o; save(); toast('Datos restaurados'); render();}catch(e){ say('Ese texto no es un respaldo válido de Forja Praxis.'); } }
+function restore(txt){ try{const o=JSON.parse(txt); if(o.schema!==SCHEMA||!o.days) throw 0; S=o; migrate(); save(); toast('Datos restaurados'); render();}catch(e){ say('Ese texto no es un respaldo válido de Forja Praxis.'); } }
 function doReset(){ try{localStorage.removeItem(KEY);}catch(e){} S=load(); confirmReset=false; toast('Datos borrados'); render(); }
 
+migrate();
 cur=Math.min(Math.max(dayNum(),1),28);
 render();
 </script>
