@@ -138,9 +138,47 @@ tr:last-child td{border-bottom:0}
 .note{font-size:12.5px;color:var(--muted)}
 footer{border-top:1px solid var(--line);padding-block:20px 36px;font-size:12.5px;color:var(--muted)}
 
+/* PHVA */
+.phva{display:grid;grid-template-columns:3fr 1fr 1fr 1fr;gap:4px;margin-bottom:16px}
+.phva div{padding:10px 12px;border-radius:8px;background:var(--soft);display:grid;gap:2px}
+.phva b{font-family:var(--f-display);font-size:16px;color:var(--c)}
+.phva span{font-size:12px;color:var(--muted)}
+
+/* Momentos */
+.moms{display:grid;gap:10px}
+.mom{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;grid-template-columns:56px minmax(0,1fr) minmax(0,1.3fr) minmax(0,.8fr);gap:20px;align-items:start}
+.mom .n{font-family:var(--f-display);font-weight:800;font-size:40px;line-height:.9;color:var(--serp)}
+.mom h3{font-size:20px;margin-bottom:4px}
+.mom .tg{font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:var(--c)}
+.mom .idea{font-size:14px;color:var(--muted);margin-top:6px}
+.mom ul{padding-left:18px;font-size:14px;display:grid;gap:4px}
+.mom .out{font-size:13.5px;display:grid;gap:4px}
+.mom .out b{font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chips span{font-size:12px;font-weight:600;padding:4px 9px;border-radius:999px;background:var(--serp-soft);color:var(--serp)}
+.sub2{font-size:12px;font-weight:600;color:var(--ink);margin:8px 0 4px;display:block}
+.sub2:first-child{margin-top:0}
+.game{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.game div{background:var(--soft);border-radius:8px;padding:10px;display:grid;gap:2px}
+.game b{font-size:14px}
+.game span{font-size:12.5px;color:var(--muted)}
+.mom.wide{grid-template-columns:56px minmax(0,1fr) minmax(0,2.1fr)}
+.kpis:has(.main){grid-template-columns:repeat(3,minmax(0,1fr))}
+.kpi.main{grid-column:1/-1;border-color:var(--serp);background:var(--serp-soft)}
+.kpi.main .t{font-size:17px}
+.kpi .star{font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--serp)}
+
 @media (max-width:820px){
   .steps,.kpis,.queue{grid-template-columns:repeat(2,minmax(0,1fr))}
   .q{margin-bottom:12px}
+  .mom,.mom.wide{grid-template-columns:44px minmax(0,1fr)}
+  .mom .n{font-size:32px}
+  .mom > :nth-child(n+3){grid-column:2}
+  .phva{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:560px){
+  .game{grid-template-columns:minmax(0,1fr)}
+  .kpi.main{grid-column:auto}
 }
 @media (max-width:560px){
   .steps,.kpis,.queue,.objs,.grid2,.grid3{grid-template-columns:minmax(0,1fr)}
@@ -174,11 +212,11 @@ footer{border-top:1px solid var(--line);padding-block:20px 36px;font-size:12.5px
       <div class="goal">
         <div class="side"><span class="lab">Hoy</span><span class="num mono">1.840</span><span class="sub">unidades/día · 8 mesas × 230</span></div>
         <div class="arrow" aria-hidden="true">→</div>
-        <div class="side meta"><span class="lab">Meta</span><span class="num mono">&gt; 1.840</span><span class="sub">el número exacto sale de la medición del paso 1</span></div>
+        <div class="side meta"><span class="lab">Meta</span><span class="num mono">&gt; 1.840</span><span class="sub">el número exacto sale de la medición del momento 1</span></div>
       </div>
       <div class="objs">
-        <div class="obj"><b>Más unidades por día</b><span>Ninguna mesa parada sin razón.</span></div>
-        <div class="obj"><b>Entregas cumplidas</b><span>≥ 95 % a tiempo y completas.</span></div>
+        <div class="obj"><b>Más unidades por día</b><span>Con la capacidad real medida.</span></div>
+        <div class="obj"><b>Entregas totales y completas</b><span>El indicador que revisamos al final.</span></div>
         <div class="obj"><b>Sin desgastar al equipo</b><span>Menos esfuerzo por unidad, no más horas.</span></div>
       </div>
     </div>
@@ -186,52 +224,64 @@ footer{border-top:1px solid var(--line);padding-block:20px 36px;font-size:12.5px
 
   <section>
     <div class="wrap">
-      <div class="h2"><span class="lab">El plan</span><h2>Cuatro pasos, en orden</h2></div>
-      <div class="steps">
-        <div class="step">
-          <div class="top"><span class="n">1</span><span class="when">Sem 1–3</span></div>
-          <span class="toc">Identificar</span>
-          <h3>Medir</h3>
-          <ul><li>Tiempos por mesa y operaria</li><li>Unidades por día</li><li>Por qué se para cada mesa</li></ul>
-          <p class="out"><b>Sale:</b> línea base y meta en número</p>
-        </div>
-        <div class="step">
-          <div class="top"><span class="n">2</span><span class="when">Sem 4–6</span></div>
-          <span class="toc">Explotar</span>
-          <h3>Liberar la mesa</h3>
-          <ul><li>Rollos siempre junto a la mesa</li><li>Empaque fuera de la mesa</li><li>5S en la zona</li></ul>
-          <p class="out"><b>Sale:</b> cero mesas paradas por espera</p>
-        </div>
-        <div class="step">
-          <div class="top"><span class="n">3</span><span class="when">Sem 7–10</span></div>
-          <span class="toc">Estandarizar</span>
-          <h3>Método de la mejor</h3>
-          <ul><li>Hoja de método de la más rápida</li><li>Todo a 15 cm del codo</li><li>Facilitadora de línea</li></ul>
-          <p class="out"><b>Sale:</b> todas al ritmo de las mejores</p>
-        </div>
-        <div class="step">
-          <div class="top"><span class="n">4</span><span class="when">Sem 11+</span></div>
-          <span class="toc">Controlar</span>
-          <h3>Ver y sostener</h3>
-          <ul><li>Tablero: programado vs. hecho</li><li>10 min diarios frente al tablero</li><li>Afilado de cuchillas programado</li></ul>
-          <p class="out"><b>Sale:</b> resultado que se mantiene</p>
-        </div>
+      <div class="h2"><span class="lab">El plan · Método PHVA</span><h2>Cinco momentos, en orden</h2></div>
+      <div class="phva" aria-label="Ciclo PHVA">
+        <div style="--c:var(--mp)"><b>Planear</b><span>Momentos 0 · 1 · 2</span></div>
+        <div style="--c:var(--serp)"><b>Hacer</b><span>Momento 3</span></div>
+        <div style="--c:var(--sat)"><b>Verificar</b><span>Momento 4</span></div>
+        <div style="--c:var(--pin)"><b>Actuar</b><span>Momento 4</span></div>
+      </div>
+      <div class="moms">
+        <article class="mom" style="--c:var(--mp)">
+          <span class="n">0</span>
+          <div><span class="tg">Planear</span><h3>Escuchar</h3><p class="idea">Entrevistas: primero operarios, después Daniela y David.</p></div>
+          <div><span class="sub2">1. Lo que viven</span><ul><li>Cómo se sienten con el proceso</li><li>Pérdidas que ven y sus razones</li><li>Ergonomía del puesto y qué los fatiga más</li></ul>
+            <span class="sub2">2. Lo que mejorarían</span><ul><li>Qué cambiar y cómo</li></ul></div>
+          <div class="out"><b>Sale: estado de las 4M</b><div class="chips"><span>Máquinas</span><span>Método</span><span>Mano de obra</span><span>Materiales</span></div></div>
+        </article>
+        <article class="mom" style="--c:var(--mp)">
+          <span class="n">1</span>
+          <div><span class="tg">Planear</span><h3>Identificar</h3><p class="idea">Medir y filmar antes de cambiar nada.</p></div>
+          <div><ul><li>Tiempos de todo el proceso, para estandarizar tiempos de producción</li><li>Filmar puestos, procesos y movimientos</li><li>Identificar los 7 desperdicios</li></ul></div>
+          <div class="out"><b>Sale: capacidad real</b><span>Línea base para comparar después de las mejoras.</span></div>
+        </article>
+        <article class="mom" style="--c:var(--mp)">
+          <span class="n">2</span>
+          <div><span class="tg">Planear</span><h3>Alistamiento</h3><p class="idea">Como en una cirugía: todo planeado, todo a mano, todo en su lugar.</p></div>
+          <div><ul><li>Distribución inicial de recepción y traslado de materias primas</li><li>Rollos junto a la mesa antes de empezar</li><li>Empaque fuera de la mesa</li><li>5S en la zona</li></ul></div>
+          <div class="out"><b>Sale: puesto listo</b><span>Nadie espera ni busca material.</span></div>
+        </article>
+        <article class="mom" style="--c:var(--serp)">
+          <span class="n">3</span>
+          <div><span class="tg">Hacer</span><h3>Estandarización</h3><p class="idea">Ensayos hasta encontrar la mejor forma de hacerlo.</p></div>
+          <div><ul><li>Referencia: la persona más rápida</li><li>Distancias y tamaños</li><li>Cómo llegan las materias primas</li><li>Movimientos y orden</li></ul></div>
+          <div class="out"><b>Sale: método estándar</b><span>Una sola forma, con su tiempo estándar.</span></div>
+        </article>
+        <article class="mom wide" style="--c:var(--sat)">
+          <span class="n">4</span>
+          <div><span class="tg">Verificar y actuar</span><h3>Control · GAME</h3><p class="idea">Grupo de Apoyo Mejoramiento Empresarial. Los grupos se capacitan y rotan entre sí para sostener las mejoras.</p></div>
+          <div class="game">
+            <div><b>Observación</b><span>Audita amigablemente qué se cumple y qué no.</span></div>
+            <div><b>Ayuda</b><span>Entra a ayudar cuando se genera una alarma.</span></div>
+            <div><b>Premiación</b><span>Premia los puestos que cumplen 5S y mejoras.</span></div>
+          </div>
+        </article>
       </div>
       <div class="rules" aria-label="Lo que no hace el plan">
         <span>Sin contratar más personas</span><span>Sin alargar la jornada</span><span>Sin maquinaria nueva</span><span>Sin traslados en diciembre</span>
       </div>
-      <p class="note" style="margin-top:12px">Semanas contadas desde el inicio que acordemos con Dani. Método: teoría de restricciones, una sola prioridad, revisión cada 30 días.</p>
+      <p class="note" style="margin-top:12px">Una sola prioridad, revisión cada 30 días. Fechas por acordar con Daniela.</p>
     </div>
   </section>
 
   <section>
     <div class="wrap">
-      <div class="h2"><span class="lab">Qué vamos a medir</span><h2>Cuatro números, todos los días</h2></div>
+      <div class="h2"><span class="lab">Qué vamos a medir</span><h2>Pocos números, comparados con la línea base</h2></div>
       <div class="kpis">
+        <div class="kpi main"><span class="star">Indicador principal · se revisa al final</span><span class="t">Entregas totales y entregas completas</span><div class="row"><span>Hoy</span><b>por medir (momento 1)</b></div><div class="row"><span>Meta</span><b class="go">≥ 95 % completas</b></div><div class="row"><span>Cada</span><b>semana</b></div></div>
         <div class="kpi"><span class="t">Unidades por día</span><div class="row"><span>Hoy</span><b>1.840</b></div><div class="row"><span>Meta</span><b class="go">&gt; 1.840</b></div><div class="row"><span>Cada</span><b>día</b></div></div>
         <div class="kpi"><span class="t">Programado vs. hecho</span><div class="row"><span>Hoy</span><b>no se ve</b></div><div class="row"><span>Meta</span><b class="go">100 %</b></div><div class="row"><span>Cada</span><b>turno</b></div></div>
-        <div class="kpi"><span class="t">Minutos de mesa parada</span><div class="row"><span>Hoy</span><b>por medir</b></div><div class="row"><span>Meta</span><b class="go">bajar</b></div><div class="row"><span>Cada</span><b>día</b></div></div>
-        <div class="kpi"><span class="t">Entregas a tiempo</span><div class="row"><span>Hoy</span><b>por medir</b></div><div class="row"><span>Meta</span><b class="go">≥ 95 %</b></div><div class="row"><span>Cada</span><b>semana</b></div></div>
+        <div class="kpi"><span class="t">Minutos por parada</span><div class="row"><span>Hoy</span><b>por medir</b></div><div class="row"><span>Meta</span><b class="go">bajar</b></div><div class="row"><span>Cada</span><b>día</b></div></div>
       </div>
     </div>
   </section>
@@ -254,13 +304,13 @@ footer{border-top:1px solid var(--line);padding-block:20px 36px;font-size:12.5px
       <div class="h2"><span class="lab">Para continuar</span><h2>Lo que necesitamos</h2></div>
       <div class="progress"><span id="pg-t">0 de 8</span><div class="bar"><div class="fill" id="pg"></div></div></div>
       <div class="check">
-        <div class="ci"><input type="checkbox" id="c1"><label for="c1">Fecha de inicio acordada con Dani</label><span class="who">Dani + Asesor</span></div>
-        <div class="ci"><input type="checkbox" id="c2"><label for="c2">Horas semanales de Dani para el proyecto</label><span class="who">Dani</span></div>
-        <div class="ci"><input type="checkbox" id="c3"><label for="c3">Permiso para medir tiempos en las 8 mesas</label><span class="who">Gerencia</span></div>
-        <div class="ci"><input type="checkbox" id="c4"><label for="c4">Equipo de serpentinas informado: se mide el proceso, no a la persona</label><span class="who">Dani</span></div>
-        <div class="ci"><input type="checkbox" id="c5"><label for="c5">Acceso a los registros de producción de serpentinas</label><span class="who">Gerencia</span></div>
-        <div class="ci"><input type="checkbox" id="c6"><label for="c6">Pedidos pendientes de serpentinas (cantidad)</label><span class="who">David</span></div>
-        <div class="ci"><input type="checkbox" id="c7"><label for="c7">Facilitadora de línea elegida</label><span class="who">Dani</span></div>
+        <div class="ci"><input type="checkbox" id="c1"><label for="c1">Fecha de inicio acordada con Daniela</label><span class="who">Daniela + Asesor</span></div>
+        <div class="ci"><input type="checkbox" id="c2"><label for="c2">Horas semanales de Daniela para el proyecto</label><span class="who">Daniela</span></div>
+        <div class="ci"><input type="checkbox" id="c3"><label for="c3">Agenda de entrevistas: operarios, luego Daniela y David</label><span class="who">Daniela + Asesor</span></div>
+        <div class="ci"><input type="checkbox" id="c4"><label for="c4">Equipo de serpentinas informado: se mide el proceso, no a la persona</label><span class="who">Daniela</span></div>
+        <div class="ci"><input type="checkbox" id="c5"><label for="c5">Permiso para medir tiempos y filmar los puestos</label><span class="who">Gerencia</span></div>
+        <div class="ci"><input type="checkbox" id="c6"><label for="c6">Registros de entregas totales y completas de serpentinas</label><span class="who">David</span></div>
+        <div class="ci"><input type="checkbox" id="c7"><label for="c7">Integrantes de los tres grupos GAME</label><span class="who">Daniela</span></div>
         <div class="ci"><input type="checkbox" id="c8"><label for="c8">Fecha de la revisión a 30 días</label><span class="who">Todos</span></div>
       </div>
     </div>
@@ -299,7 +349,7 @@ footer{border-top:1px solid var(--line);padding-block:20px 36px;font-size:12.5px
     </details>
 
     <details style="--c:var(--serp)">
-      <summary><span class="dot"></span><h3>Método</h3><span class="hint">TOC · Lean · SLP · DMAIC</span></summary>
+      <summary><span class="dot"></span><h3>Método</h3><span class="hint">PHVA · TOC · Lean · SLP</span></summary>
       <div class="body">
         <div class="tbl"><table>
           <thead><tr><th>Paso TOC</th><th>En Mundo Fiesta</th></tr></thead>
@@ -314,8 +364,9 @@ footer{border-top:1px solid var(--line);padding-block:20px 36px;font-size:12.5px
         <div class="grid3">
           <div class="cell"><b>Lean</b><span>5S, trabajo estandarizado, kanban, gestión visual.</span></div>
           <div class="cell"><b>SLP</b><span>Qué va en cada piso y qué debe quedar cerca.</span></div>
-          <div class="cell"><b>DMAIC</b><span>Definir, medir, analizar, mejorar, controlar.</span></div>
+          <div class="cell"><b>PHVA</b><span>Planear, hacer, verificar, actuar. Ciclo de cada mejora.</span></div>
         </div>
+        <p>La teoría de restricciones dice dónde mejorar primero (serpentinas). PHVA dice cómo.</p>
         <p><b>Regla de la prioridad única:</b> un frente a la vez, revisión cada 30 días.</p>
       </div>
     </details>
