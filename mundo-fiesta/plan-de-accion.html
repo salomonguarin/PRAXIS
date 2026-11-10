@@ -189,6 +189,37 @@ footer{border-top:1px solid var(--line);padding-block:20px 36px;font-size:12.5px
   .tabs .brand{display:none}
 }
 
+/* ===== Checklist de información ===== */
+.arr{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--serp);background:var(--serp-soft);padding:1px 6px;border-radius:4px;vertical-align:1px}
+.chk-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:16px;margin-bottom:18px}
+.chk-sum{display:flex;gap:12px;flex-wrap:wrap}
+.chk-sum > div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 18px;display:grid;gap:4px;min-width:180px}
+.chk-sum b{font-size:28px;font-weight:500}
+.mbar{height:6px;background:var(--soft);border-radius:3px;overflow:hidden}
+.mbar i{display:block;height:100%;width:0;background:var(--sat);transition:width .3s}
+.seg{display:flex;background:var(--soft);border-radius:9px;padding:3px}
+.seg button{font:inherit;font-size:13.5px;font-weight:600;border:0;background:transparent;color:var(--muted);padding:8px 14px;border-radius:7px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.seg button:focus-visible{outline:2px solid var(--serp)}
+.chk-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
+.cs-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;gap:10px}
+.cs-card.urg{border-color:var(--serp)}
+.cs-h{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:10px;align-items:start}
+.cs-n{font-family:var(--f-display);font-weight:800;font-size:26px;line-height:1;color:var(--mp)}
+.cs-card.urg .cs-n{color:var(--serp)}
+.cs-h h3{font-size:17px}
+.cs-h p{font-size:12.5px;color:var(--muted);margin-top:2px}
+.urgb{font-family:var(--f-body);font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#fff;background:var(--serp);padding:2px 6px;border-radius:4px;vertical-align:2px}
+.cs-c{font-size:13px;color:var(--muted);background:var(--soft);padding:3px 8px;border-radius:999px}
+.cs-card ul{list-style:none;padding:0;margin:0;display:grid;gap:2px}
+.cs-card li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;align-items:start;padding:7px 0;border-top:1px solid var(--line);font-size:14px}
+.cs-card li input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--sat)}
+.cs-card li label{cursor:pointer}
+.cs-card li input:checked + label{color:var(--muted);text-decoration:line-through}
+.chk-grid.only li.ex{display:none}
+.chk-grid.only .cs-card:not(:has(li.st)){display:none}
+@media (max-width:760px){.chk-grid{grid-template-columns:minmax(0,1fr)}.chk-sum > div{min-width:0;flex:1}}
+
 /* ===== Propuesta visual ===== */
 .pidx{position:sticky;top:calc(env(safe-area-inset-top,0px) + 53px);z-index:4;background:var(--bg);border-bottom:1px solid var(--line)}
 .pidx .wrap{display:flex;gap:6px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
@@ -398,6 +429,7 @@ table.slp td.k-A,table.slp td.k-X{color:#fff;font-weight:700}
     <span class="brand">Mundo Fiesta</span>
     <a href="#plan" id="tab-plan">Plan de acción</a>
     <a href="#propuesta" id="tab-prop">Propuesta completa</a>
+    <a href="#checklist" id="tab-chk">Checklist de información</a>
   </div>
 </div>
 
@@ -900,20 +932,92 @@ table.slp td.k-A,table.slp td.k-X{color:#fff;font-weight:700}
   </div></section>
 </main>
 
+<!-- ============ VISTA 3: CHECKLIST DE INFORMACIÓN ============ -->
+<main id="v-chk" hidden>
+  <header class="wrap intro">
+    <span class="lab">Checklist de información · Para comenzar</span>
+    <h1>Lo que necesitamos de la empresa</h1>
+    <p>Marque cada punto cuando el dato esté entregado. Los puntos <span class="arr">Arranque</span> son los mínimos para empezar con serpentinas.</p>
+  </header>
+  <div class="wrap">
+    <div class="chk-top">
+      <div class="chk-sum">
+        <div><span class="lab">Para arrancar</span><b class="mono" id="k-start">0 / 0</b><div class="mbar"><i id="kb-start"></i></div></div>
+        <div><span class="lab">Total</span><b class="mono" id="k-all">0 / 0</b><div class="mbar"><i id="kb-all"></i></div></div>
+      </div>
+      <div class="seg" role="group" aria-label="Filtro">
+        <button type="button" id="f-start" aria-pressed="true">Solo para arrancar</button>
+        <button type="button" id="f-all" aria-pressed="false">Todo</button>
+      </div>
+    </div>
+    <div class="chk-grid" id="chk-grid"></div>
+    <p class="note" style="margin:16px 0 40px">Urgentes: edificio y ventas, porque sin planos ni datos de ventas no se confirman la distribución ni el flujo de valor. Los tiempos y los videos los toma el asesor en planta; la empresa da el permiso y el acceso.</p>
+  </div>
+</main>
+
 <footer class="wrap">Fuentes: Actas de las Sesiones 1 y 2 de diagnóstico; Propuesta de asesoría extensa v4. Documento confidencial de trabajo.</footer>
 
 <script>
 (function(){
   var vp=document.getElementById('v-plan'),vr=document.getElementById('v-prop');
   var tp=document.getElementById('tab-plan'),tr=document.getElementById('tab-prop');
+  var vc=document.getElementById('v-chk'),tc=document.getElementById('tab-chk');
   function route(){
-    var prop=location.hash==='#propuesta';
-    vp.hidden=prop; vr.hidden=!prop;
-    tp.toggleAttribute('aria-current',!prop); tr.toggleAttribute('aria-current',prop);
-    if(prop)tr.setAttribute('aria-current','page'); else tp.setAttribute('aria-current','page');
+    var h=location.hash, v=h==='#propuesta'?'prop':h==='#checklist'?'chk':'plan';
+    vp.hidden=v!=='plan'; vr.hidden=v!=='prop'; vc.hidden=v!=='chk';
+    [[tp,'plan'],[tr,'prop'],[tc,'chk']].forEach(function(x){ if(x[1]===v) x[0].setAttribute('aria-current','page'); else x[0].removeAttribute('aria-current'); });
     window.scrollTo(0,0);
   }
   window.addEventListener('hashchange',route); route();
+
+  // Checklist de información: [texto, 1 = necesario para arrancar]
+  var CH=[
+    {t:'Empresa y gerencia',w:'Quién lidera y cuándo arrancamos',it:[
+      ['Persona líder del proyecto por parte de la empresa',1],['Fecha de inicio acordada',1],['Prioridades y expectativas de la gerencia',1],['Organigrama y número de empleados por área',0]]},
+    {t:'Edificio e instalaciones',u:1,w:'Confirma la distribución de los tres pisos',it:[
+      ['Planos o medidas reales de cada piso: columnas, muros, puertas, ventanas, altura',1],['Accesos: portón de carga, entrada de clientes, salidas de emergencia',1],['Fotos actuales de cada piso (registro del antes)',1],['Escaleras y si existe montacargas o ascensor',0],['Capacidad de carga de la losa del piso 2',0],['Puntos de agua, desagües y tomas eléctricas',0],['Ventilación de la zona de velas y de la cocina',0]]},
+    {t:'Demanda y ventas',u:1,w:'Ajusta el flujo de valor y el plan de temporada',it:[
+      ['Ventas mensuales del último año por línea',1],['Registro de entregas totales y completas',1],['Cómo llegan los pedidos y tiempo de entrega prometido',1],['Ventas por referencia (clasificación ABC)',0],['Meses pico reales y cuánto suben las ventas',0],['Tipos de cliente, pedidos al día y tamaño promedio',0]]},
+    {t:'Productos y procesos',w:'Por línea: cajas, serpentinas, piñatería y velas',it:[
+      ['Secuencia real de operaciones de cada producto',1],['Maquinaria y equipos: cantidad, medidas, peso, estado y ubicación',1],['Defectos y reprocesos más comunes',1],['Catálogo de referencias activas por línea',0],['Procesos tercerizados (por ejemplo, impresión)',0]]},
+    {t:'Acceso para medir en planta',w:'Línea base del momento 1; la medición la hace el asesor',it:[
+      ['Permiso para tomar tiempos (10 a 15 mediciones por operación)',1],['Permiso para filmar puestos y movimientos',1],['Horario, turnos, descansos y horas extra en temporada',1]]},
+    {t:'Inventarios y almacenamiento',w:'Dimensiona los almacenes',it:[
+      ['Conteo físico de materia prima, producto en proceso y terminado, con ubicación',1],['Estanterías, estibas y carros: cantidad y medidas',1],['Registros de inventario existentes (kardex, Excel, cuaderno)',0],['Producto dañado u obsoleto en bodega',0]]},
+    {t:'Personal',w:'Dimensiona puestos, baños y vestier',it:[
+      ['Operarios por línea y por piso, hombres y mujeres',1],['Matriz de habilidades: quién sabe hacer varias tareas',1],['Personal temporal que se contrata en temporada',0]]},
+    {t:'Compras y proveedores',w:'Abastecimiento de papel, cartulina y parafina',it:[
+      ['Proveedores principales de papel, cartulina, parafina e insumos',1],['Frecuencia de compra, cantidades y tiempos de entrega',1],['Problemas de abastecimiento, sobre todo de parafina',0]]},
+    {t:'Seguridad y servicios',w:'Asegurabilidad y bienestar',it:[
+      ['Baños, cocina y vestier existentes: ubicación y estado',0],['Extintores, señalización y plan de emergencia actuales',0],['Accidentes o incidentes registrados',0],['Estado del SG-SST de la empresa',0]]},
+    {t:'Gestión e información',w:'Cómo se decide y qué se registra hoy',it:[
+      ['Cómo se programa hoy la producción y quién la programa',1],['Indicadores que se miden actualmente, si existen',1],['Software en uso: facturación, inventario, contabilidad',0]]}
+  ];
+  var grid=document.getElementById('chk-grid'),html='';
+  CH.forEach(function(s,i){
+    html+='<article class="cs-card'+(s.u?' urg':'')+'" data-sec="'+i+'"><div class="cs-h"><span class="cs-n">'+(i+1)+'</span><div><h3>'+s.t+(s.u?' <span class="urgb">Urgente</span>':'')+'</h3><p>'+s.w+'</p></div><span class="cs-c mono" id="cc-'+i+'"></span></div><ul>';
+    s.it.forEach(function(x,j){var id='ck-'+i+'-'+j;
+      html+='<li class="'+(x[1]?'st':'ex')+'"><input type="checkbox" id="'+id+'"><label for="'+id+'">'+x[0]+(x[1]?' <span class="arr">Arranque</span>':'')+'</label></li>';});
+    html+='</ul></article>';
+  });
+  grid.innerHTML=html;
+  var cks=[].slice.call(grid.querySelectorAll('input'));
+  function cnt(){
+    var a=0,ad=0,s=0,sd=0;
+    CH.forEach(function(sec,i){var d=0;sec.it.forEach(function(x,j){var c=document.getElementById('ck-'+i+'-'+j).checked;a++;if(c){ad++;d++}if(x[1]){s++;if(c)sd++}});
+      document.getElementById('cc-'+i).textContent=d+'/'+sec.it.length;});
+    document.getElementById('k-start').textContent=sd+' / '+s;document.getElementById('k-all').textContent=ad+' / '+a;
+    document.getElementById('kb-start').style.width=(sd/s*100)+'%';document.getElementById('kb-all').style.width=(ad/a*100)+'%';
+  }
+  cks.forEach(function(b){try{if(localStorage.getItem('mfc-'+b.id)==='1')b.checked=true}catch(e){}
+    b.addEventListener('change',function(){try{localStorage.setItem('mfc-'+b.id,b.checked?'1':'0')}catch(e){}cnt()});});
+  cnt();
+  var fs=document.getElementById('f-start'),fa=document.getElementById('f-all');
+  function filt(onlyStart){grid.classList.toggle('only',onlyStart);fs.setAttribute('aria-pressed',onlyStart);fa.setAttribute('aria-pressed',!onlyStart);
+    try{localStorage.setItem('mfc-filter',onlyStart?'s':'a')}catch(e){}}
+  fs.addEventListener('click',function(){filt(true)});fa.addEventListener('click',function(){filt(false)});
+  var pref='s';try{pref=localStorage.getItem('mfc-filter')||'s'}catch(e){}
+  filt(pref==='s');
 
   var boxes=[].slice.call(document.querySelectorAll('.ci input'));
   var fill=document.getElementById('pg'),txt=document.getElementById('pg-t');
