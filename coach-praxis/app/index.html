@@ -71,35 +71,36 @@ const WEEKS = [
   ['Documenta tu antes/despues con datos reales del registro: primer caso de Praxis.','Presentalo en 2 minutos sin libreto.'],
   ['Auditoria final y puerta a Fase 2: evalua los 3 indicadores.','Dilo directo: pasaste o no pasaste.']]}
 ];
+const PD = 'Practica deliberada + recuperacion: explica sin notas, en 2 minutos y grabandote, el concepto Lean de la semana. Detecta 1 error y repite. (Base: practica con retroalimentacion; la recuperacion y la practica espaciada son las tecnicas de estudio mejor evaluadas.)';
 const FORJA = [
- 'Ikigai: tabla de tres columnas: lo que tengo, lo que deseo tener y lo que hare para lograrlo.',
- 'Napoleon Hill: escribe tu Objetivo Principal Definido en una frase, con fecha y lo que daras a cambio.',
- 'Buzan: mapa mental de tu situacion actual. Imagen central, ramas curvas, una palabra por rama, 3 colores o mas.',
- 'Inteligencia genial, Curiosita: escribe preguntas sobre tu vida y Praxis, sin responderlas. Elige 3 y buscales respuesta esta semana.',
- 'Brian Tracy, ABCDE: lista tus tareas de la semana y clasificalas de A a E. Solo las A entran al plan.',
- 'Maestria, Tarea de vida: que te atraia de nino (negocios, estrategia, animales, arte)? Escribe el hilo comun.',
- 'Ikigai, estacion Feedback: pide a 3 personas de confianza que te digan que valoran de ti. Anota sin defenderte.',
- 'Brian Tracy, tragate la rana: haz la tarea mas importante del dia antes de revisar el celular.',
- 'Buzan: mapa mental de tus proyectos e ideas. Marca el unico que sigue; el resto va a la lista de espera.',
- 'Maestria, aprendizaje: elige un maestro de mejora continua, observalo en profundidad y anota que hace distinto. Verifica el paso exacto en tu libro.',
- 'Inteligencia genial, Sensazione: 5 minutos observando tu puesto de trabajo con cada sentido. Anota lo que no habias notado.',
- 'Napoleon Hill, Master Mind: nombra 2 o 3 personas para un grupo de apoyo y que les pediras.',
- '33 estrategias, No pelees la ultima guerra: que metodo viejo repites aunque ya no te funciona? Escribelo.',
- 'Inteligencia genial, Dimostrazione: lista tus errores repetidos y la prueba concreta que haras para dejar de cometerlos.',
- '33 estrategias, Declara la guerra a tu enemigo: nombra a la dispersion como tu enemigo y describe como se ve en tu dia.',
- 'Tony Robbins, RPM: define resultado, proposito y plan de accion masiva para la semana.',
- 'Tony Robbins, priming: disena una rutina matutina corta de gratitud, respiracion y visualizacion. Pruebala hoy.',
- '33 estrategias, presencia de animo: escribe tu protocolo para cuando algo salga mal (que haces en los primeros 5 minutos).',
- 'Inteligencia genial, Corporalita: 20 minutos de ejercicio y escritura con la mano izquierda.',
+ 'Keller, metas al ahora: algun dia, 5 anos, 1 ano, este mes, esta semana, hoy, ahora. Una sola respuesta por nivel.',
+ 'Pre-mortem: es el dia 28 y fallaste. Escribe 5 causas y convierte cada una en un plan si-entonces.',
+ PD,
+ 'Buzan: dibuja a mano el mapa mental de tu dia real con los datos del registro (Gemba). Crearlo tu es lo que ayuda.',
+ PD,
+ 'Maestria + practica deliberada: elige un maestro a estudiar y UNA subhabilidad a entrenar estos 28 dias (explicar, facilitar o vender).',
+ 'Revision semanal + WOOP: deseo, mejor resultado, obstaculo interno, plan si-entonces para la semana 2. Pide feedback a 3 personas de confianza (estacion Feedback, Ikigai).',
+ PD,
+ 'Dimostrazione + 5 porques: toma tu error mas repetido, llega a la causa raiz y escribe un plan si-entonces.',
+ PD,
+ 'Rendicion de cuentas (Master Mind de Hill, adaptado): elige 1 persona y enviale cada domingo tus 3 indicadores. Reportar el progreso aumenta su efecto.',
+ PD,
+ PD,
+ 'Revision semanal + WOOP para la semana 3.',
+ '33 estrategias, declara la guerra a tu enemigo: escribe en una pagina como te ataca la dispersion y como la vences. Leela cada manana esta semana.',
+ PD,
+ 'Corporalita: 20 minutos de ejercicio fisico antes del bloque profundo. Agregalo a tu rutina estandar.',
+ PD,
  'Buzan: mapa mental de tu rutina estandar y tus barreras poka-yoke.',
- 'Inteligencia genial, Sfumato: sostiene 10 minutos una duda de Praxis sin resolverla. Anota lo que surge.',
- 'Tony Robbins, RPM: define el resultado de tu mejora de 1% y por que importa.',
- 'Maestria, experimentacion: disena un experimento pequeno para probar tu mejora y mide el resultado.',
- 'Inteligencia genial, Connessione: busca 5 conexiones entre el 5S, el PHVA y tu vida diaria.',
- '33 estrategias, urgencia y desesperacion: fija una fecha limite real que te obligue a avanzar.',
- 'Inteligencia genial, Arte/Scienza: dibuja el flujo de tu manana y analizalo con datos de tu registro.',
- 'Buzan + Gelb: mapa maestro de tu Fase 1: aprendizajes, antes/despues y siguiente paso.',
- 'Ikigai y Napoleon Hill: repite la tabla de tres columnas y reescribe tu Objetivo Principal Definido. Compara con los dias 1 y 2.'];
+ PD,
+ 'Revision semanal + WOOP para la semana 4.',
+ 'Experimento personal (Kaizen + Maestria): hipotesis, cambio, metrica y fecha. Una sola variable.',
+ PD,
+ PD,
+ 'Pre-mortem de Fase 2: es dentro de 90 dias y Praxis no tiene clientes. Por que? 5 causas y sus planes si-entonces.',
+ PD,
+ 'Buzan + Gelb: mapa maestro de tu Fase 1: antes/despues con datos, aprendizajes y siguiente paso.',
+ 'Keller, metas al ahora otra vez, y feedback de las mismas 3 personas. Compara con los dias 1 y 7.'];
 const QUOTES = [
  ['Simplificar antes de complejizar.','Principio de Praxis'],
  ['Mejorar 1% cada dia.','Principio de Praxis'],
@@ -157,16 +158,19 @@ function startNow(){ S.start=ymd(new Date()); cur=1; save(); render(); }
 
 function vHoy(){
  const n=cur, d=dd(n), x=dayData(n), q=QUOTES[(n-1)%QUOTES.length], today=dayNum();
- const blocks=['Apertura y 5S del puesto (30 min)','Bloque profundo (150 min)','Cierre y registro (30 min)'];
+ const blocks=['Apertura (30 min)','Bloque profundo (150 min)','Cierre (30 min)'];
+ const hints=['5S del puesto. Pregunta de enfoque: cual es la Una Cosa que, si la hago, hace todo lo demas mas facil o innecesario? Escribe tu plan si-entonces.','Una sola tarea, celular fuera. '+x.task,'Llena el registro. Escribe sin mirar 3 cosas que aprendiste hoy.'];
  const wl=S.wait.map((w,i)=>{const left=30-Math.floor((Date.now()-w.t)/864e5);return `<div class="row mut"><span>${esc(w.x)}</span><span>${left>0?'faltan '+left+' d':'ya puedes evaluarla'} <button class="g" onclick="delWait(${i})">x</button></span></div>`}).join('');
  return `<div class="card quote">${esc(q[0])}<div class="mut">${esc(q[1])}</div></div>
  <div class="card"><div class="row"><button class="g" onclick="step(-1)">Ant</button><div style="text-align:center"><b>Dia ${n}${n===today?' (hoy)':''}</b><div class="mut">Semana ${weekOf(n)}: ${esc(x.tool)}</div></div><button class="g" onclick="step(1)">Sig</button></div></div>
- <div class="card"><h2>Manana de 4 horas</h2>${blocks.map((b,i)=>`<label class="chk"><input type="checkbox" ${d.b[i]?'checked':''} onchange="setB(${n},${i},this.checked)"><span>${b}${i===1?'<div class="mut">'+esc(x.task)+'</div>':''}</span></label>`).join('')}</div>
+ <div class="card"><h2>Manana de 4 horas</h2>${blocks.map((b,i)=>`<label class="chk"><input type="checkbox" ${d.b[i]?'checked':''} onchange="setB(${n},${i},this.checked)"><span>${b}<div class="mut">${esc(hints[i])}</div></span></label>`).join('')}</div>
  <div class="card"><h2>Ejercicio de libro (30 min dentro del bloque profundo)</h2><div>${esc(x.forja)}</div><h2 style="margin-top:12px">Accion incomoda</h2><div class="mut">${esc(x.reto)}</div>
  <label class="chk"><input type="checkbox" ${d.uncDone?'checked':''} onchange="setF(${n},'uncDone',this.checked)"><span>Ejecute la accion incomoda</span></label>
  <label class="chk"><input type="checkbox" ${d.kzDone?'checked':''} onchange="setF(${n},'kzDone',this.checked)"><span>Hice mi mejora kaizen</span></label></div>
  <div class="card"><h2>Registro del dia</h2>
- <div class="mut">Compromiso principal</div><input type="text" value="${esc(d.main)}" oninput="setF(${n},'main',this.value)">
+ <div class="mut">La Una Cosa de hoy</div><input type="text" value="${esc(d.main)}" oninput="setF(${n},'main',this.value)">
+ <div class="mut">Plan si-entonces (Si ___, entonces ___)</div><input type="text" value="${esc(d.ifthen||'')}" oninput="setF(${n},'ifthen',this.value)">
+ <div class="mut">3 cosas que aprendi hoy (escritas sin mirar)</div><input type="text" value="${esc(d.learn||'')}" oninput="setF(${n},'learn',this.value)">
  <div class="mut">Desperdicio detectado</div><input type="text" value="${esc(d.waste)}" oninput="setF(${n},'waste',this.value)">
  <div class="mut">Accion incomoda (cual fue)</div><input type="text" value="${esc(d.unc)}" oninput="setF(${n},'unc',this.value)">
  <div class="mut">Mejora para manana</div><input type="text" value="${esc(d.imp)}" oninput="setF(${n},'imp',this.value)"></div>
