@@ -4,7 +4,7 @@ Contexto en construccion: Salomon esta enviando el material. Fuentes recibidas:
 1. Presentacion "Lean Manufacturing y su Impacto en la Industria 5.0" (conferencia ejecutiva, 30 diapositivas).
 2. Guia LF001-CP Capacidad de Produccion (EAFIT, v01, 2018).
 3. Guia LF002-DT Diseno del Trabajo y Metodos de Trabajo (EAFIT).
-4. "Metodologia de diseno y desarrollo de dos guias de docencia y practica de la Fabrica de Aprendizaje" (Daniel Bravo Gomez, EAFIT, 2020). Asesor: Alvaro de Jesus Guarin Grisales, Ingeniero Mecanico, PhD en Diseno y Fabricacion. Pendiente confirmar con Salomon si es su papa.
+4. "Metodologia de diseno y desarrollo de dos guias de docencia y practica de la Fabrica de Aprendizaje" (Daniel Bravo Gomez, EAFIT, 2020). Asesor: Alvaro de Jesus Guarin Grisales, Ingeniero Mecanico, PhD en Diseno y Fabricacion. Confirmado: es el papa de Salomon y su mentor.
 
 ## Que es la Fabrica de Aprendizaje (EAFIT, Medellin)
 - Escenario de la Universidad EAFIT alternativo a la clase magistral: se aprende haciendo, en una planta simulada (ensamble de cilindros neumaticos, rompecabezas, celulas, lineas, lotes).
@@ -65,4 +65,6 @@ Contexto en construccion: Salomon esta enviando el material. Fuentes recibidas:
 - La app cubre: Gemba, 5S, PHVA, desperdicios, Restricciones, trabajo estandarizado, poka-yoke, andon, Kaizen.
 - La Fabrica ensena y la app aun no: Kanban, SMED, TPM, Jidoka, Heijunka, VSM, A3, Hoshin Kanri, indicadores (OEE, takt, lead time).
 - Los desperdicios de la app estan adaptados a la vida personal; los de la Fabrica son los 8 clasicos de planta.
-- Praxis puede adoptar los 8 momentos de la Fabrica como estructura de cada taller y de cada ficha del Banco del metodo.
+- Aplicado en la app: cada ficha del Banco del metodo sigue los 8 momentos.
+- Retos: 28 retos originales de Praxis con equipos de la Fabrica (cilindros y sus piezas, destornilladores, estaciones, zonas de celula/linea/lotes, transporte de insumos, cronometros, papel periodico, marcadores). Decision de Salomon: no reutilizar los ejercicios de LF001 y LF002.
+- Inventario usado: solo lo que aparece en las guias. Falta confirmar inventario completo, cantidades y espacio con Salomon.

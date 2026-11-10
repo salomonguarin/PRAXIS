@@ -24,8 +24,8 @@ Forjarme como prueba viva del metodo Praxis: aprender los metodos de mejoramient
 | 3 Vender | Venta consultiva: diagnostico, propuesta, cierre | Cierro la Fase 2 |
 
 Principios del metodo Praxis: aprender haciendo; eliminar el ruido y centrarse en lo que importa; simplificar; divertirse desde la experiencia. Cada juego del banco pasa este filtro.
-Mentor: mi papa. Reportes: diario corto y semanal completo, calificados por Claude con la rubrica de `agente.md`.
-Banco del metodo: cada dia, una ficha (definicion, ejemplo, historia, juego de 10 min) en la pestana Metodo de la app.
+Mentor: mi papa, Alvaro de Jesus Guarin Grisales (PhD, Fabrica de Aprendizaje EAFIT). Reportes: diario corto y semanal completo, calificados por Claude con la rubrica de `agente.md`.
+Banco del metodo: cada dia, una ficha con los 8 momentos de la Fabrica y un reto original con sus equipos, en la pestana Metodo de la app.
 
 ## Fase 1: 4 semanas, una herramienta por semana
 | Semana | Herramienta | Que hago |
