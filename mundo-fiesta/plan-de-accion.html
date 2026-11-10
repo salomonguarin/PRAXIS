@@ -8,17 +8,17 @@
    Naranja = serpentinas (código de fábrica visual de la propuesta); los demás colores solo identifican frentes. */
 :root{
   --bg:#F7F7F5; --surface:#FFFFFF; --ink:#1C1E26; --muted:#62677A; --line:#E3E4E8; --soft:#EFF0F2;
-  --serp:#D9480F; --serp-soft:#FDEBDF; --sat:#2B8A3E; --mp:#1971C2; --vela:#C92A2A; --pin:#7048E8;
+  --serp:#D9480F; --serp-soft:#FDEBDF; --sat:#2B8A3E; --mp:#1971C2; --vela:#C92A2A; --pin:#7048E8; --pt:#087F5B; --wc:#1098AD;
   --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
   --f-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#121318; --surface:#1B1D25; --ink:#EDEEF2; --muted:#A3A8B8; --line:#2C2F3B; --soft:#23262F;
-  --serp:#FF8A4C; --serp-soft:#3A2418; --sat:#5ECF73; --mp:#5AAEF5; --vela:#FF6B6B; --pin:#A48BFF; color-scheme:dark}}
+  --serp:#FF8A4C; --serp-soft:#3A2418; --sat:#5ECF73; --mp:#5AAEF5; --vela:#FF6B6B; --pin:#A48BFF; --pt:#38D9A9; --wc:#3BC9DB; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#121318; --surface:#1B1D25; --ink:#EDEEF2; --muted:#A3A8B8; --line:#2C2F3B; --soft:#23262F;
-  --serp:#FF8A4C; --serp-soft:#3A2418; --sat:#5ECF73; --mp:#5AAEF5; --vela:#FF6B6B; --pin:#A48BFF; color-scheme:dark}
+  --serp:#FF8A4C; --serp-soft:#3A2418; --sat:#5ECF73; --mp:#5AAEF5; --vela:#FF6B6B; --pin:#A48BFF; --pt:#38D9A9; --wc:#3BC9DB; color-scheme:dark}
 
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55}
@@ -188,6 +188,209 @@ footer{border-top:1px solid var(--line);padding-block:20px 36px;font-size:12.5px
   .ci .who{grid-column:2}
   .tabs .brand{display:none}
 }
+
+/* ===== Propuesta visual ===== */
+.pidx{position:sticky;top:calc(env(safe-area-inset-top,0px) + 53px);z-index:4;background:var(--bg);border-bottom:1px solid var(--line)}
+.pidx .wrap{display:flex;gap:6px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+.pidx button{flex:none;font:inherit;font-size:12.5px;font-weight:600;color:var(--muted);background:var(--soft);border:0;border-radius:999px;padding:6px 11px;cursor:pointer}
+.pidx button:hover,.pidx button:focus-visible{color:var(--ink);outline:2px solid var(--line)}
+#v-prop section{scroll-margin-top:110px}
+.fig{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:12px;align-content:start;min-width:0}
+.fig figcaption{font-weight:600;font-size:15px}
+.vgrid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.hb{display:grid;grid-template-columns:120px minmax(0,1fr) 84px;gap:10px;align-items:center;font-size:13.5px}
+.hb small{color:var(--muted);font-size:11.5px}
+.hb .tr{position:relative;height:22px;background:var(--soft);border-radius:4px;overflow:hidden}
+.hb .tr.dashed{background:repeating-linear-gradient(90deg,color-mix(in srgb,var(--c) 40%,transparent) 0 8px,transparent 8px 14px)}
+.hb .fi{height:100%;background:var(--c);border-radius:4px}
+.hb .fi2{position:absolute;top:0;height:100%;background:repeating-linear-gradient(45deg,var(--c) 0 3px,transparent 3px 6px)}
+.hb b{font-family:var(--f-mono);font-weight:500;text-align:right;font-size:13.5px}
+.range{display:grid;gap:6px;padding-top:30px}
+.rtrack{position:relative;height:26px;background:var(--soft);border-radius:4px}
+.rband{position:absolute;top:0;height:100%;background:var(--vela);border-radius:4px}
+.rband span{position:absolute;bottom:100%;left:0;margin-bottom:4px;font-size:12px;white-space:nowrap;color:var(--vela);font-weight:600}
+.rmark{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink)}
+.rmark span{position:absolute;top:100%;left:-14px;margin-top:4px;font-size:11px;line-height:1.2;color:var(--muted);font-family:var(--f-mono)}
+.rscale{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:11px;color:var(--muted);margin-top:22px}
+.tri{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+.tri.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.tri > div{border-top:3px solid var(--c);padding-top:10px;display:grid;gap:3px}
+.tri b{font-size:15px}
+.tri span{font-size:13.5px;color:var(--muted)}
+
+/* Ishikawa */
+.fish-box{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.fish{display:grid;grid-template-columns:repeat(3,minmax(170px,1fr)) minmax(170px,.9fr);grid-template-rows:auto 26px auto;gap:0 14px;min-width:760px}
+.bone{display:grid;gap:6px;padding:12px;border-radius:10px;background:color-mix(in srgb,var(--c) 10%,var(--surface));position:relative}
+.bone b{font-size:14px;color:var(--c)}
+.bone ul{padding-left:16px;font-size:12.5px;display:grid;gap:2px;color:var(--ink)}
+.bone.top{grid-row:1}
+.bone.bot{grid-row:3}
+.bone.top::after,.bone.bot::after{content:"";position:absolute;left:50%;width:2px;height:26px;background:var(--muted)}
+.bone.top::after{top:100%}
+.bone.bot::after{bottom:100%}
+.spine{grid-row:2;grid-column:1/4;align-self:center;height:3px;background:var(--muted);position:relative}
+.spine::after{content:"";position:absolute;right:-12px;top:-7px;border:8px solid transparent;border-left:12px solid var(--muted)}
+.fish .head{grid-column:4;grid-row:1/4;align-self:center;background:var(--serp);color:#fff;border-radius:10px;padding:16px;display:grid;gap:4px}
+.fish .head .lab{color:#fff;opacity:.85}
+.fish .head b{font-family:var(--f-display);font-size:18px;line-height:1.2}
+.why5{list-style:none;padding:0;margin:0;display:grid;gap:6px;counter-reset:w}
+.why5 li{counter-increment:w;display:grid;grid-template-columns:30px minmax(0,1fr);gap:2px 10px;padding:8px 10px;border-radius:8px;background:var(--soft);font-size:13.5px}
+.why5 li::before{content:counter(w);grid-row:1/3;font-family:var(--f-display);font-weight:800;font-size:20px;color:var(--serp)}
+.why5 li span{color:var(--muted)}
+.why5 li.root{background:var(--serp-soft)}
+.waste{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.waste div{padding:9px 10px;border-radius:8px;background:var(--soft);display:grid;gap:2px}
+.waste b{font-size:13.5px}
+.waste span{font-size:12.5px;color:var(--muted)}
+
+/* Matriz de oportunidades */
+.omx{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.oh,.or{display:grid;grid-template-columns:120px minmax(0,1.2fr) minmax(0,1.5fr) 140px;gap:12px;padding:11px 16px;font-size:14px;align-items:start}
+.oh{background:var(--soft);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.or{border-top:1px solid var(--line)}
+.or b{color:var(--c);display:flex;gap:8px;align-items:center}
+.or b::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c);flex:none}
+.or span{color:var(--muted)}
+.or .m{font-family:var(--f-mono);font-size:13px;color:var(--ink)}
+
+/* VSM */
+.vsm-box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:12px;overflow-x:auto}
+.vsm-box.fut{margin-top:12px;border-color:var(--sat)}
+.vsm-box.fut > .lab{color:var(--sat)}
+.vsm{display:flex;align-items:stretch;gap:6px;min-width:780px}
+.vs{flex:1;border:2px solid var(--ink);border-radius:6px;padding:10px;display:grid;gap:3px;align-content:start;font-size:12.5px}
+.vs b{font-size:13.5px}
+.vs span{color:var(--muted)}
+.vs em{font-style:normal;font-family:var(--f-mono);font-size:11.5px;border-top:1px dashed var(--line);padding-top:5px;margin-top:3px}
+.vs.hot{border-color:var(--serp);background:var(--serp-soft)}
+.vs.inv b{color:var(--warn,#B7791F)}
+.vs em.kz{justify-self:start;border:0;background:var(--sat);color:#fff;border-radius:999px;padding:2px 8px}
+.vsm i{font-style:normal;align-self:center;color:var(--muted);font-family:var(--f-mono);font-size:12px}
+
+/* Método */
+.cycle{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;position:relative}
+.cs{border-radius:12px;padding:14px;background:var(--soft);display:grid;gap:4px;align-content:start;position:relative}
+.cs span{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;background:var(--surface);border:2px solid var(--muted)}
+.cs.on{background:var(--serp-soft)}
+.cs.on span{border-color:var(--serp);color:var(--serp)}
+.cs b{font-size:15px}
+.cs em{font-style:normal;font-size:12.5px;color:var(--muted)}
+.cs:not(:last-child)::after{content:"→";position:absolute;right:-10px;top:18px;color:var(--muted);font-size:14px}
+.phva2{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.phva2 div{border-radius:12px;padding:16px;background:color-mix(in srgb,var(--c) 12%,var(--surface));display:grid;gap:2px;align-content:start}
+.phva2 b{font-family:var(--f-display);font-size:34px;font-weight:800;color:var(--c);line-height:1}
+.phva2 span{font-weight:600}
+.phva2 em{font-style:normal;font-size:13px;color:var(--muted)}
+
+/* SLP */
+.slp-box{overflow-x:auto}
+table.slp{border-collapse:separate;border-spacing:2px;min-width:0;width:auto;font-size:12px}
+table.slp th,table.slp td{border:0;padding:0}
+table.slp th.rh{text-align:right;padding-right:8px;font-size:12px;text-transform:none;letter-spacing:0;color:var(--ink);font-weight:500;white-space:nowrap}
+table.slp th.ch{width:30px;text-align:center;font-family:var(--f-mono);font-size:11px;color:var(--muted);text-transform:none;letter-spacing:0;padding-bottom:4px}
+table.slp td{width:30px;height:30px;text-align:center;font-family:var(--f-mono);font-weight:500;border-radius:4px;background:color-mix(in srgb,var(--c) var(--a),var(--surface));color:var(--ink)}
+table.slp td.self{background:var(--ink);opacity:.15}
+table.slp td.k-A,table.slp td.k-X{color:#fff;font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:16px;height:16px;border-radius:3px;background:color-mix(in srgb,var(--c) var(--a),var(--surface));border:1px solid var(--line)}
+.bldg{display:grid;gap:4px;border-left:3px solid var(--ink);border-right:3px solid var(--ink);border-top:6px solid var(--ink);padding:4px}
+.floor{display:grid;grid-template-columns:110px minmax(0,1fr);gap:6px;border-bottom:3px solid var(--ink);padding-bottom:4px}
+.fl{font-family:var(--f-display);font-weight:800;font-size:16px;display:grid;align-content:center}
+.fl em{font-style:normal;font-family:var(--f-body);font-weight:500;font-size:11.5px;color:var(--muted)}
+.zones{display:flex;flex-wrap:wrap;gap:3px}
+.zones > div{flex:var(--g) 1 86px;min-height:64px;border-radius:4px;padding:6px 7px;display:flex;flex-direction:column;justify-content:space-between;background:color-mix(in srgb,var(--c) 28%,var(--surface))}
+.zones b{font-size:11.5px;font-weight:600;line-height:1.2}
+.zones span{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.zones .core{background:repeating-linear-gradient(45deg,color-mix(in srgb,#E0A800 55%,var(--surface)) 0 6px,var(--soft) 6px 12px)}
+.zones .circ{background:color-mix(in srgb,#E0A800 14%,var(--surface));border:1px dashed color-mix(in srgb,#E0A800 60%,var(--surface))}
+.flows{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
+.flows div{border-top:3px solid var(--c);padding-top:8px;display:grid;gap:3px}
+.flows b{font-size:14px}
+.flows span{font-size:12.5px;color:var(--muted)}
+.flows em{font-style:normal;font-family:var(--f-mono);font-size:12px;color:var(--c)}
+
+/* Satélites */
+.ring{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.ring div{position:relative;background:color-mix(in srgb,var(--sat) 10%,var(--surface));border:1px solid color-mix(in srgb,var(--sat) 35%,var(--surface));border-radius:12px;padding:14px;display:grid;gap:4px;align-content:start}
+.ring span{font-family:var(--f-display);font-weight:800;font-size:24px;color:var(--sat);line-height:1}
+.ring b{font-size:14.5px}
+.ring em{font-style:normal;font-size:12.5px;color:var(--muted)}
+.ring div:not(:last-child)::after{content:"→";position:absolute;right:-9px;top:16px;color:var(--sat);font-weight:700}
+.ring div:last-child::after{content:"↺ vuelve al 1";position:absolute;right:10px;top:14px;font-size:11px;color:var(--sat);font-weight:600}
+.goalbar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+.goalbar div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.goalbar b{font-size:26px;color:var(--sat)}
+
+/* Fábrica visual */
+.pyr{display:grid;gap:4px;justify-items:center}
+.pyr div{background:color-mix(in srgb,var(--mp) calc(12% + var(--i,0%)),var(--surface));border-radius:6px;padding:8px 10px;text-align:center;display:grid;gap:1px}
+.pyr div:nth-child(1){--i:32%}.pyr div:nth-child(2){--i:24%}.pyr div:nth-child(3){--i:16%}.pyr div:nth-child(4){--i:8%}
+.pyr b{font-size:13.5px}
+.pyr span{font-size:12px;color:var(--muted)}
+.sw{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 14px;font-size:13px}
+.sw div{display:flex;align-items:center;gap:8px}
+.sw i{width:22px;height:14px;border-radius:3px;background:var(--c);flex:none}
+.sw .haz i{background:repeating-linear-gradient(45deg,#E0A800 0 4px,#1C1E26 4px 8px)}
+.s5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:14px}
+.s5 div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:2px;position:relative}
+.s5 div::before{content:"S";font-family:var(--f-display);font-weight:800;font-size:22px;color:var(--mp);line-height:1}
+.s5 b{font-size:14px}
+.s5 span{font-size:12.5px;color:var(--muted)}
+.sec{display:flex;flex-wrap:wrap;gap:6px}
+.sec span{font-size:13px;padding:6px 10px;border-radius:999px;background:color-mix(in srgb,var(--vela) 10%,var(--surface));border:1px solid color-mix(in srgb,var(--vela) 30%,var(--surface))}
+
+/* Velas */
+.temp{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:end;height:170px}
+.temp div{height:var(--h);min-height:56px;border-radius:6px 6px 2px 2px;background:linear-gradient(to top,color-mix(in srgb,var(--mp) 40%,var(--surface)),color-mix(in srgb,var(--vela) 30%,var(--surface)));display:flex;flex-direction:column;justify-content:flex-start;padding:8px;gap:2px}
+.temp b{font-family:var(--f-mono);font-size:14px}
+.temp span{font-size:11.5px;color:var(--muted)}
+
+/* Calendario */
+.cal-box{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px}
+.cal{display:grid;grid-template-columns:repeat(12,minmax(56px,1fr));gap:6px 4px;min-width:700px}
+.cal .mh{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);text-align:center;padding-bottom:4px;border-bottom:1px solid var(--line)}
+.cal .ev{grid-row:2;border-radius:8px;padding:10px;display:grid;gap:2px;align-content:start;background:color-mix(in srgb,var(--c) 18%,var(--surface));border-left:4px solid var(--c)}
+.cal .ev b{font-size:13px}
+.cal .ev span{font-size:11.5px;color:var(--muted)}
+.cal .ev.low{--c:var(--muted)}
+.cal .ev.peak{--c:var(--vela);background:repeating-linear-gradient(45deg,color-mix(in srgb,var(--vela) 22%,var(--surface)) 0 8px,color-mix(in srgb,var(--vela) 10%,var(--surface)) 8px 16px)}
+
+/* Etapas en semanas */
+.wk-box{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px}
+.wk{display:grid;gap:8px;min-width:560px}
+.wr{display:grid;grid-template-columns:130px minmax(0,1fr);gap:10px;align-items:center;font-size:13.5px}
+.wt{position:relative;height:28px;background:var(--soft);border-radius:5px}
+.wt div{position:absolute;top:0;height:100%;background:var(--c);border-radius:5px;color:#fff;font-family:var(--f-mono);font-size:12px;display:flex;align-items:center;padding-left:8px}
+.ws{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+
+/* Indicadores */
+.kgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.kc{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:4px;align-content:start;border-left:4px solid var(--c)}
+.kc b{font-size:14.5px}
+.kc em{font-style:normal;font-family:var(--f-mono);font-size:12.5px;color:var(--muted)}
+.kc.main{grid-column:1/-1;border:1px solid var(--serp);background:var(--serp-soft)}
+.kc.main b{font-family:var(--f-display);font-size:22px}
+.kc.main .lab{color:var(--serp)}
+.out-box{margin-top:16px;display:grid;gap:8px}
+.out-box .sec span{background:var(--soft);border-color:var(--line)}
+
+@media (max-width:820px){
+  .vgrid2,.tri.four,.flows{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .vgrid2{grid-template-columns:minmax(0,1fr)}
+  .cycle,.phva2,.ring,.s5{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cs::after,.ring div::after{display:none}
+  .ring div:last-child::after{display:block}
+  .kgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .oh{display:none}
+  .or{grid-template-columns:minmax(0,1fr);gap:3px}
+}
+@media (max-width:560px){
+  .tri,.tri.four,.flows,.cycle,.phva2,.ring,.s5,.waste,.sw,.goalbar,.kgrid{grid-template-columns:minmax(0,1fr)}
+  .hb{grid-template-columns:96px minmax(0,1fr) 70px;font-size:12.5px}
+  .floor{grid-template-columns:minmax(0,1fr)}
+}
 </style>
 
 <div class="tabs">
@@ -322,171 +525,379 @@ footer{border-top:1px solid var(--line);padding-block:20px 36px;font-size:12.5px
   <header class="wrap intro">
     <span class="lab">Propuesta de asesoría · Panorama completo</span>
     <h1>Distribución de planta, desperdicios y eficiencia</h1>
-    <p>Todo lo que cubre la asesoría. El plan de acción es el primer frente; los demás se activan en orden.</p>
+    <p>Todo lo que cubre la asesoría, en gráficas. El plan de acción es el primer frente; los demás se activan en orden.</p>
   </header>
 
-  <div class="wrap acc">
-    <details open style="--c:var(--ink)">
-      <summary><span class="dot"></span><h3>Diagnóstico</h3><span class="hint">Actas 1 y 2</span></summary>
-      <div class="body">
-        <p>No falta demanda: falta capacidad y control.</p>
-        <div class="cap" role="img" aria-label="Capacidad diaria: velas 9.100, serpentinas 1.840">
-          <span class="lab">Capacidad máxima diaria</span>
-          <div class="capbar" style="--c:var(--vela)"><span>Velas</span><div class="tr"><div class="fi" style="width:100%"></div></div><span class="v">9.100</span></div>
-          <div class="capbar" style="--c:var(--serp)"><span>Serpentinas</span><div class="tr"><div class="fi" style="width:20.2%"></div></div><span class="v">1.840</span></div>
-          <span class="note">Productos distintos; muestra dónde se acumula la espera.</span>
+  <div class="pidx"><div class="wrap">
+    <button data-go="p-diag">Diagnóstico</button><button data-go="p-causas">Causas</button><button data-go="p-oport">Oportunidades</button><button data-go="p-vsm">Flujo de valor</button><button data-go="p-metodo">Método</button><button data-go="p-slp">Distribución</button><button data-go="p-sat">Satélites</button><button data-go="p-visual">Fábrica visual</button><button data-go="p-velas">Velas</button><button data-go="p-temp">Temporadas</button><button data-go="p-ruta">Etapas</button><button data-go="p-kpi">Indicadores</button><button data-go="p-bench">Referentes</button>
+  </div></div>
+
+  <!-- DIAGNÓSTICO -->
+  <section id="p-diag"><div class="wrap">
+    <div class="h2"><span class="lab">01 · Diagnóstico</span><h2>No falta demanda: falta capacidad y control</h2></div>
+    <div class="vgrid2">
+      <figure class="fig">
+        <figcaption>Capacidad máxima diaria por línea</figcaption>
+        <div class="hb" style="--c:var(--vela)"><span>Velas</span><div class="tr"><div class="fi" style="width:100%"></div></div><b>9.100</b></div>
+        <div class="hb" style="--c:var(--serp)"><span>Serpentinas</span><div class="tr"><div class="fi" style="width:20.2%"></div></div><b>1.840</b></div>
+        <p class="note">Unidades/día. Velas: 7 operarios × 1.300. Serpentinas: 8 puestos × 230. Fuente: Acta 1.</p>
+      </figure>
+      <figure class="fig">
+        <figcaption>Rendimiento por operaria en velas (u/día)</figcaption>
+        <div class="range">
+          <div class="rtrack">
+            <div class="rmark" style="left:calc(250/600*100%)"><span>250<br>mínimo</span></div>
+            <div class="rband" style="left:calc(310/600*100%);width:calc(210/600*100%)"><span>310 – 520 operarias diestras</span></div>
+          </div>
+          <div class="rscale"><span>0</span><span>200</span><span>400</span><span>600</span></div>
         </div>
-        <div class="grid3">
-          <div class="cell"><b>Capacidad</b><span>Serpentinas manuales: más del 70 % del tiempo es manipular la cinta.</span></div>
-          <div class="cell"><b>Control</b><span>~70 satélites sin lista de materiales ni saldos.</span></div>
-          <div class="cell"><b>Información</b><span>Datos transcritos a mano; las paradas se ven al otro día.</span></div>
+        <p class="note">La diferencia es capacidad oculta: un método mejor que aún no está estandarizado.</p>
+      </figure>
+      <figure class="fig">
+        <figcaption>Margen bruto de contribución por línea</figcaption>
+        <div class="hb" style="--c:var(--sat)"><span>Cajas 6x4</span><div class="tr"><div class="fi" style="width:22%"></div></div><b>22 %</b></div>
+        <div class="hb" style="--c:var(--pin)"><span>Rellenos piñata</span><div class="tr"><div class="fi" style="width:45%"></div><div class="fi2" style="left:45%;width:5%"></div></div><b>45–50 %</b></div>
+        <div class="hb" style="--c:var(--vela)"><span>Velas</span><div class="tr"><div class="fi" style="width:50%"></div></div><b>~50 %</b></div>
+        <div class="hb" style="--c:var(--serp)"><span>Cintas y serp.</span><div class="tr dashed"></div><b>Elevado</b></div>
+        <p class="note">Cajas 6x4 ≈ 50 % de las ventas. Cintas sin cifra en el acta. Fuente: Acta 2.</p>
+      </figure>
+      <figure class="fig">
+        <figcaption>Trayectoria de sedes (m²)</figcaption>
+        <div class="hb" style="--c:var(--muted)"><span>Fundacional</span><div class="tr"><div class="fi" style="width:33.3%"></div></div><b>250</b></div>
+        <div class="hb" style="--c:var(--vela)"><span>Segunda</span><div class="tr"><div class="fi" style="width:60%"></div></div><b>450</b></div>
+        <div class="hb" style="--c:var(--mp)"><span>Actual</span><div class="tr"><div class="fi" style="width:100%"></div></div><b>750</b></div>
+        <p class="note">La segunda sede terminó en desalojo: las aseguradoras negaron la póliza por la parafina. Hoy: alquilada, 3 pisos.</p>
+      </figure>
+    </div>
+    <div class="tri">
+      <div style="--c:var(--serp)"><b>Capacidad</b><span>Más del 70 % del tiempo en serpentinas es manipular la cinta.</span></div>
+      <div style="--c:var(--sat)"><b>Control</b><span>~70 satélites con lotes de ~500 unidades, sin BOM ni saldos.</span></div>
+      <div style="--c:var(--mp)"><b>Información</b><span>Transcripción manual; las paradas se ven al otro día.</span></div>
+    </div>
+  </div></section>
+
+  <!-- CAUSAS -->
+  <section id="p-causas"><div class="wrap">
+    <div class="h2"><span class="lab">02 · Causa raíz</span><h2>Diagrama causa–efecto 6M</h2></div>
+    <div class="fish-box"><div class="fish">
+      <div class="bone top" style="--c:var(--pin)"><b>Mano de obra</b><ul><li>250–520 u/día sin método común</li><li>Fatiga en corte manual</li><li>Riesgo de sobrecarga</li></ul></div>
+      <div class="bone top" style="--c:var(--serp)"><b>Método</b><ul><li>Corte sin hoja de método</li><li>Transcripción manual</li><li>Satélites sin BOM</li></ul></div>
+      <div class="bone top" style="--c:var(--ink)"><b>Máquina</b><ul><li>Mesas fijan techo de 1.840</li><li>Curado 25–30 min</li><li>Teclados dañados por cera</li></ul></div>
+      <div class="head" ><span class="lab">Efecto</span><b>Pedidos pendientes y riesgo de incumplir</b></div>
+      <div class="spine" aria-hidden="true"></div>
+      <div class="bone bot" style="--c:var(--mp)"><b>Material</b><ul><li>Mínimos de importación</li><li>Producto en proceso en pasillos</li><li>Lotes sin trazabilidad</li></ul></div>
+      <div class="bone bot" style="--c:var(--sat)"><b>Medición</b><ul><li>Sin registro de paradas</li><li>Sin saldos de satélites</li><li>Sin programado vs. hecho</li></ul></div>
+      <div class="bone bot" style="--c:var(--vela)"><b>Medio ambiente</b><ul><li>Dos casas unidas, desniveles</li><li>Pasillos saturados</li><li>Atmósfera de parafina</li></ul></div>
+    </div></div>
+
+    <div class="vgrid2" style="margin-top:20px">
+      <figure class="fig">
+        <figcaption>Cinco porqués</figcaption>
+        <ol class="why5">
+          <li><b>Hay pedidos pendientes</b><span>La planta no alcanza a producir serpentinas.</span></li>
+          <li><b>No alcanza</b><span>Corte y rebobinado manual con techo de 1.840 u/día.</span></li>
+          <li><b>No se agregan personas</b><span>El espacio se congestiona y suben los costos fijos.</span></li>
+          <li><b>No sube con lo que hay</b><span>El método no está medido ni estandarizado.</span></li>
+          <li class="root"><b>Causa raíz</b><span>La operación no se diseñó para la escala que ya vende.</span></li>
+        </ol>
+      </figure>
+      <figure class="fig">
+        <figcaption>Los 8 desperdicios en Mundo Fiesta</figcaption>
+        <div class="waste">
+          <div><b>Transporte</b><span>Kits a ~70 satélites; traslados entre pisos</span></div>
+          <div><b>Inventario</b><span>Material en satélites sin saldo; importados sin salida</span></div>
+          <div><b>Movimientos</b><span>&gt;70 % del tiempo manipulando la cinta</span></div>
+          <div><b>Esperas</b><span>Curado de 25–30 min por molde</span></div>
+          <div><b>Sobreproducción</b><span>Producir para temporada sin pronóstico</span></div>
+          <div><b>Sobreproceso</b><span>Transcribir a mano; escarcha correctiva</span></div>
+          <div><b>Defectos</b><span>Rebabas y microporosidades en velas</span></div>
+          <div><b>Talento</b><span>Método de las más diestras sin estandarizar</span></div>
         </div>
-        <div class="grid2">
-          <div class="cell"><b>Fortalezas</b><span>Colorimetría, tres controles en velas, merma vendida como picadillo, afilado preventivo, Recuerdo Vivo, alta retención del personal.</span></div>
-          <div class="cell"><b>Riesgos</b><span>Pasillos con producto en proceso, parafina (causó un desalojo), rendimientos dispares de 250 a 520 u/día.</span></div>
+      </figure>
+    </div>
+  </div></section>
+
+  <!-- OPORTUNIDADES -->
+  <section id="p-oport"><div class="wrap">
+    <div class="h2"><span class="lab">03 · Matriz de oportunidades</span><h2>Qué mejorar, por qué y con qué meta</h2></div>
+    <div class="omx">
+      <div class="oh"><span>Frente</span><span>Oportunidad</span><span>Acción principal</span><span>Meta</span></div>
+      <div class="or" style="--c:var(--serp)"><b>Capacidad</b><span>Corte manual limita la facturación</span><span>Medir, alistar, estandarizar, GAME</span><span class="m">&gt; 1.840 u/día</span></div>
+      <div class="or" style="--c:var(--vela)"><b>Velas</b><span>Curado de 25–30 min por molde</span><span>Enfriamiento escalonado; moldes rápidos para referencias A</span><span class="m">5 min en ref. A</span></div>
+      <div class="or" style="--c:var(--sat)"><b>Satélites</b><span>Órdenes sin BOM ni conciliación</span><span>BOM, orden por satélite, centro de satélites</span><span class="m">≥ 98 % conciliado</span></div>
+      <div class="or" style="--c:var(--sat)"><b>Inventario</b><span>Compras por percepción</span><span>Matriz de compras, kardex, ABC, kanban</span><span class="m">≥ 95 % exacto</span></div>
+      <div class="or" style="--c:var(--mp)"><b>Planta</b><span>Pasillos saturados, recorridos largos</span><span>SLP por pisos, 5S y demarcación</span><span class="m">−50 % recorridos</span></div>
+      <div class="or" style="--c:var(--pin)"><b>Información</b><span>Sin datos en tiempo real</span><span>Pantalla: programado vs. hecho</span><span class="m">Visible por turno</span></div>
+      <div class="or" style="--c:var(--vela)"><b>Seguridad</b><span>La parafina causó un desalojo</span><span>Fundición aislada y documentada</span><span class="m">0 incidentes</span></div>
+      <div class="or" style="--c:var(--pin)"><b>Personas</b><span>Comedor, baños y buzón</span><span>Concurso del comedor, buzón activo</span><span class="m">Ideas aplicadas/mes</span></div>
+    </div>
+  </div></section>
+
+  <!-- VSM -->
+  <section id="p-vsm"><div class="wrap">
+    <div class="h2"><span class="lab">04 · Mapa de flujo de valor · Serpentinas</span><h2>Estado actual y estado futuro</h2></div>
+    <div class="vsm-box">
+      <span class="lab">Estado actual</span>
+      <div class="vsm">
+        <div class="vs"><b>Proveedor</b><span>Rollos matriz</span><em>Compra por percepción</em></div><i>→</i>
+        <div class="vs inv"><b>▲ Bobinas</b><span>Piso 1, entre pasillos</span><em>Días: por medir</em></div><i>→</i>
+        <div class="vs hot"><b>Corte y rebobinado</b><span>8 puestos · 230 u/día</span><em>≈ 125 s por unidad</em></div><i>→</i>
+        <div class="vs"><b>Empaque</b><span>Junto a las mesas</span><em>Tiempo: por medir</em></div><i>→</i>
+        <div class="vs"><b>Despacho</b><span>Producto terminado</span><em>Lead time ≈ 18 días (est.)</em></div>
+      </div>
+      <p class="note">125 s = 28.800 s de jornada ÷ 230 unidades. Merma ≈ 4 % se vende como papel picadillo.</p>
+    </div>
+    <div class="vsm-box fut">
+      <span class="lab">Estado futuro · con lo que hay</span>
+      <div class="vsm">
+        <div class="vs"><b>Proveedor</b><span>Kanban de compra</span><em class="kz">1</em></div><i>→</i>
+        <div class="vs"><b>Supermercado de bobinas</b><span>Junto a las mesas</span><em class="kz">1</em></div><i>→</i>
+        <div class="vs hot"><b>Corte estandarizado</b><span>Método y ergonomía</span><em class="kz">2</em></div><i>FIFO</i>
+        <div class="vs"><b>Celda de empaque</b><span>Fuera de las mesas</span><em class="kz">3 · 4</em></div><i>→</i>
+        <div class="vs"><b>Supermercado PT</b><span>Pantalla plan vs. real</span><em class="kz">5 · 6</em></div>
+      </div>
+      <p class="note">Kaizen: 1 bobinas con kanban · 2 método estándar · 3 carril FIFO ≤ medio día · 4 empaque balanceado · 5 supermercado PT · 6 pantalla de indicadores.</p>
+    </div>
+  </div></section>
+
+  <!-- MÉTODO -->
+  <section id="p-metodo"><div class="wrap">
+    <div class="h2"><span class="lab">05 · Método</span><h2>TOC dice dónde. PHVA dice cómo.</h2></div>
+    <div class="cycle">
+      <div class="cs on"><span>1</span><b>Identificar</b><em>Corte manual de serpentinas</em></div>
+      <div class="cs on"><span>2</span><b>Explotar</b><em>Alistar y estandarizar</em></div>
+      <div class="cs on"><span>3</span><b>Subordinar</b><em>Bobinas siempre listas</em></div>
+      <div class="cs"><span>4</span><b>Elevar</b><em>Inversión, fuera del plan</em></div>
+      <div class="cs"><span>5</span><b>Repetir</b><em>Medir la nueva restricción</em></div>
+    </div>
+    <p class="note" style="margin:8px 0 22px">Ciclo de las 5 etapas de la teoría de restricciones. El plan trabaja en 1 a 3.</p>
+    <div class="phva2">
+      <div style="--c:var(--mp)"><b>P</b><span>Planear</span><em>Escuchar · Identificar · Alistar</em></div>
+      <div style="--c:var(--serp)"><b>H</b><span>Hacer</span><em>Estandarizar</em></div>
+      <div style="--c:var(--sat)"><b>V</b><span>Verificar</span><em>GAME observa y compara con la línea base</em></div>
+      <div style="--c:var(--pin)"><b>A</b><span>Actuar</span><em>GAME ayuda, premia y ajusta el estándar</em></div>
+    </div>
+    <div class="tri" style="margin-top:16px">
+      <div style="--c:var(--serp)"><b>Lean</b><span>5S, trabajo estandarizado, kanban, gestión visual.</span></div>
+      <div style="--c:var(--mp)"><b>SLP</b><span>Qué va en cada piso y qué debe quedar cerca.</span></div>
+      <div style="--c:var(--ink)"><b>Prioridad única</b><span>Un frente a la vez, revisión cada 30 días.</span></div>
+    </div>
+  </div></section>
+
+  <!-- SLP -->
+  <section id="p-slp"><div class="wrap">
+    <div class="h2"><span class="lab">06 · Distribución de planta · 750 m² · 3 pisos</span><h2>Matriz relacional y propuesta por piso</h2></div>
+    <figure class="fig">
+      <figcaption>Tabla relacional SLP: qué debe quedar cerca y qué debe separarse</figcaption>
+      <div class="slp-box"><table class="slp" id="slp"></table></div>
+      <div class="legend">
+        <span><i style="--c:var(--serp);--a:85%"></i>A Absolutamente necesaria</span>
+        <span><i style="--c:var(--serp);--a:45%"></i>E Especialmente importante</span>
+        <span><i style="--c:var(--mp);--a:35%"></i>I Importante</span>
+        <span><i style="--c:var(--muted);--a:18%"></i>O Ordinaria</span>
+        <span><i style="--c:var(--muted);--a:0%"></i>U Sin importancia</span>
+        <span><i style="--c:var(--vela);--a:80%"></i>X No deseable</span>
+      </div>
+      <p class="note">Las A forman tres cadenas: muelle → bobinas → corte → empaque; insumos → kitting → satélites; fundición → decorado → empaque de velas. Las X separan la fundición del papel y del cartón.</p>
+    </figure>
+
+    <figure class="fig" style="margin-top:16px">
+      <figcaption>Propuesta por piso (áreas supuestas hasta tener el plano medido, 250 m² por piso)</figcaption>
+      <div class="bldg">
+        <div class="floor"><span class="fl">Piso 3<em>Velas</em></span><div class="zones">
+          <div style="--g:30.25;--c:var(--vela)"><b>Empaque velas</b><span>30</span></div>
+          <div style="--g:30.25;--c:var(--mp)"><b>Insumos velas</b><span>30</span></div>
+          <div style="--g:46.75;--c:var(--vela)"><b>Desmolde y decorado</b><span>47</span></div>
+          <div style="--g:24.75;--c:var(--vela)"><b>Decorado premium</b><span>25</span></div>
+          <div class="core" style="--g:22"><b>Núcleo</b><span>22</span></div>
+          <div style="--g:33;--c:var(--vela)"><b>Fundición</b><span>33</span></div>
+          <div style="--g:27.5;--c:var(--mp)"><b>Parafina y moldes</b><span>28</span></div>
+          <div class="circ" style="--g:35.5"><b>Pasillos</b><span>36</span></div>
+        </div></div>
+        <div class="floor"><span class="fl">Piso 2<em>Control y armado</em></span><div class="zones">
+          <div style="--g:30.25;--c:var(--muted)"><b>Oficinas</b><span>30</span></div>
+          <div style="--g:30.25;--c:var(--muted)"><b>Cocina y comedor</b><span>30</span></div>
+          <div style="--g:30.25;--c:var(--pin)"><b>Piñatería y Recuerdo Vivo</b><span>30</span></div>
+          <div style="--g:24.75;--c:var(--wc)"><b>Vestier y baños</b><span>25</span></div>
+          <div style="--g:22;--c:var(--pin)"><b>Juguetes</b><span>22</span></div>
+          <div class="core" style="--g:22"><b>Núcleo</b><span>22</span></div>
+          <div style="--g:27.5;--c:var(--mp)"><b>Insumos satélites</b><span>28</span></div>
+          <div style="--g:27.5;--c:var(--sat)"><b>Kitting satélites</b><span>28</span></div>
+          <div class="circ" style="--g:35.5"><b>Pasillos</b><span>36</span></div>
+        </div></div>
+        <div class="floor"><span class="fl">Piso 1<em>Logística y serpentinas</em></span><div class="zones">
+          <div style="--g:35;--c:var(--mp)"><b>Muelle</b><span>35</span></div>
+          <div style="--g:27.5;--c:var(--mp)"><b>Bobinas</b><span>28</span></div>
+          <div style="--g:27.5;--c:var(--serp)"><b>Corte y rebobinado</b><span>28</span></div>
+          <div style="--g:22;--c:var(--serp)"><b>Empaque serp.</b><span>22</span></div>
+          <div style="--g:24.75;--c:var(--pt)"><b>Producto terminado</b><span>25</span></div>
+          <div style="--g:27.5;--c:var(--sat)"><b>Centro satélites</b><span>28</span></div>
+          <div style="--g:27.5;--c:var(--wc)"><b>Baños públicos</b><span>28</span></div>
+          <div class="core" style="--g:22"><b>Núcleo</b><span>22</span></div>
+          <div class="circ" style="--g:36.25"><b>Pasillos</b><span>36</span></div>
+        </div></div>
+      </div>
+      <p class="note">m² por zona. Serpentinas en flujo en U sin cambiar de piso. Velas arriba como sector de incendio propio, separadas del papel por las losas.</p>
+    </figure>
+
+    <div class="flows">
+      <div style="--c:var(--serp)"><b>Serpentinas</b><span>Muelle → bobinas → corte → empaque → PT</span><em>0 cambios de piso</em></div>
+      <div style="--c:var(--vela)"><b>Velas</b><span>Núcleo → fundición → decorado → empaque → PT</span><em>2 por lote</em></div>
+      <div style="--c:var(--sat)"><b>Cajas</b><span>Kitting (P2) → centro satélites (P1) → satélite → PT</span><em>2 por lote</em></div>
+      <div style="--c:var(--pin)"><b>Piñatería</b><span>Juguetes y armado (P2) → PT</span><em>2 por lote</em></div>
+    </div>
+  </div></section>
+
+  <!-- SATÉLITES -->
+  <section id="p-sat"><div class="wrap">
+    <div class="h2"><span class="lab">07 · Red satélite · ~70 personas</span><h2>Ciclo de control de materiales</h2></div>
+    <div class="ring">
+      <div><span>1</span><b>BOM</b><em>Materiales por caja</em></div>
+      <div><span>2</span><b>Orden</b><em>Cantidad, fecha, satélite</em></div>
+      <div><span>3</span><b>Kit contado</b><em>Se descuenta al salir</em></div>
+      <div><span>4</span><b>Recibo</b><em>Buenas, malas, devueltas</em></div>
+      <div><span>5</span><b>Conciliación</b><em>Entregado = recibido + devuelto + merma</em></div>
+      <div><span>6</span><b>Evaluación</b><em>Cumplimiento y merma</em></div>
+    </div>
+    <div class="goalbar"><div><span class="lab">Órdenes con BOM</span><b class="mono">100 %</b></div><div><span class="lab">Material conciliado</span><b class="mono">≥ 98 %</b></div></div>
+  </div></section>
+
+  <!-- FÁBRICA VISUAL -->
+  <section id="p-visual"><div class="wrap">
+    <div class="h2"><span class="lab">08 · Fábrica visual, 5S y seguridad</span><h2>Que la planta se entienda en 30 segundos</h2></div>
+    <div class="vgrid2">
+      <figure class="fig">
+        <figcaption>Cinco niveles de gestión visual</figcaption>
+        <div class="pyr">
+          <div style="width:52%"><b>5 · Desempeño</b><span>¿Vamos según el plan?</span></div>
+          <div style="width:64%"><b>4 · Controles</b><span>¿Hay que actuar?</span></div>
+          <div style="width:76%"><b>3 · Estándares</b><span>¿Cómo se hace bien?</span></div>
+          <div style="width:88%"><b>2 · Identificación</b><span>¿Qué es y dónde va?</span></div>
+          <div style="width:100%"><b>1 · Orden 5S</b><span>¿Está en su lugar?</span></div>
         </div>
-      </div>
-    </details>
-
-    <details style="--c:var(--serp)">
-      <summary><span class="dot"></span><h3>Método</h3><span class="hint">PHVA · TOC · Lean · SLP</span></summary>
-      <div class="body">
-        <div class="tbl"><table>
-          <thead><tr><th>Paso TOC</th><th>En Mundo Fiesta</th></tr></thead>
-          <tbody>
-            <tr><td>1. Identificar</td><td>Corte y rebobinado manual de serpentinas</td></tr>
-            <tr><td>2. Explotar</td><td>Rollos a mano, empaque fuera de la mesa, método de la mejor</td></tr>
-            <tr><td>3. Subordinar</td><td>Bobinas siempre disponibles; entregas según capacidad real</td></tr>
-            <tr><td>4. Elevar</td><td>Solo si 2 y 3 no bastan (decisión de inversión, fuera del plan)</td></tr>
-            <tr><td>5. Repetir</td><td>Medir la nueva restricción y volver al paso 1</td></tr>
-          </tbody>
-        </table></div>
-        <div class="grid3">
-          <div class="cell"><b>Lean</b><span>5S, trabajo estandarizado, kanban, gestión visual.</span></div>
-          <div class="cell"><b>SLP</b><span>Qué va en cada piso y qué debe quedar cerca.</span></div>
-          <div class="cell"><b>PHVA</b><span>Planear, hacer, verificar, actuar. Ciclo de cada mejora.</span></div>
+      </figure>
+      <figure class="fig">
+        <figcaption>Código de colores por zona</figcaption>
+        <div class="sw">
+          <div style="--c:var(--serp)"><i></i>Serpentinas y cintas</div>
+          <div style="--c:var(--vela)"><i></i>Velas y contra incendio</div>
+          <div style="--c:var(--pin)"><i></i>Piñatería y Recuerdo Vivo</div>
+          <div style="--c:var(--sat)"><i></i>Satélites y cajas</div>
+          <div style="--c:var(--mp)"><i></i>Materias primas</div>
+          <div style="--c:var(--pt)"><i></i>Producto terminado</div>
+          <div style="--c:var(--wc)"><i></i>Baños y vestier</div>
+          <div style="--c:var(--muted)"><i></i>Oficinas y comedor</div>
+          <div class="haz"><i></i>Riesgo: núcleo, portón, fundición</div>
+          <div style="--c:#E0A800"><i></i>Pasillos ≥ 1,20 m</div>
         </div>
-        <p>La teoría de restricciones dice dónde mejorar primero (serpentinas). PHVA dice cómo.</p>
-        <p><b>Regla de la prioridad única:</b> un frente a la vez, revisión cada 30 días.</p>
+      </figure>
+    </div>
+    <div class="s5">
+      <div><b>Clasificar</b><span>Tarjeta roja</span></div>
+      <div><b>Ordenar</b><span>Ubicaciones y demarcación</span></div>
+      <div><b>Limpiar</b><span>10 min diarios</span></div>
+      <div><b>Estandarizar</b><span>Foto "así debe verse"</span></div>
+      <div><b>Disciplina</b><span>Auditoría ≥ 80 %</span></div>
+    </div>
+    <figure class="fig" style="margin-top:16px">
+      <figcaption>Seguridad de la parafina: lo que debe encontrar un perito</figcaption>
+      <div class="sec">
+        <span>Fundición separada del papel</span><span>Extracción a la cubierta</span><span>Gabinete metálico para parafina</span><span>Ollas con control de temperatura</span><span>Extintores a menos de 10 m</span><span>Detector de humo</span><span>Plan de emergencia y brigada</span><span>Evidencias SG-SST (Dec. 1072/2015, Res. 0312/2019)</span><span>Revisión NSR-10 Títulos J y K</span>
       </div>
-    </details>
+    </figure>
+  </div></section>
 
-    <details style="--c:var(--ink)">
-      <summary><span class="dot"></span><h3>Etapas</h3><span class="hint">I a IV</span></summary>
-      <div class="body">
-        <div class="tbl"><table>
-          <thead><tr><th>Etapa</th><th>Duración</th><th>Entrega</th></tr></thead>
-          <tbody>
-            <tr><td>I · Validar</td><td class="m">3 sem</td><td>Mediciones, plano, línea base, prioridades confirmadas</td></tr>
-            <tr><td>II · Diseñar</td><td class="m">5 sem</td><td>Distribución, método de serpentinas, BOM de satélites, indicadores</td></tr>
-            <tr><td>III · Implementar</td><td class="m">8 sem</td><td>Planta redistribuida, métodos en uso, manual de procesos</td></tr>
-            <tr><td>IV · Sostener</td><td class="m">≥ 8 sem</td><td>Seguimiento, prueba en pico, informe del antes y el después en pesos</td></tr>
-          </tbody>
-        </table></div>
-        <p class="note">Los cambios de distribución van en temporada baja; en diciembre no hay traslados.</p>
-      </div>
-    </details>
-
-    <details style="--c:var(--sat)">
-      <summary><span class="dot"></span><h3>Control de satélites</h3><span class="hint">Frente 2</span></summary>
-      <div class="body">
-        <div class="grid3">
-          <div class="cell"><b>1. BOM</b><span>Materiales por referencia de caja.</span></div>
-          <div class="cell"><b>2. Orden</b><span>Cantidad, fecha y satélite asignado.</span></div>
-          <div class="cell"><b>3. Kit contado</b><span>El inventario se descuenta al salir.</span></div>
-          <div class="cell"><b>4. Recibo</b><span>Buenas, defectuosas y devueltas.</span></div>
-          <div class="cell"><b>5. Conciliación</b><span>Entregado = recibido + devuelto + merma.</span></div>
-          <div class="cell"><b>6. Evaluación</b><span>Cumplimiento y merma por satélite.</span></div>
+  <!-- VELAS -->
+  <section id="p-velas"><div class="wrap">
+    <div class="h2"><span class="lab">09 · Línea de velas</span><h2>El curado fija el ritmo de los moldes</h2></div>
+    <div class="vgrid2">
+      <figure class="fig">
+        <figcaption>Ciclos por molde en 8 horas</figcaption>
+        <div class="hb" style="--c:var(--vela)"><span>Molde actual<br><small>25–30 min</small></span><div class="tr"><div class="fi" style="width:16.7%"></div><div class="fi2" style="left:16.7%;width:3.1%"></div></div><b>16–19</b></div>
+        <div class="hb" style="--c:var(--serp)"><span>Molde rápido<br><small>5 min</small></span><div class="tr"><div class="fi" style="width:100%"></div></div><b>hasta 96</b></div>
+        <p class="note">De 5 a 6 veces más ciclos, pero cada molde cuesta 10 veces más. Compra escalonada, empezando por referencias A. Decisión de inversión, fuera del plan base.</p>
+      </figure>
+      <figure class="fig">
+        <figcaption>Enfriamiento escalonado (pruebas, contacto indirecto)</figcaption>
+        <div class="temp">
+          <div style="--h:100%"><b>20 °C</b><span>Ambiente</span></div>
+          <div style="--h:75%"><b>15 °C</b><span>Prueba 1</span></div>
+          <div style="--h:60%"><b>12 °C</b><span>Prueba 2</span></div>
+          <div style="--h:25%"><b>~5 °C</b><span>Objetivo</span></div>
         </div>
-        <p>Meta: 100 % de órdenes con BOM · ≥ 98 % conciliado.</p>
-      </div>
-    </details>
+        <p class="note">Matrices modulares con serpentín inferior. Sin inmersión: mojar la parafina arruina la pintura.</p>
+      </figure>
+    </div>
+  </div></section>
 
-    <details style="--c:var(--mp)">
-      <summary><span class="dot"></span><h3>Distribución de planta</h3><span class="hint">750 m² · 3 pisos · Frente 3</span></summary>
-      <div class="body">
-        <div class="grid3">
-          <div class="cell"><b>Piso 1 · Logística y serpentinas</b><span>Muelle, bobinas, mesas, empaque, producto terminado, centro de satélites. Flujo en U, sin cambiar de piso.</span></div>
-          <div class="cell"><b>Piso 2 · Control y armado</b><span>Oficinas, kitting de satélites, piñatería y Recuerdo Vivo, comedor, vestier.</span></div>
-          <div class="cell"><b>Piso 3 · Velas</b><span>Todo el proceso de velas como sector de incendio propio, lejos del papel.</span></div>
-        </div>
-        <ul>
-          <li>5S y pasillos demarcados (≥ 1,20 m, Res. 2400).</li>
-          <li>Áreas por piso son supuestos hasta tener el plano medido.</li>
-          <li>Terraza: reserva de crecimiento, fuera del plan.</li>
-        </ul>
-        <p>Meta: recorridos −50 % · 5S ≥ 80 %.</p>
-      </div>
-    </details>
+  <!-- TEMPORADAS -->
+  <section id="p-temp"><div class="wrap">
+    <div class="h2"><span class="lab">10 · Planeación por temporada</span><h2>Calendario de la demanda</h2></div>
+    <div class="cal-box"><div class="cal">
+      <div class="mh">Ene</div><div class="mh">Feb</div><div class="mh">Mar</div><div class="mh">Abr</div><div class="mh">May</div><div class="mh">Jun</div><div class="mh">Jul</div><div class="mh">Ago</div><div class="mh">Sep</div><div class="mh">Oct</div><div class="mh">Nov</div><div class="mh">Dic</div>
+      <div class="ev low" style="grid-column:1/3"><b>Temporada baja</b><span>Redistribución, inventario, capacitación</span></div>
+      <div class="ev" style="grid-column:3/6;--c:var(--vela)"><b>Escolar · Día de la Madre</b><span>Velas, cajas · comprar parafina</span></div>
+      <div class="ev" style="grid-column:6/8;--c:var(--serp)"><b>Mitad de año</b><span>Serpentinas, piñatería</span></div>
+      <div class="ev" style="grid-column:9/11;--c:var(--pin)"><b>Amor y Amistad · Halloween</b><span>Cajas, piñatería</span></div>
+      <div class="ev peak" style="grid-column:11/13"><b>Velitas · Navidad</b><span>Pico · sin traslados</span></div>
+    </div></div>
+    <p class="note">Campañas electorales según calendario: serpentinas y cintas. Fuente: Acta 1 y propuesta.</p>
+  </div></section>
 
-    <details style="--c:var(--vela)">
-      <summary><span class="dot"></span><h3>Seguridad de la parafina</h3><span class="hint">Asegurabilidad</span></summary>
-      <div class="body">
-        <ul>
-          <li>Fundición separada del papel y cartón, con extracción y ventilación.</li>
-          <li>Parafina en gabinete metálico; ollas con control de temperatura.</li>
-          <li>Extintores a menos de 10 m y detector de humo.</li>
-          <li>Plan de emergencia y evidencias en el SG-SST (Decreto 1072/2015, Res. 0312/2019).</li>
-        </ul>
-        <p>Meta: 0 incidentes · evidencias listas para aseguradora y ARL.</p>
-      </div>
-    </details>
+  <!-- ETAPAS -->
+  <section id="p-ruta"><div class="wrap">
+    <div class="h2"><span class="lab">11 · Etapas de la asesoría</span><h2>24 semanas en cuatro etapas</h2></div>
+    <div class="wk-box"><div class="wk">
+      <div class="wr"><span>I · Validar</span><div class="wt"><div style="left:0;width:12.5%;--c:var(--mp)">3 sem</div></div></div>
+      <div class="wr"><span>II · Diseñar</span><div class="wt"><div style="left:12.5%;width:20.8%;--c:var(--serp)">5 sem</div></div></div>
+      <div class="wr"><span>III · Implementar</span><div class="wt"><div style="left:33.3%;width:33.3%;--c:var(--sat)">8 sem</div></div></div>
+      <div class="wr"><span>IV · Sostener</span><div class="wt"><div style="left:66.6%;width:33.4%;--c:var(--pin)">≥ 8 sem</div></div></div>
+      <div class="wr scale"><span></span><div class="ws"><span>0</span><span>6</span><span>12</span><span>18</span><span>24</span></div></div>
+    </div></div>
+    <div class="tri four">
+      <div style="--c:var(--mp)"><b>I · Validar</b><span>Mediciones, plano, línea base</span></div>
+      <div style="--c:var(--serp)"><b>II · Diseñar</b><span>Distribución, métodos, BOM, indicadores</span></div>
+      <div style="--c:var(--sat)"><b>III · Implementar</b><span>Planta redistribuida, manual de procesos</span></div>
+      <div style="--c:var(--pin)"><b>IV · Sostener</b><span>Prueba en pico, informe en pesos</span></div>
+    </div>
+    <p class="note">Semanas desde el inicio acordado. Los cambios de distribución van en temporada baja.</p>
+  </div></section>
 
-    <details style="--c:var(--pin)">
-      <summary><span class="dot"></span><h3>Gestión visual</h3><span class="hint">Frente 4</span></summary>
-      <div class="body">
-        <ul>
-          <li>Una pantalla en planta con uno o dos indicadores: programado vs. hecho.</li>
-          <li>Colores por línea: naranja serpentinas, rojo velas, verde satélites, azul materia prima.</li>
-          <li>Conteo automático y tabletas industriales solo si el costo lo justifica.</li>
-        </ul>
-      </div>
-    </details>
+  <!-- INDICADORES -->
+  <section id="p-kpi"><div class="wrap">
+    <div class="h2"><span class="lab">12 · Tablero de indicadores</span><h2>Lo que se mide y cada cuánto</h2></div>
+    <div class="kgrid">
+      <div class="kc main"><span class="lab">Principal</span><b>Entregas totales y completas</b><em>≥ 95 % completas · semanal</em></div>
+      <div class="kc" style="--c:var(--serp)"><b>Capacidad serpentinas</b><em>&gt; 1.840 u/día · diaria</em></div>
+      <div class="kc" style="--c:var(--pin)"><b>Programado vs. hecho</b><em>plan del día · diaria</em></div>
+      <div class="kc" style="--c:var(--serp)"><b>Minutos por parada</b><em>bajar · diaria</em></div>
+      <div class="kc" style="--c:var(--sat)"><b>Conciliación satélites</b><em>≥ 98 % · semanal</em></div>
+      <div class="kc" style="--c:var(--sat)"><b>Órdenes con BOM</b><em>100 % · mensual</em></div>
+      <div class="kc" style="--c:var(--vela)"><b>Rendimiento velas</b><em>≥ 310 u/día · semanal</em></div>
+      <div class="kc" style="--c:var(--mp)"><b>Exactitud inventario</b><em>≥ 95 % · semanal</em></div>
+      <div class="kc" style="--c:var(--serp)"><b>Merma serpentinas</b><em>≤ 4 % · mensual</em></div>
+      <div class="kc" style="--c:var(--mp)"><b>Recorridos internos</b><em>−50 % · trimestral</em></div>
+      <div class="kc" style="--c:var(--mp)"><b>Auditoría 5S</b><em>≥ 80 % · mensual</em></div>
+      <div class="kc" style="--c:var(--vela)"><b>Incidentes</b><em>0 · mensual</em></div>
+    </div>
+  </div></section>
 
-    <details style="--c:var(--vela)">
-      <summary><span class="dot"></span><h3>Velas, compras y personas</h3><span class="hint">Frente 5</span></summary>
-      <div class="body">
-        <div class="grid3">
-          <div class="cell"><b>Velas</b><span>Método de las operarias diestras (meta ≥ 310 u/día). Prevenir defectos en el molde. Pruebas de enfriamiento escalonado.</span></div>
-          <div class="cell"><b>Compras</b><span>Matriz: importar solo lo exclusivo, comprar local lo demás. Kardex, ABC y kanban. Responsable: David.</span></div>
-          <div class="cell"><b>Personas</b><span>Concurso del comedor y buzón activo (Dani). Incentivos por experiencias familiares. Promoción interna con capacitación.</span></div>
-        </div>
-      </div>
-    </details>
-
-    <details style="--c:var(--ink)">
-      <summary><span class="dot"></span><h3>Todos los indicadores</h3><span class="hint">Línea base en Etapa I</span></summary>
-      <div class="body tbl">
-        <table>
-          <thead><tr><th>Indicador</th><th>Meta</th><th>Frecuencia</th></tr></thead>
-          <tbody>
-            <tr><td>Programado vs. fabricado</td><td class="m">plan del día</td><td>Diaria</td></tr>
-            <tr><td>Capacidad de serpentinas</td><td class="m">&gt; 1.840 u/día</td><td>Diaria</td></tr>
-            <tr><td>Entregas a grandes cuentas</td><td class="m">≥ 95 %</td><td>Semanal</td></tr>
-            <tr><td>Conciliación de satélites</td><td class="m">≥ 98 %</td><td>Semanal</td></tr>
-            <tr><td>Órdenes a satélites con BOM</td><td class="m">100 %</td><td>Mensual</td></tr>
-            <tr><td>Rendimiento en velas</td><td class="m">≥ 310 u/día</td><td>Semanal</td></tr>
-            <tr><td>Exactitud de inventario</td><td class="m">≥ 95 %</td><td>Semanal</td></tr>
-            <tr><td>Merma de serpentinas</td><td class="m">≤ 4 %</td><td>Mensual</td></tr>
-            <tr><td>Recorridos internos</td><td class="m">−50 %</td><td>Trimestral</td></tr>
-            <tr><td>Auditoría 5S</td><td class="m">≥ 80 %</td><td>Mensual</td></tr>
-            <tr><td>Incidentes de seguridad</td><td class="m">0</td><td>Mensual</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </details>
-
-    <details style="--c:var(--muted)">
-      <summary><span class="dot"></span><h3>Fuera del alcance</h3><span class="hint">Decisiones de la empresa</span></summary>
-      <div class="body">
-        <ul>
-          <li>Maquinaria de cintas desde China: sugerencia aparte. El plan funciona sin ella.</li>
-          <li>Inmueble: alquilado; su compra no afecta la asesoría.</li>
-          <li>Desarrollo de software.</li>
-        </ul>
-      </div>
-    </details>
-  </div>
+  <!-- REFERENTES -->
+  <section id="p-bench"><div class="wrap">
+    <div class="h2"><span class="lab">13 · Resultados publicados en empresas comparables</span><h2>Lo que han logrado otros con estos métodos</h2></div>
+    <figure class="fig">
+      <div class="hb" style="--c:var(--sat)"><span>5S · productividad<br><small>Cauchometal, 2015</small></span><div class="tr"><div class="fi" style="width:39.8%"></div></div><b>+39,8 %</b></div>
+      <div class="hb" style="--c:var(--sat)"><span>5S · menos desperdicio<br><small>Cauchometal, 2015</small></span><div class="tr"><div class="fi" style="width:82.9%"></div></div><b>−82,9 %</b></div>
+      <div class="hb" style="--c:var(--sat)"><span>5S · menos reprocesos<br><small>Cauchometal, 2015</small></span><div class="tr"><div class="fi" style="width:62.9%"></div></div><b>−62,9 %</b></div>
+      <div class="hb" style="--c:var(--mp)"><span>Redistribución · capacidad<br><small>Laboratorio Jaba, 2019</small></span><div class="tr"><div class="fi" style="width:33%"></div></div><b>+33 %</b></div>
+      <div class="hb" style="--c:var(--mp)"><span>Distribución · costos<br><small>Tompkins (Collazos, 2013)</small></span><div class="tr"><div class="fi" style="width:10%"></div><div class="fi2" style="left:10%;width:20%"></div></div><b>−10 a −30 %</b></div>
+      <p class="note">Cifras publicadas por cada estudio; no son una promesa para Mundo Fiesta. Escala 0–100 %.</p>
+    </figure>
+    <div class="out-box">
+      <span class="lab">Fuera del alcance</span>
+      <div class="sec"><span>Maquinaria de cintas (sugerencia aparte)</span><span>Compra del inmueble (alquilado)</span><span>Desarrollo de software</span></div>
+    </div>
+  </div></section>
 </main>
 
 <footer class="wrap">Fuentes: Actas de las Sesiones 1 y 2 de diagnóstico; Propuesta de asesoría extensa v4. Documento confidencial de trabajo.</footer>
@@ -512,5 +923,28 @@ footer{border-top:1px solid var(--line);padding-block:20px 36px;font-size:12.5px
     b.addEventListener('change',function(){try{localStorage.setItem('mf2-'+b.id,b.checked?'1':'0')}catch(e){}upd()});
   });
   upd();
+  (function(){
+    var names=['Muelle','Centro de satélites','Insumos y kitting','Oficinas','Baños públicos','Cocina y comedor','Bobinas maestras','Corte serpentinas','Empaque serpentinas','Almacén PT','Desmolde y decorado','Empaque velas','Fundición'];
+    var rows=['- I1 I1 O3 U U A1 O1 U A1 U U O1','I1 - A1 I3 U U U U U E1 U U U','I1 A1 - I3 U U U U U U U U X4','O3 I3 I3 - O2 O2 O3 I3 O3 O3 I3 O3 O3','U U U O2 - O2 U U U U U U U','U U U O2 O2 - U U U U U U X4','A1 U U O3 U U - A1 O1 U U U X4','O1 U U I3 U U A1 - A1 I1 U U X4','U U U O3 U U O1 A1 - E1 U I5 X4','A1 E1 U O3 U U U I1 E1 - O1 E1 O4','U U U I3 U U U U U O1 - A1 A1','U U U O3 U U U U I5 E1 A1 - E1','O1 U X4 O3 U X4 X4 X4 X4 O4 A1 E1 -'];
+    var sty={A:['--serp','85%'],E:['--serp','45%'],I:['--mp','35%'],O:['--muted','18%'],U:['--muted','0%'],X:['--vela','80%']};
+    var why={1:'flujo de materiales',2:'mismos accesos o servicios',3:'información y control',4:'seguridad',5:'personal compartido'};
+    var t=document.getElementById('slp'); if(!t) return;
+    var h='<thead><tr><th></th>'+names.map(function(_,i){return '<th class="ch" scope="col" title="'+names[i]+'">'+(i+1)+'</th>'}).join('')+'</tr></thead><tbody>';
+    rows.forEach(function(r,i){
+      h+='<tr><th class="rh" scope="row">'+(i+1)+'. '+names[i]+'</th>';
+      r.split(' ').forEach(function(c,j){
+        if(c==='-'){h+='<td class="self"></td>';return}
+        var k=c[0],s=sty[k],rs=c.slice(1);
+        var tip=names[i]+' ↔ '+names[j]+': '+k+(rs?' ('+why[rs]+')':'');
+        h+='<td class="k-'+k+'" style="--c:var('+s[0]+');--a:'+s[1]+'" title="'+tip+'">'+(k==='U'?'':k)+'</td>';
+      });
+      h+='</tr>';
+    });
+    t.innerHTML=h+'</tbody>';
+    var smooth=!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+    [].forEach.call(document.querySelectorAll('.pidx button'),function(b){
+      b.addEventListener('click',function(){var s=document.getElementById(b.dataset.go);if(s)s.scrollIntoView({behavior:smooth?'smooth':'auto'})});
+    });
+  })();
 })();
 </script>
