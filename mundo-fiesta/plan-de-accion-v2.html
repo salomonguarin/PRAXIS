@@ -1,0 +1,589 @@
+<title>Plan Serpentinas Vol. 2</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: "láminas" amplias y redondeadas, una idea por lámina, una sola columna de 1040px.
+   Paleta fresca y fría con naranja serpentina como único acento fuerte; verde, azul, violeta y rojo solo como color de cada frente. */
+:root{
+  --bg:#F2F5F7; --surface:#FFFFFF; --ink:#17202A; --muted:#66717F; --line:#E2E8ED; --soft:#EAF0F4;
+  --serp:#EE5A24; --serp-soft:#FFEDE4; --mint:#0CA678; --mint-soft:#E3F8F0; --sky:#228BE6; --sky-soft:#E5F1FC;
+  --vio:#7048E8; --vio-soft:#EFEAFD; --red:#E03131; --red-soft:#FDE8E8; --sun:#F2B705;
+  --f:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1419; --surface:#182029; --ink:#EEF2F5; --muted:#9AA6B3; --line:#26303B; --soft:#1F2832;
+  --serp:#FF7A45; --serp-soft:#3A2218; --mint:#38D9A9; --mint-soft:#10302A; --sky:#4DABF7; --sky-soft:#132A40;
+  --vio:#9775FA; --vio-soft:#251E40; --red:#FF6B6B; --red-soft:#3A1C1C; --sun:#FFD43B; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1419; --surface:#182029; --ink:#EEF2F5; --muted:#9AA6B3; --line:#26303B; --soft:#1F2832;
+  --serp:#FF7A45; --serp-soft:#3A2218; --mint:#38D9A9; --mint-soft:#10302A; --sky:#4DABF7; --sky-soft:#132A40;
+  --vio:#9775FA; --vio-soft:#251E40; --red:#FF6B6B; --red-soft:#3A1C1C; --sun:#FFD43B; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f);font-size:16px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+h1,h2,h3,p,ul,ol,figure{margin:0}
+h1,h2{text-wrap:balance;letter-spacing:-.025em;line-height:1.05}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.num{font-variant-numeric:tabular-nums}
+.k{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ico{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* Pestañas */
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px)}
+.tabs .wrap{display:flex;align-items:center;gap:6px;padding-block:12px;overflow-x:auto;scrollbar-width:none}
+.tabs .brand{font-weight:800;margin-right:auto;white-space:nowrap}
+.tabs .brand i{font-style:normal;color:var(--serp)}
+.tabs a{flex:none;font-size:14px;font-weight:600;color:var(--muted);text-decoration:none;padding:8px 14px;border-radius:999px}
+.tabs a:hover,.tabs a:focus-visible{color:var(--ink);background:var(--soft);outline:none}
+.tabs a[aria-current="page"]{color:#fff;background:var(--ink)}
+
+/* Láminas */
+.slides{display:grid;gap:18px;padding-block:8px 48px}
+.sl{background:var(--surface);border-radius:28px;padding:clamp(22px,4vw,44px);display:grid;gap:24px;min-width:0}
+.sl > *,.vs2 > *,.wheel > *,.loopwrap > *{min-width:0}
+.sl.tint{background:var(--c-soft)}
+.sl h2{font-size:clamp(26px,3.6vw,38px);font-weight:800}
+.sl .lead{font-size:17px;color:var(--muted);max-width:52ch}
+.top{display:grid;gap:10px}
+
+/* Portada */
+.hero{padding-block:clamp(28px,6vw,64px) 8px;display:grid;gap:22px}
+.hero h1{font-size:clamp(40px,7.4vw,80px);font-weight:800;max-width:13ch}
+.hero h1 span{color:var(--serp)}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pills span{background:var(--surface);border-radius:999px;padding:9px 16px;font-weight:600;font-size:15px}
+.pills span b{color:var(--mint)}
+
+/* Meta */
+.goal{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:clamp(12px,3vw,32px);align-items:center}
+.goal .big{font-size:clamp(56px,10vw,110px);font-weight:800;line-height:.9;letter-spacing:-.04em}
+.goal .side{display:grid;gap:8px}
+.goal .to{width:64px;height:64px;border-radius:50%;background:var(--serp);color:#fff;display:grid;place-items:center;font-size:28px;font-weight:800}
+.goal .q{color:var(--serp)}
+.goal small{font-size:14px;color:var(--muted)}
+
+/* Ruta de momentos */
+.road{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;position:relative}
+.road::before{content:"";position:absolute;left:10%;right:10%;top:40px;height:4px;border-radius:2px;background:linear-gradient(90deg,var(--sky) 0 60%,var(--serp) 60% 80%,var(--mint) 80%)}
+.mo{position:relative;font:inherit;color:inherit;background:transparent;border:0;padding:0;cursor:pointer;display:grid;justify-items:center;gap:10px;text-align:center}
+.mo .dot{width:84px;height:84px;border-radius:50%;background:var(--surface);border:4px solid var(--c);color:var(--c);display:grid;place-items:center;transition:transform .2s,background .2s}
+.mo .dot .ico{width:34px;height:34px}
+.mo b{font-size:15px;font-weight:700}
+.mo em{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.mo .n{position:absolute;top:-4px;left:calc(50% + 22px);width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--surface);font-size:12px;font-weight:800;display:grid;place-items:center}
+.mo[aria-selected="true"] .dot{background:var(--c);color:#fff;transform:scale(1.06)}
+.mo:focus-visible .dot{outline:3px solid var(--c);outline-offset:3px}
+[hidden]{display:none!important}
+.mo .tx{display:grid;gap:2px}
+.panel{background:var(--soft);border-radius:20px;padding:clamp(18px,3vw,28px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
+.panel h3{font-size:24px;font-weight:800;margin-bottom:6px}
+.panel .say{font-size:16px;color:var(--muted)}
+.ticks{list-style:none;padding:0;display:grid;gap:10px}
+.ticks li{display:grid;grid-template-columns:24px minmax(0,1fr);gap:10px;font-size:15.5px;font-weight:500}
+.ticks li::before{content:"";width:22px;height:22px;border-radius:50%;background:var(--c) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12l4 4 8-8'/%3E%3C/svg%3E") center/14px no-repeat}
+.result{margin-top:16px;display:inline-flex;align-items:center;gap:10px;background:var(--surface);border-radius:999px;padding:8px 16px 8px 8px;font-weight:600;font-size:14.5px}
+.result i{font-style:normal;background:var(--c);color:#fff;border-radius:999px;padding:3px 10px;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.fourm{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:14px}
+.fourm span{background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;font-size:14px;display:flex;gap:8px;align-items:center}
+.fourm span::before{content:"M";width:24px;height:24px;border-radius:7px;background:var(--sky-soft);color:var(--sky);display:grid;place-items:center;font-size:12px}
+.qa{display:grid;gap:10px}
+.qa div{background:var(--surface);border-radius:14px;padding:14px 16px;display:grid;gap:6px}
+.qa b{font-size:14px;color:var(--c)}
+.qa span{font-size:14.5px}
+.game3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.game3 div{background:var(--surface);border-radius:16px;padding:16px;display:grid;gap:8px;justify-items:start}
+.game3 .gi{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:var(--g-soft);color:var(--g)}
+.game3 b{font-size:16px}
+.game3 span{font-size:13.5px;color:var(--muted)}
+.rot{font-size:13px;color:var(--muted);margin-top:10px;display:flex;align-items:center;gap:8px}
+
+/* Indicadores */
+.kp{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:12px}
+.kc{border-radius:20px;padding:20px;background:var(--soft);display:grid;gap:10px;align-content:space-between;min-height:150px}
+.kc .t{font-weight:700;font-size:15.5px}
+.kc .m{font-size:30px;font-weight:800;letter-spacing:-.02em}
+.kc small{font-size:13px;color:var(--muted)}
+.kc.main{background:var(--ink);color:var(--surface)}
+.kc.main small{color:color-mix(in srgb,var(--surface) 70%,transparent)}
+.kc.main .m{color:var(--serp);font-size:40px}
+.kc.main .star{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--sun)}
+
+/* No / después */
+.nos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.nos div{border-radius:18px;padding:18px;background:var(--red-soft);display:grid;gap:8px}
+.nos .x{width:32px;height:32px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-weight:800}
+.nos b{font-size:15px}
+.next{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.next div{border-radius:18px;padding:18px;background:var(--c-soft);display:grid;gap:6px}
+.next .n{font-size:28px;font-weight:800;color:var(--c);line-height:1}
+.next b{font-size:15.5px}
+.next span{font-size:13px;color:var(--muted)}
+
+/* ===== Propuesta ===== */
+.bars{display:grid;gap:16px}
+.bar{display:grid;grid-template-columns:130px minmax(0,1fr);gap:14px;align-items:center}
+.bar .l{font-weight:700;font-size:15px}
+.bar .l small{display:block;font-weight:500;font-size:12px;color:var(--muted)}
+.bar .t{height:44px;border-radius:12px;background:var(--soft);overflow:hidden;position:relative}
+.bar .f{height:100%;border-radius:12px;background:var(--c);display:flex;align-items:center;justify-content:flex-end;padding:0 14px;color:#fff;font-weight:800;font-size:16px;min-width:84px}
+.bar .f.sm{min-width:0;width:auto}
+.callout{display:flex;gap:14px;align-items:center;background:var(--serp-soft);border-radius:18px;padding:16px 20px;font-weight:600}
+.callout .ico{color:var(--serp);flex:none}
+.m6{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;position:relative}
+.m6 > div{border-radius:18px;padding:16px;background:var(--c-soft);display:grid;gap:8px;align-content:start}
+.m6 b{font-size:15px;color:var(--c)}
+.m6 .tags{display:flex;flex-wrap:wrap;gap:6px}
+.m6 .tags span{background:var(--surface);border-radius:999px;padding:4px 10px;font-size:12.5px;font-weight:500}
+.effect{grid-column:1/-1;background:var(--ink)!important;color:var(--surface);text-align:center;padding:18px!important}
+.effect b{color:var(--serp)!important;font-size:20px!important}
+.w8{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.w8 div{border-radius:18px;padding:16px;background:var(--soft);display:grid;gap:4px}
+.w8 .n{font-size:26px;font-weight:800;color:var(--serp);line-height:1}
+.w8 b{font-size:15px}
+.w8 span{font-size:12.5px;color:var(--muted)}
+.flow{display:flex;align-items:center;gap:8px;overflow-x:auto;padding-bottom:4px}
+.flow div{flex:1 0 128px;border-radius:16px;padding:14px;background:var(--soft);display:grid;gap:4px;text-align:center}
+.flow div b{font-size:14.5px}
+.flow div span{font-size:12.5px;color:var(--muted)}
+.flow div.hot{background:var(--serp);color:#fff}
+.flow div.hot span{color:#fff;opacity:.85}
+.flow div.ok{background:var(--mint-soft)}
+.flow i{flex:none;font-style:normal;color:var(--muted);font-weight:800}
+.vs2{display:grid;gap:14px}
+.vs2 .k{display:block;margin-bottom:6px}
+.wheel{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:28px;align-items:center}
+.wheel svg{width:100%;max-width:260px;height:auto}
+.wheel .lg{display:grid;gap:10px}
+.wheel .lg > div{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:center}
+.wheel .lg i{font-style:normal;width:44px;height:44px;border-radius:14px;background:var(--c);color:#fff;display:grid;place-items:center;font-weight:800;font-size:20px}
+.wheel .lg b{display:block;font-size:15.5px}
+.wheel .lg span{font-size:13.5px;color:var(--muted)}
+.bld{display:grid;gap:6px;max-width:720px}
+.fl{display:grid;grid-template-columns:86px minmax(0,1fr);gap:10px;align-items:stretch}
+.fl .p{border-radius:14px;background:var(--ink);color:var(--surface);display:grid;place-items:center;font-weight:800;font-size:15px;text-align:center;padding:8px}
+.fl .z{display:flex;flex-wrap:wrap;gap:6px;border-radius:14px;padding:10px;background:var(--c-soft)}
+.fl .z span{background:var(--surface);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600}
+.fl .z span.c{color:var(--c)}
+.roof{height:16px;max-width:720px;margin-left:96px;border-radius:14px 14px 0 0;background:repeating-linear-gradient(90deg,var(--soft) 0 14px,transparent 14px 20px)}
+.loopwrap{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:28px;align-items:center}
+.loopwrap svg{width:100%;max-width:340px;height:auto}
+.goals2{display:grid;gap:12px}
+.goals2 div{background:var(--mint-soft);border-radius:18px;padding:18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.goals2 b{font-size:34px;font-weight:800;color:var(--mint)}
+.cal{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:4px}
+.cal span{font-size:11.5px;font-weight:700;color:var(--muted);text-align:center}
+.cal i{display:block;height:56px;border-radius:10px;background:var(--c-soft);position:relative}
+.cal i.pk{background:var(--serp)}
+.cal-wrap{overflow-x:auto}
+.cal-in{min-width:620px;display:grid;gap:10px}
+.cal-lg{display:flex;flex-wrap:wrap;gap:8px}
+.cal-lg span{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;background:var(--soft);padding:6px 10px;border-radius:999px}
+.cal-lg span::before{content:"";width:12px;height:12px;border-radius:4px;background:var(--c)}
+.stg{display:grid;grid-template-columns:3fr 5fr 8fr 8fr;gap:6px}
+.stg div{border-radius:16px;padding:16px;background:var(--c);color:#fff;display:grid;gap:4px;min-width:0}
+.stg b{font-size:15px}
+.stg span{font-size:12.5px;opacity:.9}
+.stg em{font-style:normal;font-size:22px;font-weight:800}
+.bench{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.bench div{border-radius:20px;padding:18px;background:var(--soft);display:grid;gap:6px;align-content:start}
+.bench b{font-size:32px;font-weight:800;letter-spacing:-.02em;color:var(--c)}
+.bench span{font-size:13.5px;font-weight:600}
+.bench small{font-size:12px;color:var(--muted)}
+.note{font-size:12.5px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{background:var(--soft);border-radius:999px;padding:7px 13px;font-size:13.5px;font-weight:600}
+
+/* ===== Checklist ===== */
+.cks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.ckc{background:var(--surface);border-radius:22px;padding:20px;display:grid;gap:12px;align-content:start}
+.ckc .h{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:center}
+.ckc .i{width:44px;height:44px;border-radius:14px;background:var(--sky-soft);color:var(--sky);display:grid;place-items:center;font-weight:800}
+.ckc.u .i{background:var(--serp-soft);color:var(--serp)}
+.ckc h3{font-size:16.5px;font-weight:700}
+.ckc .cnt{font-size:13px;font-weight:700;color:var(--muted)}
+.ring{width:40px;height:40px}
+.ckc ul{list-style:none;padding:0;display:grid;gap:6px}
+.ckc li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;align-items:start;background:var(--soft);border-radius:12px;padding:10px 12px;font-size:14px}
+.ckc li input{width:18px;height:18px;margin:1px 0 0;accent-color:var(--mint)}
+.ckc li label{cursor:pointer}
+.ckc li input:checked + label{color:var(--muted);text-decoration:line-through}
+.cks.only li.ex{display:none}
+.cks.only .ckc:not(:has(li.st)){display:none}
+.cktop{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px}
+.ckbig{display:flex;gap:12px;flex-wrap:wrap}
+.ckbig div{background:var(--surface);border-radius:20px;padding:16px 22px;display:grid;gap:2px}
+.ckbig b{font-size:34px;font-weight:800;letter-spacing:-.02em}
+.seg{display:flex;background:var(--surface);border-radius:999px;padding:4px}
+.seg button{font:inherit;font-size:14px;font-weight:700;border:0;background:transparent;color:var(--muted);padding:9px 16px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.seg button:focus-visible{outline:2px solid var(--serp)}
+footer{padding-block:8px 40px;font-size:12.5px;color:var(--muted)}
+
+@media (max-width:860px){
+  .road{grid-template-columns:repeat(5,minmax(64px,1fr));overflow-x:auto}
+  .mo .dot{width:64px;height:64px}.mo .dot .ico{width:26px;height:26px}
+  .road::before{top:30px}
+  .mo .n{left:calc(50% + 14px)}
+  .panel,.wheel,.loopwrap{grid-template-columns:minmax(0,1fr)}
+  .kp{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .nos,.next,.w8,.bench{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stg{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cks{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){
+  .goal{grid-template-columns:minmax(0,1fr)}
+  .goal .to{transform:rotate(90deg)}
+  .road{grid-template-columns:minmax(0,1fr);gap:8px}
+  .road::before{display:none}
+  .mo{grid-template-columns:64px minmax(0,1fr);justify-items:start;text-align:left;align-items:center}
+  .mo .n{left:46px;top:-2px}
+  .mo span.tx{display:grid}
+  .game3,.m6,.nos,.next,.w8,.bench,.kp,.fourm{grid-template-columns:minmax(0,1fr)}
+  .bar{grid-template-columns:minmax(0,1fr);gap:6px}
+  .fl{grid-template-columns:minmax(0,1fr)}
+  .roof{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="tabs"><div class="wrap">
+  <span class="brand">Mundo Fiesta <i>· Vol. 2</i></span>
+  <a href="#plan" id="t-plan">Plan</a>
+  <a href="#propuesta" id="t-prop">Propuesta</a>
+  <a href="#checklist" id="t-chk">Checklist</a>
+</div></div>
+
+<!-- ================= PLAN ================= -->
+<main id="v-plan">
+  <div class="wrap">
+    <header class="hero">
+      <span class="k">Plan de acción · Gerencia</span>
+      <h1>Más <span>serpentinas</span> con lo que ya tenemos</h1>
+      <div class="pills"><span><b>✓</b> Mismas 8 mesas</span><span><b>✓</b> Mismo equipo</span><span><b>✓</b> Misma jornada</span></div>
+    </header>
+
+    <div class="slides">
+      <!-- Meta -->
+      <section class="sl">
+        <div class="top"><span class="k">Objetivo</span><h2>Producir más, sin desgastar al equipo</h2></div>
+        <div class="goal">
+          <div class="side"><span class="k">Hoy</span><span class="big num">1.840</span><small>serpentinas al día · 8 mesas × 230</small></div>
+          <div class="to" aria-hidden="true">→</div>
+          <div class="side"><span class="k">Meta</span><span class="big q">+?</span><small>la cifra exacta sale de medir (momento 1)</small></div>
+        </div>
+      </section>
+
+      <!-- Momentos -->
+      <section class="sl">
+        <div class="top"><span class="k">El plan · Método PHVA</span><h2>Cinco momentos</h2><p class="lead">Toque cada momento para ver el detalle.</p></div>
+        <div class="road" role="tablist" aria-label="Momentos del plan">
+          <button class="mo" role="tab" id="mo0" aria-controls="pn0" aria-selected="true" style="--c:var(--sky)"><span class="dot"><svg class="ico" viewBox="0 0 24 24"><path d="M4 5h16v11H10l-5 4v-4H4z"/><path d="M8 10h8M8 13h5"/></svg></span><span class="n">0</span><span class="tx"><b>Escuchar</b><em>Planear</em></span></button>
+          <button class="mo" role="tab" id="mo1" aria-controls="pn1" aria-selected="false" style="--c:var(--sky)"><span class="dot"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="14" r="7"/><path d="M12 14v-4M10 3h4M12 3v4"/></svg></span><span class="n">1</span><span class="tx"><b>Identificar</b><em>Planear</em></span></button>
+          <button class="mo" role="tab" id="mo2" aria-controls="pn2" aria-selected="false" style="--c:var(--sky)"><span class="dot"><svg class="ico" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 11l2 2 4-4M9 17h6"/></svg></span><span class="n">2</span><span class="tx"><b>Alistamiento</b><em>Planear</em></span></button>
+          <button class="mo" role="tab" id="mo3" aria-controls="pn3" aria-selected="false" style="--c:var(--serp)"><span class="dot"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></svg></span><span class="n">3</span><span class="tx"><b>Estandarizar</b><em>Hacer</em></span></button>
+          <button class="mo" role="tab" id="mo4" aria-controls="pn4" aria-selected="false" style="--c:var(--mint)"><span class="dot"><svg class="ico" viewBox="0 0 24 24"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M3 19c0-3 2-5 5-5s5 2 5 5M11 19c0-3 2-5 5-5s5 2 5 5"/></svg></span><span class="n">4</span><span class="tx"><b>Control GAME</b><em>Verificar · Actuar</em></span></button>
+        </div>
+
+        <div class="panel" id="pn0" role="tabpanel" aria-labelledby="mo0" style="--c:var(--sky)">
+          <div><h3>Escuchar</h3><p class="say">Entrevistas: primero operarios, después Daniela y David.</p>
+            <div class="fourm"><span>Máquinas</span><span>Método</span><span>Mano de obra</span><span>Materiales</span></div>
+            <div class="result"><i>Sale</i>Estado de las 4M</div></div>
+          <div class="qa">
+            <div><b>1 · Lo que viven</b><span>Cómo se sienten · pérdidas que ven y por qué · ergonomía del puesto · qué los fatiga más</span></div>
+            <div><b>2 · Lo que mejorarían</b><span>Qué cambiar y cómo</span></div>
+          </div>
+        </div>
+        <div class="panel" id="pn1" role="tabpanel" aria-labelledby="mo1" style="--c:var(--sky)" hidden>
+          <div><h3>Identificar</h3><p class="say">Medir y filmar antes de cambiar nada.</p><div class="result"><i>Sale</i>Capacidad real y línea base</div></div>
+          <ul class="ticks"><li>Tiempos de todo el proceso</li><li>Videos de puestos y movimientos</li><li>Los 7 desperdicios identificados</li></ul>
+        </div>
+        <div class="panel" id="pn2" role="tabpanel" aria-labelledby="mo2" style="--c:var(--sky)" hidden>
+          <div><h3>Alistamiento</h3><p class="say">Como en una cirugía: todo planeado, a mano y en su lugar.</p><div class="result"><i>Sale</i>Puesto listo antes de empezar</div></div>
+          <ul class="ticks"><li>Recepción y traslado de materias primas ordenados</li><li>Rollos junto a la mesa</li><li>Empaque fuera de la mesa</li><li>5S en la zona</li></ul>
+        </div>
+        <div class="panel" id="pn3" role="tabpanel" aria-labelledby="mo3" style="--c:var(--serp)" hidden>
+          <div><h3>Estandarizar</h3><p class="say">Ensayos hasta encontrar la mejor forma.</p><div class="result"><i>Sale</i>Método y tiempo estándar</div></div>
+          <ul class="ticks"><li>Referencia: la persona más rápida</li><li>Distancias y tamaños</li><li>Cómo llegan las materias primas</li><li>Movimientos y orden</li></ul>
+        </div>
+        <div class="panel" id="pn4" role="tabpanel" aria-labelledby="mo4" style="--c:var(--mint)" hidden>
+          <div><h3>Control · GAME</h3><p class="say">Grupo de Apoyo Mejoramiento Empresarial. Sostiene las mejoras.</p><div class="result"><i>Sale</i>Mejoras que se mantienen</div></div>
+          <div>
+            <div class="game3">
+              <div style="--g:var(--sky);--g-soft:var(--sky-soft)"><span class="gi"><svg class="ico" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span><b>Observa</b><span>Audita amigablemente</span></div>
+              <div style="--g:var(--serp);--g-soft:var(--serp-soft)"><span class="gi"><svg class="ico" viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"/></svg></span><b>Ayuda</b><span>Entra cuando hay alarma</span></div>
+              <div style="--g:var(--mint);--g-soft:var(--mint-soft)"><span class="gi"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 22l5-3 5 3-1.5-8"/></svg></span><b>Premia</b><span>Puestos con 5S y mejoras</span></div>
+            </div>
+            <p class="rot">↻ Los grupos se capacitan y rotan entre sí</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Indicadores -->
+      <section class="sl">
+        <div class="top"><span class="k">Qué vamos a medir</span><h2>Un indicador manda</h2></div>
+        <div class="kp">
+          <div class="kc main"><span class="star">★ Principal · se revisa al final</span><span class="t">Entregas totales y completas</span><span class="m num">≥ 95 %</span><small>completas · cada semana</small></div>
+          <div class="kc"><span class="t">Unidades por día</span><span class="m num">&gt; 1.840</span><small>cada día</small></div>
+          <div class="kc"><span class="t">Programado vs. hecho</span><span class="m num">100 %</span><small>cada turno</small></div>
+          <div class="kc"><span class="t">Minutos por parada</span><span class="m">↓</span><small>cada día</small></div>
+        </div>
+      </section>
+
+      <!-- Reglas -->
+      <section class="sl">
+        <div class="top"><span class="k">Lo que no hacemos</span><h2>Mejoramos el método, no el tamaño</h2></div>
+        <div class="nos">
+          <div><span class="x">✕</span><b>Contratar más personas</b></div>
+          <div><span class="x">✕</span><b>Alargar la jornada</b></div>
+          <div><span class="x">✕</span><b>Comprar maquinaria</b></div>
+          <div><span class="x">✕</span><b>Mover áreas en diciembre</b></div>
+        </div>
+      </section>
+
+      <!-- Después -->
+      <section class="sl">
+        <div class="top"><span class="k">Después de serpentinas</span><h2>Lo que sigue, en fila</h2><p class="lead">Una prioridad a la vez, con revisión cada 30 días.</p></div>
+        <div class="next">
+          <div style="--c:var(--mint);--c-soft:var(--mint-soft)"><span class="n">2</span><b>Satélites</b><span>Materiales y saldos</span></div>
+          <div style="--c:var(--sky);--c-soft:var(--sky-soft)"><span class="n">3</span><b>Planta</b><span>Distribución y seguridad</span></div>
+          <div style="--c:var(--vio);--c-soft:var(--vio-soft)"><span class="n">4</span><b>Pantalla</b><span>Operación visible</span></div>
+          <div style="--c:var(--red);--c-soft:var(--red-soft)"><span class="n">5</span><b>Velas y compras</b><span>Método y matriz</span></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<!-- ================= PROPUESTA ================= -->
+<main id="v-prop" hidden>
+  <div class="wrap">
+    <header class="hero">
+      <span class="k">Propuesta de asesoría · Panorama</span>
+      <h1>La empresa en <span>diez</span> imágenes</h1>
+    </header>
+    <div class="slides">
+
+      <section class="sl">
+        <div class="top"><span class="k">1 · Diagnóstico</span><h2>No falta demanda. Falta capacidad.</h2></div>
+        <div class="bars" role="img" aria-label="Capacidad diaria: velas 9.100, serpentinas 1.840">
+          <div class="bar"><span class="l">Velas<small>7 operarios</small></span><div class="t"><div class="f" style="width:100%;--c:var(--red);background:var(--red)">9.100</div></div></div>
+          <div class="bar"><span class="l">Serpentinas<small>8 puestos</small></span><div class="t"><div class="f" style="width:20.2%;background:var(--serp)">1.840</div></div></div>
+        </div>
+        <div class="callout"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17v.5"/></svg>Más del 70 % del tiempo en serpentinas se va en manipular la cinta.</div>
+        <p class="note">Unidades por día. Fuente: Acta 1.</p>
+      </section>
+
+      <section class="sl">
+        <div class="top"><span class="k">2 · Causas</span><h2>Seis familias, un efecto</h2></div>
+        <div class="m6">
+          <div style="--c:var(--vio);--c-soft:var(--vio-soft)"><b>Mano de obra</b><div class="tags"><span>Ritmos dispares</span><span>Fatiga</span></div></div>
+          <div style="--c:var(--serp);--c-soft:var(--serp-soft)"><b>Método</b><div class="tags"><span>Sin estándar</span><span>Registro a mano</span></div></div>
+          <div style="--c:var(--ink);--c-soft:var(--soft)"><b>Máquina</b><div class="tags"><span>Techo de mesas</span><span>Curado lento</span></div></div>
+          <div style="--c:var(--sky);--c-soft:var(--sky-soft)"><b>Material</b><div class="tags"><span>Pasillos llenos</span><span>Sin trazabilidad</span></div></div>
+          <div style="--c:var(--mint);--c-soft:var(--mint-soft)"><b>Medición</b><div class="tags"><span>Sin paradas</span><span>Sin saldos</span></div></div>
+          <div style="--c:var(--red);--c-soft:var(--red-soft)"><b>Entorno</b><div class="tags"><span>Dos casas unidas</span><span>Parafina</span></div></div>
+          <div class="effect"><span class="k" style="color:inherit;opacity:.7">Efecto</span><b>Pedidos pendientes y riesgo de incumplir</b></div>
+        </div>
+      </section>
+
+      <section class="sl">
+        <div class="top"><span class="k">3 · Desperdicios</span><h2>Dónde se pierde hoy</h2></div>
+        <div class="w8">
+          <div><span class="n">1</span><b>Transporte</b><span>Kits a ~70 satélites</span></div>
+          <div><span class="n">2</span><b>Inventario</b><span>Material sin saldo</span></div>
+          <div><span class="n">3</span><b>Movimientos</b><span>Manipular la cinta</span></div>
+          <div><span class="n">4</span><b>Esperas</b><span>Curado de velas</span></div>
+          <div><span class="n">5</span><b>Sobreproducción</b><span>Sin pronóstico</span></div>
+          <div><span class="n">6</span><b>Sobreproceso</b><span>Transcribir a mano</span></div>
+          <div><span class="n">7</span><b>Defectos</b><span>Rebabas en velas</span></div>
+          <div><span class="n">8</span><b>Talento</b><span>Método sin compartir</span></div>
+        </div>
+      </section>
+
+      <section class="sl">
+        <div class="top"><span class="k">4 · Flujo de valor · serpentinas</span><h2>De hoy a mañana</h2></div>
+        <div class="vs2">
+          <div><span class="k">Hoy</span>
+            <div class="flow"><div><b>Proveedor</b><span>por percepción</span></div><i>›</i><div><b>Bobinas</b><span>entre pasillos</span></div><i>›</i><div class="hot"><b>Corte manual</b><span>≈ 125 s/unidad</span></div><i>›</i><div><b>Empaque</b><span>en la mesa</span></div><i>›</i><div><b>Despacho</b><span>≈ 18 días (est.)</span></div></div></div>
+          <div><span class="k" style="color:var(--mint)">Mañana · con lo que hay</span>
+            <div class="flow"><div class="ok"><b>Kanban</b><span>compra a tiempo</span></div><i>›</i><div class="ok"><b>Bobinas</b><span>junto a la mesa</span></div><i>›</i><div class="hot"><b>Corte estándar</b><span>método y ergonomía</span></div><i>›</i><div class="ok"><b>Empaque</b><span>celda aparte</span></div><i>›</i><div class="ok"><b>Despacho</b><span>plan vs. real</span></div></div></div>
+        </div>
+      </section>
+
+      <section class="sl">
+        <div class="top"><span class="k">5 · Método</span><h2>PHVA en cada mejora</h2></div>
+        <div class="wheel">
+          <svg viewBox="0 0 240 240" role="img" aria-label="Ciclo PHVA">
+            <path d="M120 10 A110 110 0 0 1 230 120 L180 120 A60 60 0 0 0 120 60 Z" style="fill:var(--sky)"/>
+            <path d="M230 120 A110 110 0 0 1 120 230 L120 180 A60 60 0 0 0 180 120 Z" style="fill:var(--serp)"/>
+            <path d="M120 230 A110 110 0 0 1 10 120 L60 120 A60 60 0 0 0 120 180 Z" style="fill:var(--mint)"/>
+            <path d="M10 120 A110 110 0 0 1 120 10 L120 60 A60 60 0 0 0 60 120 Z" style="fill:var(--vio)"/>
+            <g style="stroke:var(--surface);stroke-width:5"><line x1="120" y1="8" x2="120" y2="62"/><line x1="178" y1="120" x2="232" y2="120"/><line x1="120" y1="178" x2="120" y2="232"/><line x1="8" y1="120" x2="62" y2="120"/></g>
+            <g style="fill:#fff;font:800 26px var(--f)" text-anchor="middle" dominant-baseline="central"><text x="180" y="60">P</text><text x="180" y="180">H</text><text x="60" y="180">V</text><text x="60" y="60">A</text></g>
+            <text x="120" y="120" text-anchor="middle" dominant-baseline="central" style="fill:var(--ink);font:700 13px var(--f)">↻ 30 días</text>
+          </svg>
+          <div class="lg">
+            <div style="--c:var(--sky)"><i>P</i><div><b>Planear</b><span>Escuchar · Identificar · Alistar</span></div></div>
+            <div style="--c:var(--serp)"><i>H</i><div><b>Hacer</b><span>Estandarizar</span></div></div>
+            <div style="--c:var(--mint)"><i>V</i><div><b>Verificar</b><span>GAME observa y compara</span></div></div>
+            <div style="--c:var(--vio)"><i>A</i><div><b>Actuar</b><span>GAME ayuda, premia y ajusta</span></div></div>
+          </div>
+        </div>
+        <div class="chips"><span>Teoría de restricciones: dónde empezar</span><span>Lean: quitar desperdicios</span><span>SLP: ordenar la planta</span></div>
+      </section>
+
+      <section class="sl">
+        <div class="top"><span class="k">6 · Planta · 750 m² · 3 pisos</span><h2>Cada piso, una función</h2></div>
+        <div>
+          <div class="roof" aria-hidden="true"></div>
+          <div class="bld">
+            <div class="fl" style="--c:var(--red);--c-soft:var(--red-soft)"><span class="p">Piso 3</span><div class="z"><span class="c">Velas completas</span><span>Fundición</span><span>Decorado</span><span>Empaque</span></div></div>
+            <div class="fl" style="--c:var(--vio);--c-soft:var(--vio-soft)"><span class="p">Piso 2</span><div class="z"><span class="c">Control y armado</span><span>Oficinas</span><span>Kitting satélites</span><span>Piñatería</span><span>Comedor</span></div></div>
+            <div class="fl" style="--c:var(--serp);--c-soft:var(--serp-soft)"><span class="p">Piso 1</span><div class="z"><span class="c">Serpentinas en U</span><span>Muelle</span><span>Bobinas</span><span>Producto terminado</span><span>Satélites</span></div></div>
+          </div>
+        </div>
+        <p class="note">Propuesta preliminar; se confirma con el plano medido. La parafina arriba, lejos del papel.</p>
+      </section>
+
+      <section class="sl">
+        <div class="top"><span class="k">7 · Red satélite · ~70 personas</span><h2>Todo lo que sale, vuelve contado</h2></div>
+        <div class="loopwrap">
+          <svg viewBox="0 0 300 270" role="img" aria-label="Ciclo de control de satélites en 6 pasos">
+            <circle cx="150" cy="135" r="98" style="fill:none;stroke:var(--mint);stroke-width:3;stroke-dasharray:6 7"/>
+            <g style="fill:var(--mint)">
+              <circle cx="150" cy="37" r="33"/><circle cx="235" cy="86" r="33"/><circle cx="235" cy="184" r="33"/><circle cx="150" cy="233" r="33"/><circle cx="65" cy="184" r="33"/><circle cx="65" cy="86" r="33"/>
+            </g>
+            <g style="fill:#fff;font:700 12.5px var(--f)" text-anchor="middle" dominant-baseline="central">
+              <text x="150" y="37">BOM</text><text x="235" y="86">Orden</text><text x="235" y="184">Kit</text><text x="150" y="233">Recibo</text><text x="65" y="184">Concilia</text><text x="65" y="86">Evalúa</text>
+            </g>
+            <text x="150" y="135" text-anchor="middle" dominant-baseline="central" style="fill:var(--ink);font:800 15px var(--f)">↻</text>
+          </svg>
+          <div class="goals2">
+            <div><span>Órdenes con lista de materiales</span><b class="num">100 %</b></div>
+            <div><span>Material conciliado</span><b class="num">≥ 98 %</b></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sl">
+        <div class="top"><span class="k">8 · Temporadas</span><h2>El año de Mundo Fiesta</h2></div>
+        <div class="cal-wrap"><div class="cal-in">
+          <div class="cal">
+            <span>Ene</span><span>Feb</span><span>Mar</span><span>Abr</span><span>May</span><span>Jun</span><span>Jul</span><span>Ago</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dic</span>
+            <i style="--c-soft:var(--soft)"></i><i style="--c-soft:var(--soft)"></i><i style="--c-soft:var(--red-soft)"></i><i style="--c-soft:var(--red-soft)"></i><i style="--c-soft:var(--red-soft)"></i><i style="--c-soft:var(--serp-soft)"></i><i style="--c-soft:var(--serp-soft)"></i><i style="--c-soft:var(--soft)"></i><i style="--c-soft:var(--vio-soft)"></i><i style="--c-soft:var(--vio-soft)"></i><i class="pk"></i><i class="pk"></i>
+          </div>
+          <div class="cal-lg">
+            <span style="--c:var(--soft)">Baja: mejorar la planta</span><span style="--c:var(--red)">Escolar y Día de la Madre</span><span style="--c:var(--serp)">Mitad de año</span><span style="--c:var(--vio)">Amor y Amistad, Halloween</span><span style="--c:var(--serp)">Velitas y Navidad: pico, sin traslados</span>
+          </div>
+        </div></div>
+      </section>
+
+      <section class="sl">
+        <div class="top"><span class="k">9 · Etapas de la asesoría</span><h2>24 semanas</h2></div>
+        <div class="stg">
+          <div style="--c:var(--sky)"><em>3</em><b>Validar</b><span>Medir y confirmar</span></div>
+          <div style="--c:var(--serp)"><em>5</em><b>Diseñar</b><span>Distribución y métodos</span></div>
+          <div style="--c:var(--mint)"><em>8</em><b>Implementar</b><span>En planta</span></div>
+          <div style="--c:var(--vio)"><em>8+</em><b>Sostener</b><span>Seguimiento</span></div>
+        </div>
+        <p class="note">Ancho proporcional a las semanas. Inicio por acordar con Daniela.</p>
+      </section>
+
+      <section class="sl">
+        <div class="top"><span class="k">10 · Lo que han logrado otros</span><h2>Resultados publicados</h2></div>
+        <div class="bench">
+          <div style="--c:var(--mint)"><b class="num">+39,8 %</b><span>Productividad con 5S</span><small>Cauchometal, 2015</small></div>
+          <div style="--c:var(--mint)"><b class="num">−82,9 %</b><span>Material desperdiciado con 5S</span><small>Cauchometal, 2015</small></div>
+          <div style="--c:var(--sky)"><b class="num">+33 %</b><span>Capacidad al redistribuir</span><small>Laboratorio Jaba, 2019</small></div>
+          <div style="--c:var(--sky)"><b class="num">10–30 %</b><span>Menos costo con buena distribución</span><small>Tompkins (Collazos, 2013)</small></div>
+        </div>
+        <p class="note">Cifras de cada estudio, no una promesa para Mundo Fiesta.</p>
+      </section>
+
+      <section class="sl">
+        <div class="top"><span class="k">Fuera del alcance</span><h2>Decisiones de la empresa</h2></div>
+        <div class="chips"><span>Maquinaria de cintas</span><span>Compra del inmueble (hoy alquilado)</span><span>Desarrollo de software</span></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<!-- ================= CHECKLIST ================= -->
+<main id="v-chk" hidden>
+  <div class="wrap">
+    <header class="hero">
+      <span class="k">Checklist de información</span>
+      <h1>Lo que necesitamos para <span>arrancar</span></h1>
+    </header>
+    <div class="slides">
+      <div class="cktop">
+        <div class="ckbig">
+          <div><span class="k">Para arrancar</span><b class="num" id="k-s">0/0</b></div>
+          <div><span class="k">Total</span><b class="num" id="k-a">0/0</b></div>
+        </div>
+        <div class="seg" role="group" aria-label="Filtro">
+          <button type="button" id="f-s" aria-pressed="true">Para arrancar</button>
+          <button type="button" id="f-a" aria-pressed="false">Todo</button>
+        </div>
+      </div>
+      <div class="cks only" id="cks"></div>
+      <p class="note">Urgentes: edificio y ventas. Los tiempos y videos los toma el asesor; la empresa da permiso y acceso.</p>
+    </div>
+  </div>
+</main>
+
+<footer class="wrap">Fuentes: Actas de las Sesiones 1 y 2; Propuesta de asesoría extensa v4. Documento confidencial de trabajo · Volumen 2, borrador.</footer>
+
+<script>
+(function(){
+  // Rutas
+  var V={plan:['v-plan','t-plan'],prop:['v-prop','t-prop'],chk:['v-chk','t-chk']};
+  function route(){
+    var h=location.hash,cur=h==='#propuesta'?'prop':h==='#checklist'?'chk':'plan';
+    Object.keys(V).forEach(function(k){document.getElementById(V[k][0]).hidden=k!==cur;var t=document.getElementById(V[k][1]);if(k===cur)t.setAttribute('aria-current','page');else t.removeAttribute('aria-current')});
+    window.scrollTo(0,0);
+  }
+  addEventListener('hashchange',route);route();
+
+  // Momentos
+  var mos=[].slice.call(document.querySelectorAll('.mo'));
+  function pick(i){mos.forEach(function(m,j){m.setAttribute('aria-selected',j===i);m.tabIndex=j===i?0:-1;document.getElementById('pn'+j).hidden=j!==i})}
+  mos.forEach(function(m,i){m.addEventListener('click',function(){pick(i)});
+    m.addEventListener('keydown',function(e){var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(d){var n=(i+d+mos.length)%mos.length;pick(n);mos[n].focus();e.preventDefault()}})});
+  pick(0);
+
+  // Checklist
+  var CH=[
+    {t:'Empresa y gerencia',it:[['Líder del proyecto por la empresa',1],['Fecha de inicio acordada',1],['Prioridades y expectativas de la gerencia',1],['Organigrama y empleados por área',0]]},
+    {t:'Edificio',u:1,it:[['Planos o medidas reales de cada piso',1],['Accesos: portón, clientes, salidas de emergencia',1],['Fotos actuales de cada piso',1],['Escaleras y montacargas o ascensor',0],['Carga de la losa del piso 2',0],['Agua, desagües y tomas eléctricas',0],['Ventilación de velas y cocina',0]]},
+    {t:'Ventas',u:1,it:[['Ventas mensuales del último año por línea',1],['Registro de entregas totales y completas',1],['Cómo llegan los pedidos y plazo prometido',1],['Ventas por referencia (ABC)',0],['Meses pico y cuánto suben',0],['Tipos de cliente y tamaño de pedido',0]]},
+    {t:'Productos y procesos',it:[['Secuencia real de operaciones',1],['Máquinas y equipos: medidas, estado, ubicación',1],['Defectos y reprocesos comunes',1],['Catálogo de referencias activas',0],['Procesos tercerizados',0]]},
+    {t:'Acceso para medir',it:[['Permiso para tomar tiempos',1],['Permiso para filmar puestos',1],['Horario, turnos, descansos y horas extra',1]]},
+    {t:'Inventarios',it:[['Conteo físico con ubicación',1],['Estanterías, estibas y carros',1],['Registros de inventario actuales',0],['Producto dañado u obsoleto',0]]},
+    {t:'Personal',it:[['Operarios por línea y piso (hombres y mujeres)',1],['Quién sabe hacer varias tareas',1],['Personal temporal en temporada',0]]},
+    {t:'Compras',it:[['Proveedores de papel, cartulina y parafina',1],['Frecuencia, cantidades y tiempos de entrega',1],['Problemas de abastecimiento',0]]},
+    {t:'Seguridad y servicios',it:[['Baños, cocina y vestier: estado',0],['Extintores, señales y plan de emergencia',0],['Accidentes registrados',0],['Estado del SG-SST',0]]},
+    {t:'Gestión',it:[['Cómo y quién programa la producción',1],['Indicadores que se miden hoy',1],['Software en uso',0]]}
+  ];
+  var box=document.getElementById('cks'),h='';
+  CH.forEach(function(s,i){
+    h+='<article class="ckc'+(s.u?' u':'')+'"><div class="h"><span class="i">'+(i+1)+'</span><h3>'+s.t+'</h3><svg class="ring" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" style="fill:none;stroke:var(--soft);stroke-width:4"/><circle id="r'+i+'" cx="18" cy="18" r="15" transform="rotate(-90 18 18)" style="fill:none;stroke:var(--mint);stroke-width:4;stroke-linecap:round;stroke-dasharray:0 94.25"/><text x="18" y="18" text-anchor="middle" dominant-baseline="central" id="rt'+i+'" style="fill:var(--muted);font:700 9px var(--f)"></text></svg></div><ul>';
+    s.it.forEach(function(x,j){var id='c'+i+'-'+j;h+='<li class="'+(x[1]?'st':'ex')+'"><input type="checkbox" id="'+id+'"><label for="'+id+'">'+x[0]+'</label></li>'});
+    h+='</ul></article>';
+  });
+  box.innerHTML=h;
+  function cnt(){var a=0,ad=0,s=0,sd=0;
+    CH.forEach(function(sec,i){var d=0;sec.it.forEach(function(x,j){var c=document.getElementById('c'+i+'-'+j).checked;a++;if(c){ad++;d++}if(x[1]){s++;if(c)sd++}});
+      var p=d/sec.it.length;document.getElementById('r'+i).style.strokeDasharray=(p*94.25)+' 94.25';document.getElementById('rt'+i).textContent=d+'/'+sec.it.length});
+    document.getElementById('k-s').textContent=sd+'/'+s;document.getElementById('k-a').textContent=ad+'/'+a}
+  [].forEach.call(box.querySelectorAll('input'),function(b){try{if(localStorage.getItem('mfv2-'+b.id)==='1')b.checked=true}catch(e){}
+    b.addEventListener('change',function(){try{localStorage.setItem('mfv2-'+b.id,b.checked?'1':'0')}catch(e){}cnt()})});
+  cnt();
+  var fs=document.getElementById('f-s'),fa=document.getElementById('f-a');
+  function f(o){box.classList.toggle('only',o);fs.setAttribute('aria-pressed',o);fa.setAttribute('aria-pressed',!o)}
+  fs.onclick=function(){f(true)};fa.onclick=function(){f(false)};
+})();
+</script>
