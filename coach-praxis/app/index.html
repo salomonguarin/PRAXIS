@@ -75,6 +75,14 @@ nav button.on{color:var(--ac);box-shadow:inset 0 3px 0 var(--ac)}
 table{width:100%;border-collapse:collapse;font-size:16px;font-variant-numeric:tabular-nums}td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left}
 @media (max-width:420px){h1{font-size:38px}.k{font-size:32px}ol.do{font-size:18px}}
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
+.learn{background:var(--card);border:2px solid var(--ac);border-radius:16px;padding:18px}
+.ex2{font-size:16px}.ex2 b{color:var(--ac)}
+.kq{font-weight:600;font-size:18px;border-top:1px solid var(--line);padding-top:10px}
+.lbtn{background:var(--acs);color:var(--ac);border:0;border-radius:12px;padding:12px 16px;font-weight:600;font-size:17px;text-align:left;width:100%}
+.lbtn .mut{color:var(--ac);opacity:.75}
+.opt{border:1px solid var(--line);border-radius:12px;padding:12px}
+.timerc{display:flex;flex-direction:column;gap:10px;text-align:center}
+.timerc .timer{font-size:52px}
 </style>
 <div id="app"></div>
 <nav id="nav"></nav>
@@ -84,39 +92,173 @@ const SCHEMA=1, KEY='forja-praxis-v1';
 const TOOLS=['Gemba + 5S','PHVA + 7 desperdicios','Restricciones + estándar','Kaizen 1%'];
 const WASTES=['Espera','Sobreproducción de ideas','Movimiento sin avance','Retrabajo','Inventario sin aplicar','Planear sin ejecutar','Transporte','Talento sin usar'];
 
-const PD={t:'Práctica deliberada',src:'Ericsson · Dunlosky',steps:['Elige el concepto Lean de esta semana.','Grábate explicándolo en 2 minutos, sin notas.','Escucha la grabación y encuentra 1 error o duda.','Grábate otra vez corrigiéndolo.'],f:[['e1','Concepto que explicaste','text'],['e2','Error o duda que encontraste','area'],['e3','Qué mejoró en la segunda versión','area']]};
-const METAS=(extra)=>({t:'Metas al ahora',src:'Keller, Solo una cosa',steps:['Responde cada nivel con una sola frase.','Ve de lo lejano a lo inmediato: cada respuesta prepara la siguiente.'].concat(extra||[]),f:[['e1','Algún día quiero...','text'],['e2','En 5 años...','text'],['e3','Este año...','text'],['e4','Este mes...','text'],['e5','Esta semana...','text'],['e6','Hoy...','text'],['e7','Ahora mismo...','text']]});
-const WOOP=(w,extra)=>({t:'WOOP de la semana '+w,src:'Oettingen',steps:['Escribe tu deseo para la semana '+w+'.','Escribe el mejor resultado si lo logras.','Escribe tu obstáculo interno principal: algo en ti, no afuera.','Escribe qué harás cuando aparezca.'].concat(extra?[extra[0]]:[]),f:[['e1','Deseo','text'],['e2','Mejor resultado','text'],['e3','Obstáculo interno','text'],['e4','Si aparece ese obstáculo, entonces...','text']].concat(extra?[extra[1]]:[])});
+const LEARN={
+ unacosa:{t:'La Una Cosa',que:'La tarea que, si la haces, vuelve todo lo demás más fácil o innecesario. No es la más urgente: es la que más mueve tu resultado.',fab:'Una planta con 20 problemas ataca primero el que frena a los otros 19.',vida:'Si defines a qué clientes sirve Praxis, tu marca, tu oferta y tu agenda se ordenan solas.',q:'¿Qué hago hoy que vuelva lo demás más fácil o innecesario?',src:'Keller, Solo una cosa'},
+ metas:{t:'Metas al ahora',src:'Keller, Solo una cosa',que:'Bajar una meta grande, nivel por nivel, hasta lo que haces ahora mismo. Cada nivel prepara el siguiente, como fichas de dominó.',fab:'La meta anual de productividad se vuelve la meta del mes, la de la semana y la del turno de hoy.',vida:'Praxis con clientes en 90 días se vuelve una conversación con un empresario esta semana y una lista de 10 contactos hoy.',q:'¿Qué debo hacer hoy para que la meta de la semana sea posible?'},
+ gemba:{t:'Gemba',src:'Lean, Toyota',que:'Gemba significa el lugar real: donde pasa el trabajo. En vez de suponer, vas, miras con tus ojos y registras datos.',fab:'El gerente no mira el reporte de paradas: va a la máquina, observa 30 minutos y anota qué la detiene.',vida:'No supones en qué se va tu mañana: la registras cada 10 minutos y miras los datos.',q:'¿Qué está pasando de verdad, no lo que creo que pasa?'},
+ s5:{t:'5S',src:'Lean, Toyota',que:'Método para ordenar un espacio en 5 pasos: Clasificar, Ordenar, Limpiar, Estandarizar y Disciplina. Un espacio ordenado muestra los problemas y elimina búsquedas.',fab:'Herramientas con su silueta pintada en la pared: si falta una, se ve al instante.',vida:'Escritorio con solo lo de tu Una Cosa, celular fuera y archivos donde siempre están.',q:'¿Qué sobra, qué falta y qué está fuera de lugar?'},
+ seiri:{t:'Seiri: Clasificar',src:'5S',que:'Separar lo necesario de lo innecesario y sacar lo innecesario. Lo dudoso recibe una tarjeta roja con fecha: si no lo usas en 30 días, sale.',fab:'Se retiran de la línea los moldes que no se usan hace un año.',vida:'Sacas de tu escritorio y tu celular todo lo que no usas cada semana.',q:'¿Lo uso cada semana? Si no, ¿por qué está aquí?'},
+ seiton:{t:'Seiton: Ordenar',src:'5S',que:'Un lugar para cada cosa y cada cosa en su lugar, nombrado y cerca de donde se usa. La meta: encontrar cualquier cosa en 30 segundos.',fab:'Cada estante lleva etiqueta y cada herramienta vuelve a su silueta.',vida:'Carpeta Praxis con subcarpetas fijas y un sitio fijo para cuaderno, cargador y llaves.',q:'¿Lo encuentro en menos de 30 segundos?'},
+ seiso:{t:'Seiso: Limpiar',src:'5S',que:'Limpiar es inspeccionar: al limpiar ves lo que falla. Y buscas la fuente de la suciedad para cortarla.',fab:'Al limpiar una máquina el operario descubre una fuga de aceite antes de que cause una parada.',vida:'Vaciar la bandeja de entrada te muestra qué compromisos dejaste abiertos.',q:'¿De dónde viene el desorden y cómo lo corto en la fuente?'},
+ seiketsu:{t:'Seiketsu: Estandarizar',src:'5S',que:'Dejar escrito y visible cómo debe verse el lugar ordenado, para que mantenerlo no dependa de la memoria.',fab:'Foto del puesto ideal pegada al lado del puesto real.',vida:'Foto de tu escritorio ordenado y una rutina de 5 minutos para dejarlo igual cada día.',q:'¿Cualquier persona sabría cómo debe quedar esto?'},
+ shitsuke:{t:'Shitsuke: Disciplina',src:'5S',que:'Sostener el estándar todos los días y auditarlo. Sin disciplina, las 4 S anteriores se pierden en dos semanas.',fab:'Auditoría semanal de 5S con puntaje visible para el equipo.',vida:'Cada domingo calificas tu 5S del 1 al 5 con datos.',q:'¿Lo sostuve esta semana? ¿Cómo lo sé?'},
+ phva:{t:'PHVA',src:'Deming',que:'Ciclo de mejora: Planear, Hacer, Verificar y Actuar. Planeas un cambio pequeño, lo haces, mides si funcionó y decides si se vuelve estándar.',fab:'Se prueba un cambio en una sola línea, se mide una semana y solo si funciona se aplica a toda la planta.',vida:'Apertura es Planear, el bloque es Hacer, el Cierre es Verificar y la mejora de mañana es Actuar.',q:'¿Qué planeé, qué pasó y qué ajusto?'},
+ muda:{t:'Los 8 desperdicios',src:'Lean, Taiichi Ohno',que:'Todo lo que consume tiempo o recursos sin agregar valor: espera, sobreproducción, inventario, movimiento, transporte, retrabajo, sobreprocesamiento y talento sin usar.',fab:'Un operario camina 2 km por turno buscando piezas: es movimiento sin valor.',vida:'Diez ideas abiertas son sobreproducción; libros sin aplicar son inventario; planear sin ejecutar es sobreprocesamiento.',q:'¿Esto agrega valor a mi Una Cosa o solo consume tiempo?'},
+ porques:{t:'5 porqués',src:'Lean, Toyota',que:'Preguntar por qué cinco veces seguidas para pasar del síntoma a la causa raíz. Se corrige la causa, no el síntoma.',fab:'La máquina paró. ¿Por qué? Se fundió un fusible. ¿Por qué? Sobrecarga. ¿Por qué? Falta lubricación... hasta llegar a la bomba que no se revisa.',vida:'No termino las cosas. ¿Por qué? Cambio de proyecto. ¿Por qué? Me aburro sin resultados rápidos...',q:'¿Por qué pasó? ¿Y por qué pasó eso?'},
+ toc:{t:'Teoría de Restricciones',src:'Goldratt',que:'Todo sistema tiene un eslabón que limita su resultado. Mejorar otra cosa no sirve. Pasos: identificar la restricción, explotarla, subordinar todo a ella, elevarla y repetir.',fab:'Si una máquina produce 100 y las demás 200, la planta produce 100. Se mejora esa máquina primero.',vida:'Si tu restricción es la dispersión, cualquier otra mejora se pierde en el próximo cambio de proyecto.',q:'¿Qué es lo que más limita mi avance hoy?'},
+ estandar:{t:'Trabajo estandarizado',src:'Lean, Toyota',que:'La mejor forma conocida hoy de hacer una tarea, escrita. No es rígido: es la base para mejorar. Sin estándar no sabes si mejoraste.',fab:'Hoja de trabajo con secuencia, tiempo y puntos clave en cada puesto.',vida:'Tu mañana escrita hora por hora: si te desvías, lo ves y lo corriges.',q:'¿Cuál es la mejor forma que conozco hoy de hacer esto?'},
+ pokayoke:{t:'Poka-yoke',src:'Shigeo Shingo',que:'Diseñar el entorno para que el error sea imposible o se note al instante. No depender de la fuerza de voluntad.',fab:'Una pieza que solo encaja en una posición: no se puede montar al revés.',vida:'El celular en otro cuarto hace imposible revisarlo durante el bloque.',q:'¿Cómo hago que el error sea imposible, no solo improbable?'},
+ andon:{t:'Andon',src:'Lean, Toyota',que:'Una señal para detener el trabajo cuando aparece un problema, en vez de seguir y esconderlo. Parar a tiempo es más barato que corregir después.',fab:'El operario tira de una cuerda, se enciende una luz y el líder llega a ayudar.',vida:'Al notar que te desviaste, te detienes, respiras un minuto, lees tu Una Cosa y vuelves.',q:'¿Cuál es mi señal para detenerme y volver?'},
+ kaizen:{t:'Kaizen',src:'Lean',que:'Mejora continua en pasos pequeños y medidos, todos los días. Mejorar 1% diario es sostenible; los cambios gigantes casi nunca lo son.',fab:'Cada semana el equipo hace una mejora pequeña en su puesto y la mide.',vida:'Una mejora diaria en tu rutina, medida, durante 28 días.',q:'¿Qué puedo mejorar 1% hoy y cómo lo mido?'},
+ experimento:{t:'Experimento personal',src:'Kaizen · PHVA',que:'Probar una mejora como un científico: hipótesis, un solo cambio, una métrica y una fecha. Si cambias varias cosas a la vez, no sabes qué funcionó.',fab:'Se prueba una nueva secuencia solo en el turno de la mañana y se compara con la tarde.',vida:'Si trabajo antes de abrir el celular, mis minutos en la Una Cosa suben. Lo pruebo 3 días.',q:'¿Qué cambio, qué mido y cuándo evalúo?'},
+ sientonces:{t:'Plan si-entonces',src:'Gollwitzer',que:'Decidir antes qué harás cuando aparezca un obstáculo: Si pasa X, entonces hago Y. Es de las técnicas con más evidencia para cumplir metas.',fab:'Si la máquina pasa de 80 °C, entonces se detiene y se avisa a mantenimiento.',vida:'Si me dan ganas de abrir redes, entonces escribo la idea en la lista de espera y vuelvo.',q:'¿Qué me va a frenar hoy y qué haré cuando pase?'},
+ woop:{t:'WOOP',src:'Oettingen',que:'Deseo, mejor resultado, obstáculo interno y plan. Imaginar solo el éxito puede bajar tu esfuerzo; contrastarlo con el obstáculo lo sube.',fab:'Antes del lanzamiento, el equipo escribe el resultado deseado y lo que dentro del equipo puede fallar.',vida:'Deseo: cumplir la semana. Obstáculo: mi aburrimiento. Plan: si me aburro, cambio de lugar pero no de tarea.',q:'¿Qué en mí puede impedirlo?'},
+ premortem:{t:'Pre-mortem',src:'Gary Klein',que:'Imaginar que el proyecto ya fracasó y escribir por qué. Así aparecen riesgos que el optimismo esconde.',fab:'Antes de instalar un software, el equipo escribe las razones por las que la implementación fracasó.',vida:'Es el día 28 y no cumplí. ¿Por qué? Las causas se vuelven planes si-entonces.',q:'Si esto fracasa, ¿cuál será la causa más probable?'},
+ pd:{t:'Práctica deliberada',src:'Ericsson',que:'Practicar una subhabilidad específica, al borde de tu capacidad, con retroalimentación inmediata y repetición. No es repetir lo que ya sabes.',fab:'Un técnico practica el cambio de molde cronometrado hasta bajarlo de 40 a 10 minutos.',vida:'Te grabas explicando un concepto, te escuchas, corriges un error y repites.',q:'¿Qué error concreto voy a corregir en este intento?'},
+ recuperacion:{t:'Recuperación',src:'Dunlosky 2013',que:'Recordar sin mirar las notas. Es una de las técnicas de estudio mejor evaluadas; releer y subrayar rinden poco.',fab:'Un operario explica el procedimiento de memoria antes de ver la hoja.',vida:'Al cierre escribes 3 aprendizajes sin mirar nada.',q:'¿Qué recuerdo sin mirar?'},
+ mapa:{t:'Mapa mental',src:'Buzan',que:'Una idea central en el medio de la hoja, ramas curvas con una palabra cada una y colores. Lo que ayuda es dibujarlo tú mismo.',fab:'Mapa de causas de un problema de calidad dibujado por el equipo en una pizarra.',vida:'Tu día real dibujado: ves de un vistazo dónde se va el tiempo.',q:'¿Qué veo dibujado que no veía en la lista?'},
+ rendicion:{t:'Rendición de cuentas',src:'Harkin 2016 · Hill',que:'Reportar tu progreso a otra persona aumenta el efecto de medirlo. Comprometerte en público te hace cumplir más.',fab:'Reunión diaria de 10 minutos donde cada líder reporta sus indicadores.',vida:'Cada domingo envías tus 3 indicadores a tu socio de rendición de cuentas.',q:'¿A quién le rindo cuentas esta semana?'}
+};
+
+const P=(c)=>({t:'Aplícalo a Praxis',min:20,learn:null,steps:['Explica '+c+' a un empresario en 3 frases, como si solo tuviera 5 minutos.','Diseña un ejercicio práctico de 15 minutos para enseñarlo en un taller de la Fábrica de Aprendizaje.','Escribe qué resultado medible esperarías en su empresa.'],f:[['p1','Mi explicación en 3 frases','area'],['p2','Mi ejercicio de taller','area'],['p3','Resultado medible esperado','text']]});
+const PD={t:'Práctica deliberada',src:'Ericsson · Dunlosky',min:30,learn:'pd',steps:['Elige el concepto de hoy.','Grábate explicándolo en 2 minutos, sin notas.','Escucha la grabación y encuentra 1 error o duda.','Grábate otra vez corrigiéndolo.'],f:[['e1','Concepto que expliqué','text'],['e2','Error o duda que encontré','area'],['e3','Qué mejoró en la segunda versión','area']]};
+const METAS=(extra)=>({t:'Metas al ahora',src:'Keller, Solo una cosa',min:30,learn:'metas',steps:['Responde cada nivel con una sola frase.','Ve de lo lejano a lo inmediato: cada respuesta prepara la siguiente.'].concat(extra||[]),f:[['e1','Algún día quiero...','text'],['e2','En 5 años...','text'],['e3','Este año...','text'],['e4','Este mes...','text'],['e5','Esta semana...','text'],['e6','Hoy...','text'],['e7','Ahora mismo...','text']]});
+const WOOP=(w,extra)=>({t:'WOOP de la semana '+w,src:'Oettingen',min:30,learn:'woop',steps:['Escribe tu deseo para la semana '+w+'.','Escribe el mejor resultado si lo logras.','Escribe tu obstáculo interno principal: algo en ti, no afuera.','Escribe qué harás cuando aparezca.'].concat(extra?[extra[0]]:[]),f:[['e1','Deseo','text'],['e2','Mejor resultado','text'],['e3','Obstáculo interno','text'],['e4','Si aparece ese obstáculo, entonces...','text']].concat(extra?[extra[1]]:[])});
+const PREM=(when,f2)=>({t:'Pre-mortem',src:'Gary Klein',min:30,learn:'premortem',steps:['Imagina que '+when+' y fracasaste.','Escribe 5 causas de ese fracaso.','Convierte cada causa en un plan si-entonces.'],f:[['e1','5 causas del fracaso','area'],['e2',f2||'Mis planes si-entonces','area']]});
+const BUZ=(t,steps,lab)=>({t:t,src:'Buzan',min:30,learn:'mapa',steps:steps,f:[['e1',lab||'Qué descubrí al dibujarlo','area']]});
+const D_=(t,min,steps,f,learn)=>({t,min,steps,f,learn});
+const REV=[D_('Mira tus números',20,['Lee los números de la semana que aparecen arriba.','Compáralos con la semana anterior.'],[['r1','Lo que dicen mis números','area']]),D_('Qué funcionó y qué no',25,['Escribe 3 cosas que funcionaron.','Escribe 3 que no funcionaron.','Elige una para eliminar la semana que viene.'],[['r2','Funcionó','area'],['r3','No funcionó','area'],['r4','Lo que elimino','text']])];
 
 const DAYS=[
- {t:'Gemba: tu día real',steps:['Pon una alarma cada 30 minutos durante el bloque.','Cada vez que suene, anota en una línea qué estabas haciendo.','Al final, suma los minutos que fueron de verdad a tu Una Cosa.'],f:[['t1','Registro cada 30 minutos','area'],['t2','Minutos reales en mi Una Cosa','num']],ex:METAS(),reto:'Escribe cuál es la acción incómoda que más evitas.'},
- {t:'Seiri: clasifica tu espacio',steps:['Saca todo de tu escritorio y cajones.','Haz 3 grupos: uso diario, uso ocasional, no uso.','Lo que no usas: regálalo, véndelo o bótalo hoy.'],f:[['t1','Qué eliminé','area'],['t2','Qué me costó soltar y por qué','text']],ex:{t:'Pre-mortem',src:'Gary Klein',steps:['Imagina que es el día 28 y fracasaste.','Escribe 5 causas de ese fracaso.','Convierte la más probable en un plan si-entonces.'],f:[['e1','5 causas del fracaso','area'],['e2','Si ___, entonces ___ (para la causa principal)','text']]},reto:'Regala o bota algo que te cuesta soltar.'},
- {t:'Seiri digital',steps:['Borra las apps que no usaste en 30 días.','Cancela suscripciones y correos que no lees.','Deja máximo 8 apps en la pantalla principal.'],f:[['t1','Apps y suscripciones eliminadas','area'],['t2','Tiempo de pantalla de ayer (míralo en la configuración del celular)','text']],ex:PD,reto:'Elimina la app que más te distrae.'},
- {t:'Seiton: un lugar para cada cosa',steps:['Crea una carpeta Praxis con 4 subcarpetas: Clientes, Método, Marca, Admin.','Mueve ahí todo lo de Praxis.','Define un lugar fijo para cada objeto de tu escritorio.'],f:[['t1','Estructura que creé','text'],['t2','Qué busqué más de 1 minuto esta semana','text']],ex:{t:'Mapa mental de tu día real',src:'Buzan',steps:['Toma una hoja horizontal.','En el centro dibuja tu día.','Saca una rama por actividad del registro del día 1: una palabra y un color por rama.','Marca en rojo lo que fue desperdicio.'],f:[['e1','Qué descubrí al verlo dibujado','area']]},reto:'Ordena y nombra todo en 15 minutos, sin pausas.'},
- {t:'Seiso: limpia',steps:['Limpia escritorio, pantalla y teclado.','Deja la bandeja de entrada en cero: responde, archiva o borra.','Identifica qué ensucia o desordena tu espacio.'],f:[['t1','Qué ensucia o desordena mi espacio','text'],['t2','Cómo lo voy a evitar','text']],ex:PD,reto:'Limpia primero lo que más evitas.'},
- {t:'Seiketsu: estandariza',steps:['Toma una foto de tu escritorio ordenado: ese es tu estándar.','Escribe el estándar en 5 líneas: qué hay y dónde está.','Escribe la rutina de 5 minutos para dejarlo así cada día.'],f:[['t1','Mi estándar en 5 líneas','area'],['t2','Mi rutina de 5 minutos','area']],ex:{t:'Tu maestro y tu subhabilidad',src:'Greene, Maestría · Ericsson',steps:['Elige una persona que domine la mejora continua y que puedas estudiar.','Elige UNA subhabilidad para estos 28 días: explicar, facilitar o vender.','Define cómo vas a medir tu avance.'],f:[['e1','Mi maestro','text'],['e2','Mi subhabilidad','text'],['e3','Cómo la mediré','text']]},reto:'Muéstrale tu estándar a alguien.'},
- {t:'Shitsuke y revisión semanal',stats:1,steps:['Revisa si tu espacio sigue en el estándar.','Mira tus números de la semana (abajo).','Anota tu línea base: esto será tu punto de partida.'],f:[['t1','Mi 5S del 1 al 5, y por qué','text'],['t2','Qué funcionó y qué no esta semana','area']],ex:WOOP(2,['Envía a 3 personas de confianza: ¿Qué valoras de mí y qué debería mejorar?',['e5','Respuestas de las 3 personas (puedes completarlo después)','area']]),reto:'Di en voz alta qué vas a cambiar.'},
- {t:'Desperdicio: espera',steps:['Anota cada vez que esperas algo o a alguien hoy.','Para cada espera, decide qué hacer en ella o cómo eliminarla.'],f:[['t1','Esperas que detecté','area'],['t2','Cómo eliminaré la más grande','text']],ex:PD,reto:'Elimina una espera hoy.'},
- {t:'Desperdicio: sobreproducción de ideas',steps:['Escribe todos tus proyectos e ideas activas.','Deja solo Praxis.','Pasa el resto a la Lista de espera (en Hoy).'],f:[['t1','Proyectos e ideas que tenía','area'],['t2','Qué siento al soltarlos','text']],ex:{t:'Tu error repetido',src:'Gelb, Dimostrazione · 5 porqués',steps:['Escribe el error que más repites.','Pregúntate por qué, cinco veces seguidas.','Escribe un plan si-entonces contra la causa raíz.'],f:[['e1','Mi error repetido','text'],['e2','Los 5 porqués','area'],['e3','Si ___, entonces ___','text']]},reto:'Archiva un proyecto que amas.'},
- {t:'Desperdicio: inventario',steps:['Lista los libros y cursos que no has aplicado.','Elige uno.','Aplica hoy una idea concreta de él.'],f:[['t1','Mi inventario sin aplicar','area'],['t2','Idea que apliqué hoy y resultado','text']],ex:PD,reto:'Aplica algo en la vida real, no en notas.'},
- {t:'Desperdicio: movimiento',steps:['Durante el bloque, marca una raya cada vez que cambies de tarea.','Al final, cuéntalas.','Meta de mañana: la mitad.'],f:[['t1','Cambios de tarea hoy','num'],['t2','Qué me hizo cambiar','text']],ex:{t:'Socio de rendición de cuentas',src:'Hill, Master Mind · Harkin 2016',steps:['Elige 1 persona que te exija.','Pídele que reciba tus 3 indicadores cada domingo.','Escribe el mensaje y envíalo hoy.'],f:[['e1','Mi socio','text'],['e2','Mensaje que envié','area']]},reto:'Un bloque completo sin cambiar de tarea.'},
- {t:'Desperdicio: retrabajo',steps:['Anota qué tuviste que repetir o corregir hoy.','Encuentra la causa.','Diseña cómo evitarlo la próxima vez.'],f:[['t1','Retrabajo de hoy','text'],['t2','Causa y prevención','area']],ex:PD,reto:'Corrige la causa, no el síntoma.'},
- {t:'Desperdicio: planear sin ejecutar',steps:['Ponte un tope de 15 minutos para planear cada tarea.','Ejecuta una tarea imperfecta y entrégala hoy.'],f:[['t1','Qué entregué imperfecto','text'],['t2','Qué pasó realmente','text']],ex:PD,reto:'Entrega algo imperfecto hoy.'},
- {t:'Talento sin usar y revisión semanal',stats:1,steps:['Escribe tus 3 fortalezas.','¿Cuál no usaste esta semana?','Mira tus números de la semana (abajo).'],f:[['t1','Fortaleza sin usar y cómo la usaré','text'],['t2','Qué funcionó y qué no esta semana','area']],ex:WOOP(3),reto:'Usa esa fortaleza frente a otra persona.'},
- {t:'Encuentra tu restricción',steps:['Revisa tus registros de 2 semanas en Progreso.','Busca el patrón: ¿qué limitó más tu avance?','Escríbelo en una frase, con su evidencia.'],f:[['t1','Mi restricción es...','text'],['t2','Evidencia (datos de mi registro)','area']],ex:{t:'Declara la guerra a tu enemigo',src:'Greene, 33 estrategias',steps:['Escribe cómo te ataca la dispersión: cuándo, con qué excusa.','Escribe cómo la vences.','Léelo cada mañana esta semana.'],f:[['e1','Cómo me ataca','area'],['e2','Cómo la venzo','area']]},reto:'Comparte tu restricción con alguien.'},
- {t:'Diseña tu rutina estándar',steps:['Escribe tu mañana hora por hora, desde que despiertas hasta el cierre.','Incluye: despertar, ejercicio, apertura, bloque y cierre.','Fija una hora de despertar.'],f:[['t1','Mi rutina hora por hora','area'],['t2','Hora fija de despertar','text']],ex:PD,reto:'Sigue la rutina desde el primer minuto.'},
- {t:'Poka-yoke: barreras',steps:['Diseña 3 barreras contra la dispersión.','Ejemplos: celular en otro cuarto, bloqueador de sitios, una sola pestaña.','Instálalas hoy.'],f:[['t1','Mis 3 barreras','area'],['t2','Las instalé','yes']],ex:{t:'Cuerpo en movimiento',src:'Gelb, Corporalità',steps:['Haz 20 minutos de ejercicio antes del bloque.','Anota tu energía antes y después.'],f:[['e1','Ejercicio que hice','text'],['e2','Energía antes y después (1 a 5)','text']]},reto:'Instala una barrera ahora mismo.'},
- {t:'Andon: tu señal de alerta',steps:['Define qué haces cuando notas que te desviaste.','Ejemplo: me levanto, respiro 1 minuto, leo mi Una Cosa y vuelvo.','Úsala cada vez que haga falta hoy.'],f:[['t1','Mi señal y mi protocolo','area'],['t2','Veces que la usé hoy','num']],ex:PD,reto:'Activa la señal todas las veces que haga falta.'},
- {t:'Trabajo estandarizado',steps:['Ejecuta tu rutina exactamente como la escribiste.','Anota cada desviación.','Ajusta el estándar si algo no funciona.'],f:[['t1','Desviaciones de hoy','area'],['t2','Ajuste a mi estándar','text']],ex:{t:'Mapa de tu rutina',src:'Buzan',steps:['Dibuja tu rutina estándar como mapa mental.','Agrega tus barreras en otro color.','Pégalo donde lo veas cada mañana.'],f:[['e1','Qué cambió al dibujarla','area']]},reto:'Sostén la rutina aunque no tengas ganas.'},
- {t:'Subordina todo a tu Una Cosa',steps:['Lista tus compromisos de la semana.','Marca los que no ayudan a tu Una Cosa.','Cancela o delega uno hoy.'],f:[['t1','Compromiso que cancelé o delegué','text'],['t2','Cómo me sentí al decir no','text']],ex:PD,reto:'Dile no a algo hoy.'},
- {t:'Revisión semanal: tu restricción',stats:1,steps:['Revisa si tu restricción se movió.','Define cuál es la siguiente.','Mira tus números de la semana (abajo).'],f:[['t1','¿Se movió mi restricción? Evidencia','area'],['t2','Mi siguiente restricción','text']],ex:WOOP(4),reto:'Cuéntale a tu socio tu avance.'},
- {t:'Elige tu mejora del 1%',steps:['Elige una sola cosa que mejorar.','Define cómo medirla.','Mide su valor hoy: es tu base.'],f:[['t1','Mi mejora','text'],['t2','Métrica y valor de hoy','text']],ex:{t:'Diseña el experimento',src:'Kaizen · Greene, Maestría',steps:['Escribe tu hipótesis: si cambio X, entonces Y mejora.','Un solo cambio a la vez.','Pon fecha para evaluar.'],f:[['e1','Hipótesis','text'],['e2','El cambio','text'],['e3','Fecha de evaluación','text']]},reto:'Compromete la mejora con una fecha.'},
- {t:'Aplica y mide',steps:['Aplica tu mejora (Hacer).','Mide el resultado (Verificar).','Decide: sigue, ajusta o descarta (Actuar).'],f:[['t1','Resultado medido','text'],['t2','Decisión: sigo, ajusto o descarto','text']],ex:PD,reto:'Mide con datos, no con sensaciones.'},
- {t:'Segunda mejora',steps:['Elige una nueva mejora del 1%.','Aplícala y mídela hoy.'],f:[['t1','Mi segunda mejora','text'],['t2','Resultado medido','text']],ex:PD,reto:'Hazlo antes de las 10 a.m.'},
- {t:'Estandariza lo que funcionó',steps:['Escribe como estándar lo que funcionó.','Enséñaselo a otra persona.'],f:[['t1','Mi nuevo estándar','area'],['t2','A quién se lo enseñé y qué preguntó','text']],ex:{t:'Pre-mortem de Praxis',src:'Gary Klein',steps:['Imagina que en 90 días Praxis no tiene clientes.','Escribe 5 causas.','Convierte cada una en un plan si-entonces.'],f:[['e1','5 causas','area'],['e2','Mis planes si-entonces','area']]},reto:'Enséñale el estándar a alguien.'},
- {t:'Tercera mejora y elimina',steps:['Aplica una tercera mejora del 1%.','Elimina algo que no funcionó.'],f:[['t1','Mi tercera mejora y resultado','text'],['t2','Lo que eliminé','text']],ex:PD,reto:'Corta algo querido que no rinde.'},
- {t:'Tu antes y después',steps:['Compara el día 1 con hoy usando datos: minutos en la Una Cosa, tiempo de pantalla, cumplimiento.','Escribe tu caso en 5 líneas: situación, problema, acción, resultado, aprendizaje.'],f:[['t1','Antes (datos)','area'],['t2','Después (datos)','area'],['t3','Mi caso en 5 líneas','area']],ex:{t:'Mapa maestro de tu Fase 1',src:'Buzan · Gelb',steps:['Dibuja el mapa de tu Fase 1. En el centro: tú, forjado.','Ramas: aprendizajes, antes y después, siguiente paso.'],f:[['e1','Lo más importante de mi mapa','area']]},reto:'Presenta tu caso en 2 minutos sin libreto.'},
- {t:'Puerta a Fase 2',stats:1,steps:['Mira tus números (abajo) y tu Progreso.','Responde con datos: ¿pasaste la puerta?','Define tu siguiente paso.'],f:[['t1','Mi veredicto y sus datos','area'],['t2','Mi siguiente paso','text']],ex:METAS(['Compara con lo que escribiste el día 1.']),reto:'Dilo directo: pasaste o no pasaste.'}
+ {t:'Gemba: tu mañana real',learn:'gemba',drills:[
+  D_('Encuentra tu Una Cosa a 90 días',25,['Escribe hasta 5 cosas que podrías lograr en 90 días.','Responde las dos preguntas para cada una.','Elige la que la app te sugiere, o tu ganadora.'],[['u90','Mi Una Cosa a 90 días','onething-open']],'unacosa'),
+  D_('Bájala a hoy',15,['Escribe qué debe pasar este mes, esta semana y hoy para lograrla.'],[['a1','Este mes','text'],['a2','Esta semana','text'],['a3','Hoy','text']],'metas'),
+  D_('Gemba de tu mañana',45,['Pon una alarma cada 10 minutos.','Trabaja normal en lo que tengas pendiente.','Cada vez que suene, anota en una línea qué hacías y si aportaba a tu Una Cosa (sí o no).','Al final cuenta cuántas marcas fueron sí.'],[['a4','Mi registro cada 10 minutos','area'],['a5','Marcas que fueron sí (de 4 o 5)','num']])],
+  ex:PREM('es el día 28'),praxis:P('Gemba'),reto:'Escribe cuál es la acción incómoda que más evitas.'},
+ {t:'Seiri: clasifica tu espacio',learn:'seiri',drills:[
+  D_('Saca y clasifica',40,['Saca todo de tu escritorio y cajones y ponlo sobre una superficie.','Haz 3 grupos: uso diario, uso ocasional y no uso.','Cuenta cuántos objetos hay en cada grupo.'],[['a1','Diario / ocasional / no uso (cantidades)','text']]),
+  D_('Decide y elimina',30,['Lo de no uso: regálalo, véndelo o bótalo hoy.','Lo ocasional: guárdalo fuera de tu vista.','Toma una foto de antes y otra de después.'],[['a2','Lo que eliminé','area'],['a3','Lo que me costó soltar y por qué','text']]),
+  D_('Tarjeta roja',15,['A lo que te genera duda, ponle una nota roja con la fecha de hoy.','Si en 30 días no lo usaste, sale.'],[['a4','Objetos con tarjeta roja','text']])],
+  ex:PD,praxis:P('Seiri'),reto:'Regala o bota algo que te cuesta soltar.'},
+ {t:'Seiri digital',learn:'seiri',drills:[
+  D_('Mide tu punto de partida',15,['Abre la configuración del celular y busca el tiempo de pantalla.','Anota el tiempo de ayer y tus 3 apps más usadas.','Cuenta cuántas apps tienes instaladas.'],[['a1','Tiempo de pantalla de ayer','text'],['a2','Top 3 apps','text'],['a3','Apps instaladas','num']]),
+  D_('Clasifica y elimina apps',35,['Borra las apps que no usaste en 30 días.','Deja máximo 8 apps en la pantalla principal.','Desactiva notificaciones, excepto llamadas y mensajes de personas.'],[['a4','Apps eliminadas','area']]),
+  D_('Correo y suscripciones',35,['Date de baja de 10 boletines que no lees.','Cancela las suscripciones que no usas.','Archiva todo el correo de más de 30 días.'],[['a5','Bajas y cancelaciones','area']])],
+  ex:BUZ('Mapa de tu situación actual',['Toma una hoja horizontal.','En el centro escribe: Salomon hoy.','Saca ramas: trabajo, dinero, salud, relaciones, Praxis. Una palabra por rama.','Marca en rojo lo que más te pesa.']),praxis:P('5S digital'),reto:'Elimina la app que más te distrae.'},
+ {t:'Seiton: un lugar para cada cosa',learn:'seiton',drills:[
+  D_('Carpetas de Praxis',30,['Crea una carpeta Praxis con 4 subcarpetas: Clientes, Método, Marca, Admin.','Mueve ahí todos los archivos de Praxis.','Borra los duplicados.'],[['a1','Estructura que creé','text']]),
+  D_('Un lugar fijo',30,['Define un lugar fijo para cada objeto de tu escritorio.','Etiquétalo si hace falta.','Lo que usas más, más cerca de tu mano.'],[['a2','Mis lugares fijos','area']]),
+  D_('Prueba de 30 segundos',15,['Pídele a alguien que te nombre 5 cosas (objetos o archivos).','Cronometra cuánto tardas en encontrar cada una.'],[['a3','Tiempos de búsqueda','text'],['a4','Lo que no encontré rápido y cómo lo corrijo','text']])],
+  ex:BUZ('Mapa de tu día real',['Toma una hoja horizontal.','En el centro dibuja tu día.','Saca una rama por actividad de tu registro del día 1, con una palabra y un color.','Marca en rojo lo que fue desperdicio.']),praxis:P('Seiton'),reto:'Ordena y nombra todo en 15 minutos, sin pausas.'},
+ {t:'Seiso: limpia e inspecciona',learn:'seiso',drills:[
+  D_('Limpieza a fondo',30,['Limpia escritorio, pantalla, teclado y silla.','Mientras limpias, anota todo lo que esté roto o falte.'],[['a1','Lo roto o faltante que encontré','text']]),
+  D_('Bandeja en cero',40,['Abre tu correo y tus mensajes.','Para cada uno: responde si toma menos de 2 minutos, agenda, archiva o borra.','Termina con la bandeja en cero.'],[['a2','Correos pendientes antes / después','text']]),
+  D_('Corta la fuente',15,['Escribe de dónde viene tu desorden.','Diseña una acción que lo corte en la fuente.'],[['a3','Fuente del desorden','text'],['a4','Cómo la corto','text']])],
+  ex:PD,praxis:P('Seiso'),reto:'Limpia primero lo que más evitas.'},
+ {t:'Seiketsu: estandariza',learn:'seiketsu',drills:[
+  D_('Tu foto estándar',15,['Deja tu escritorio perfecto.','Tómale una foto: ese es tu estándar.','Ponla de fondo de pantalla o imprímela.'],[['a1','Dónde puse mi foto estándar','text']]),
+  D_('Tu estándar escrito',30,['Escribe en 5 líneas qué hay en tu puesto y dónde está.','Incluye el celular, el cuaderno y la pantalla.'],[['a2','Mi estándar en 5 líneas','area']]),
+  D_('Rutina de 5 minutos',25,['Escribe los pasos para dejar el puesto así cada día.','Desordénalo un poco y ejecuta la rutina con cronómetro.'],[['a3','Mi rutina de 5 minutos','area'],['a4','Tiempo real que me tomó','text']])],
+  ex:{t:'Tu maestro y tu subhabilidad',src:'Greene, Maestría · Ericsson',min:30,learn:'pd',steps:['Elige una persona que domine la mejora continua y que puedas estudiar.','Elige UNA subhabilidad para estos 28 días: explicar, facilitar o vender.','Define cómo medirás tu avance.'],f:[['e1','Mi maestro','text'],['e2','Mi subhabilidad','text'],['e3','Cómo la mediré','text']]},praxis:P('Seiketsu'),reto:'Muéstrale tu estándar a alguien.'},
+ {t:'Shitsuke y revisión semanal',learn:'shitsuke',stats:1,drills:[
+  D_('Auditoría 5S',25,['Califica del 1 al 5 cada S de tu puesto y de tu celular.','Escribe una frase de evidencia para cada nota.'],[['a1','Mis notas por S y su evidencia','area']])].concat(REV),
+  ex:WOOP(2,['Envía a 3 personas de confianza: ¿Qué valoras de mí y qué debería mejorar?',['e5','Respuestas de las 3 personas (puedes completarlo después)','area']]),praxis:P('5S'),reto:'Di en voz alta qué vas a cambiar.'},
+ {t:'Desperdicio: espera',learn:'muda',drills:[
+  D_('Mapa de esperas',30,['Escribe todas las situaciones en que esperas: respuestas, decisiones, personas, filas.','Calcula cuánto tiempo te cuestan a la semana.'],[['a1','Mis esperas y su tiempo','area']]),
+  D_('Elimina la más grande',40,['Elige la espera más grande.','Haz hoy lo que la elimina: un mensaje, una decisión, una fecha límite.'],[['a2','Lo que hice para eliminarla','text']]),
+  D_('Lista de 5 minutos',15,['Escribe 5 tareas de 5 minutos para hacer cuando te toque esperar.','Guárdala en tu celular.'],[['a3','Mis tareas de 5 minutos','area']])],
+  ex:PD,praxis:P('el desperdicio de espera'),reto:'Elimina una espera hoy.'},
+ {t:'Desperdicio: sobreproducción de ideas',learn:'muda',drills:[
+  D_('Vacía tu mente',25,['Escribe todos tus proyectos, ideas y pendientes, sin filtrar.'],[['a1','Todo lo que tengo abierto','area']]),
+  D_('Filtro de la Una Cosa',30,['Para cada idea pregunta: ¿ayuda a mi Una Cosa a 90 días?','Las que no, pásalas a la lista de espera (en Hoy).'],[['a2','Lo que sigue activo','area'],['a3','Ideas que pasé a la lista de espera','num']]),
+  D_('Cierra en voz alta',20,['Avisa a quien corresponda que pausas un proyecto.','Escribe qué sentiste.'],[['a4','A quién avisé y qué sentí','text']])],
+  ex:{t:'Tu error repetido',src:'Gelb, Dimostrazione · 5 porqués',min:30,learn:'porques',steps:['Escribe el error que más repites.','Pregunta por qué cinco veces seguidas.','Escribe un plan si-entonces contra la causa raíz.'],f:[['e1','Mi error repetido','text'],['e2','Los 5 porqués','area'],['e3','Si ___, entonces ___','text']]},praxis:P('la sobreproducción'),reto:'Archiva un proyecto que amas.'},
+ {t:'Desperdicio: inventario',learn:'muda',drills:[
+  D_('Tu inventario',20,['Lista los libros y cursos que no has aplicado.'],[['a1','Mi inventario sin aplicar','area']]),
+  D_('Extrae una idea',25,['Elige uno.','Escribe la idea más útil para tu Una Cosa en una frase.'],[['a2','La idea','text']]),
+  D_('Aplícala hoy',40,['Pon la idea en práctica ahora mismo.','Anota qué hiciste y qué resultado tuviste.'],[['a3','Qué hice y qué resultado tuve','area']])],
+  ex:PD,praxis:P('el inventario'),reto:'Aplica algo en la vida real, no en notas.'},
+ {t:'Desperdicio: movimiento',learn:'muda',drills:[
+  D_('Cuenta tus cambios',50,['Trabaja 50 minutos en tu Una Cosa.','Cada vez que cambies de tarea, marca una raya en un papel.'],[['a1','Cambios de tarea en 50 minutos','num']]),
+  D_('Analiza',20,['Escribe qué te hizo cambiar cada vez.','Busca el patrón.'],[['a2','Qué me hizo cambiar','area']]),
+  D_('Diseña una barrera',15,['Elige una barrera para el disparador más frecuente.','Instálala ya.'],[['a3','Mi barrera','text']],'pokayoke')],
+  ex:{t:'Socio de rendición de cuentas',src:'Hill, Master Mind · Harkin 2016',min:30,learn:'rendicion',steps:['Elige 1 persona que te exija.','Pídele que reciba tus 3 indicadores cada domingo.','Escribe el mensaje y envíalo hoy.'],f:[['e1','Mi socio','text'],['e2','Mensaje que envié','area']]},praxis:P('el movimiento sin valor'),reto:'Un bloque completo sin cambiar de tarea.'},
+ {t:'Desperdicio: retrabajo',learn:'porques',drills:[
+  D_('Lista de retrabajo',20,['Escribe lo que tuviste que repetir o corregir esta semana.'],[['a1','Mi retrabajo','area']]),
+  D_('5 porqués',30,['Toma el retrabajo más grande.','Pregunta por qué cinco veces.'],[['a2','Mis 5 porqués','area']]),
+  D_('Previene',35,['Crea una lista de chequeo o una plantilla que evite repetirlo.','Úsala hoy una vez.'],[['a3','Mi lista o plantilla','area']],'pokayoke')],
+  ex:PD,praxis:P('el retrabajo'),reto:'Corrige la causa, no el síntoma.'},
+ {t:'Desperdicio: planear sin ejecutar',learn:'muda',drills:[
+  D_('Planea en 15',15,['Elige una tarea de Praxis que vienes aplazando.','Planéala en máximo 15 minutos. Cuando suene, para.'],[['a1','Mi plan en 15 minutos','area']]),
+  D_('Ejecuta imperfecto',60,['Haz la tarea ahora, aunque quede imperfecta.','Entrégala o publícala hoy.'],[['a2','Qué entregué','text']]),
+  D_('Mira el resultado',10,['Escribe qué pasó realmente frente a lo que temías.'],[['a3','Lo que temía vs. lo que pasó','text']])],
+  ex:PD,praxis:P('el sobreprocesamiento'),reto:'Entrega algo imperfecto hoy.'},
+ {t:'Talento sin usar y revisión semanal',learn:'muda',stats:1,drills:[
+  D_('Úsala hoy',40,['Escribe tus 3 fortalezas.','Elige la que menos usaste esta semana.','Úsala hoy en una tarea concreta de Praxis.'],[['a1','Fortaleza y cómo la usé','area']])].concat(REV),
+  ex:WOOP(3),praxis:P('el talento sin usar'),reto:'Usa esa fortaleza frente a otra persona.'},
+ {t:'Encuentra tu restricción',learn:'toc',drills:[
+  D_('Revisa tus datos',30,['Ve a Progreso y toca Copiar mi registro.','Lee tus 2 semanas: interrupciones, desperdicios y notas.'],[['a1','Patrones que veo','area']]),
+  D_('Nombra la restricción',20,['Escribe en una frase qué limita más tu avance.','Escribe la evidencia de tus datos.'],[['a2','Mi restricción es...','text'],['a3','Evidencia','area']]),
+  D_('Pruébala',35,['Trabaja 35 minutos eliminando solo esa restricción.','Mide cuánto avanzaste comparado con otros días.'],[['a4','Resultado de la prueba','text']])],
+  ex:{t:'Declara la guerra a tu enemigo',src:'Greene, 33 estrategias',min:30,learn:null,steps:['Escribe cómo te ataca la dispersión: cuándo y con qué excusa.','Escribe cómo la vences.','Léelo cada mañana esta semana.'],f:[['e1','Cómo me ataca','area'],['e2','Cómo la venzo','area']]},praxis:P('la Teoría de Restricciones'),reto:'Comparte tu restricción con alguien.'},
+ {t:'Diseña tu rutina estándar',learn:'estandar',drills:[
+  D_('Escribe la rutina',40,['Escribe tu mañana hora por hora, desde que despiertas hasta el cierre.','Incluye despertar, ejercicio, Apertura, Bloque y Cierre.','Fija la hora de despertar.'],[['a1','Mi rutina hora por hora','area'],['a2','Hora fija de despertar','text']]),
+  D_('Simulacro',30,['Recorre la rutina en tu mente paso a paso.','Marca dónde puede fallar.'],[['a3','Puntos débiles','area']]),
+  D_('Ajusta',15,['Corrige los puntos débiles con un plan si-entonces cada uno.'],[['a4','Mis ajustes','area']],'sientonces')],
+  ex:PD,praxis:P('el trabajo estandarizado'),reto:'Sigue la rutina desde el primer minuto.'},
+ {t:'Poka-yoke: barreras',learn:'pokayoke',drills:[
+  D_('Tus fallas',20,['Escribe los 3 momentos en que más te dispersas.'],[['a1','Mis 3 momentos de dispersión','area']]),
+  D_('Diseña 3 barreras',30,['Una barrera por momento: que el error sea imposible o se note al instante.','Ejemplos: celular en otro cuarto, bloqueador de sitios, una sola pestaña.'],[['a2','Mis 3 barreras','area']]),
+  D_('Instálalas',35,['Instala las 3 ahora.','Prueba cada una.'],[['a3','Las instalé y probé','yes']])],
+  ex:{t:'Cuerpo en movimiento',src:'Gelb, Corporalità',min:30,learn:null,steps:['Haz 20 minutos de ejercicio.','Anota tu energía antes y después.'],f:[['e1','Ejercicio que hice','text'],['e2','Energía antes y después (1 a 5)','text']]},praxis:P('el poka-yoke'),reto:'Instala una barrera ahora mismo.'},
+ {t:'Andon: tu señal de alerta',learn:'andon',drills:[
+  D_('Diseña tu protocolo',20,['Escribe qué haces exactamente al notar que te desviaste.','Ejemplo: me levanto, respiro 1 minuto, leo mi Una Cosa y vuelvo.'],[['a1','Mi protocolo','area']]),
+  D_('Practícalo',50,['Trabaja 50 minutos en tu Una Cosa.','Usa el protocolo cada vez que te desvíes.','Marca una raya por cada uso.'],[['a2','Veces que lo usé','num']]),
+  D_('Evalúa',15,['¿Funcionó? ¿Qué cambiarías?'],[['a3','Mi evaluación','text']])],
+  ex:PD,praxis:P('el andon'),reto:'Activa la señal todas las veces que haga falta.'},
+ {t:'Trabajo estandarizado en acción',learn:'estandar',drills:[
+  D_('Ejecuta el estándar',60,['Sigue tu rutina exactamente como la escribiste.','Anota cada desviación en el momento.'],[['a1','Mis desviaciones','area']]),
+  D_('Ajusta el estándar',20,['Si una desviación se repite, cambia el estándar o ponle barrera.'],[['a2','Ajuste','text']])],
+  ex:BUZ('Mapa de tu rutina',['Dibuja tu rutina estándar como mapa mental.','Agrega tus barreras en otro color.','Pégalo donde lo veas cada mañana.'],'Qué cambió al dibujarla'),praxis:P('el estándar'),reto:'Sostén la rutina aunque no tengas ganas.'},
+ {t:'Subordina todo a tu Una Cosa',learn:'toc',drills:[
+  D_('Tus compromisos',20,['Lista todos tus compromisos de esta semana.'],[['a1','Mis compromisos','area']]),
+  D_('Filtra',20,['Marca los que no ayudan a tu Una Cosa a 90 días.'],[['a2','Los que no ayudan','area']]),
+  D_('Cancela o delega',40,['Elige uno y cancélalo o delégalo hoy.','Escribe y envía el mensaje.'],[['a3','Lo que cancelé o delegué','text'],['a4','Cómo me sentí al decir no','text']])],
+  ex:PD,praxis:P('subordinar a la restricción'),reto:'Dile no a algo hoy.'},
+ {t:'Revisión: tu restricción',learn:'toc',stats:1,drills:[
+  D_('¿Se movió?',30,['Compara tu restricción del día 15 con tus datos de hoy.'],[['a1','¿Se movió? Evidencia','area'],['a2','Mi siguiente restricción','text']])].concat(REV),
+  ex:WOOP(4),praxis:P('la mejora del sistema'),reto:'Cuéntale a tu socio tu avance.'},
+ {t:'Elige tu mejora del 1%',learn:'kaizen',drills:[
+  D_('Elige',25,['Mira tus datos y elige UNA cosa pequeña que mejorar.'],[['a1','Mi mejora','text']]),
+  D_('Mide la base',30,['Define cómo medirla.','Mídela hoy: ese es tu punto de partida.'],[['a2','Métrica y valor de hoy','text']]),
+  D_('Primer intento',30,['Aplica la mejora una vez hoy.'],[['a3','Qué pasó','text']])],
+  ex:{t:'Diseña el experimento',src:'Kaizen · Greene, Maestría',min:30,learn:'experimento',steps:['Escribe tu hipótesis: si cambio X, entonces Y mejora.','Un solo cambio a la vez.','Pon fecha para evaluar.'],f:[['e1','Hipótesis','text'],['e2','El cambio','text'],['e3','Fecha de evaluación','text']]},praxis:P('el kaizen'),reto:'Compromete la mejora con una fecha.'},
+ {t:'Aplica y mide',learn:'phva',drills:[
+  D_('Hacer',60,['Aplica tu mejora durante la sesión.'],[['a1','Cómo la apliqué','text']]),
+  D_('Verificar',15,['Mide con la misma métrica de ayer.'],[['a2','Resultado medido','text']]),
+  D_('Actuar',15,['Decide: sigo, ajusto o descarto.'],[['a3','Mi decisión y por qué','text']])],
+  ex:PD,praxis:P('el PHVA'),reto:'Mide con datos, no con sensaciones.'},
+ {t:'Segunda mejora',learn:'kaizen',drills:[
+  D_('Elige y mide',30,['Elige una segunda mejora del 1%.','Mide su valor de hoy.'],[['a1','Mejora y valor base','text']]),
+  D_('Aplica',45,['Aplícala ahora.'],[['a2','Cómo la apliqué','text']]),
+  D_('Verifica',15,['Mide otra vez y compara.'],[['a3','Resultado','text']])],
+  ex:PD,praxis:P('una mejora del 1%'),reto:'Hazlo antes de las 10 a.m.'},
+ {t:'Estandariza lo que funcionó',learn:'estandar',drills:[
+  D_('Escribe el estándar',30,['Escribe como estándar la mejora que funcionó.'],[['a1','Mi nuevo estándar','area']]),
+  D_('Enséñalo',45,['Llama o reúnete con alguien y enséñale tu estándar.','Anota qué preguntó.'],[['a2','A quién se lo enseñé y qué preguntó','area']])],
+  ex:PREM('han pasado 90 días y Praxis no tiene clientes'),praxis:P('cómo estandarizar una mejora'),reto:'Enséñale el estándar a alguien.'},
+ {t:'Tercera mejora y elimina',learn:'kaizen',drills:[
+  D_('Tercera mejora',50,['Elige, mide, aplica y vuelve a medir una tercera mejora.'],[['a1','Mejora y resultado','text']]),
+  D_('Elimina',30,['Elimina algo de tu rutina que no funcionó.'],[['a2','Lo que eliminé','text']])],
+  ex:PD,praxis:P('la mejora continua'),reto:'Corta algo querido que no rinde.'},
+ {t:'Tu antes y después',learn:'phva',drills:[
+  D_('Reúne tus datos',30,['Ve a Progreso y toca Copiar mi registro.','Busca tus datos del día 1 y los de hoy.'],[['a1','Antes (datos del día 1)','area'],['a2','Después (datos de hoy)','area']]),
+  D_('Escribe tu caso',40,['Escribe tu caso en 5 líneas: situación, problema, acción, resultado y aprendizaje.'],[['a3','Mi caso en 5 líneas','area']])],
+  ex:BUZ('Mapa maestro de tu Fase 1',['Dibuja el mapa de tu Fase 1. En el centro: tú, forjado.','Ramas: aprendizajes, antes y después, siguiente paso.'],'Lo más importante de mi mapa'),praxis:P('tu caso como ejemplo'),reto:'Presenta tu caso en 2 minutos sin libreto.'},
+ {t:'Puerta a Fase 2',learn:'phva',stats:1,drills:[
+  D_('Tu veredicto',30,['Mira tus números arriba y en Progreso.','Responde con datos: ¿pasaste la puerta?'],[['a1','Mi veredicto y sus datos','area']]),
+  D_('Tu siguiente paso',25,['Escribe lo primero que harás en la Fase 2.'],[['a2','Mi siguiente paso','text']])],
+  ex:METAS(['Compara con lo que escribiste el día 1.']),praxis:P('tu método'),reto:'Dilo directo: pasaste o no pasaste.'}
 ];
 const QUOTES=[
  ['Simplificar antes de complejizar.','Principio de Praxis'],['Mejorar 1% cada día.','Principio de Praxis'],['Aprender haciendo, no solo leyendo.','Principio de Praxis'],
@@ -126,30 +268,33 @@ const QUOTES=[
 ];
 
 function sessions(n){
- const D=DAYS[n-1], prev=S.days[n-1]&&S.days[n-1].imp;
+ const D=DAYS[n-1], prev=S.days[n-1]&&S.days[n-1].imp, L=LEARN[D.learn];
+ const dr=D.drills.map((x,i)=>({t:x.t,min:x.min,learn:x.learn,do:x.steps,f:x.f,stats:i===0&&D.stats,why:'Ejercicio práctico: se aprende haciendo. Inicia el contador y sigue los pasos.'}));
  return [
  {name:'Apertura',time:'30 min',desc:'Prepara tu mente y tu espacio',steps:[
   {t:'¿Cómo llegas hoy?',why:'Un coach empieza por tu estado, no por la tarea. Nombrar lo que sientes te ayuda a manejarlo.',do:['Respira profundo tres veces.','Responde con honestidad, sin juzgarte.'],f:[['en','Mi energía','scale'],['emo','Lo que siento, en una palabra','text'],['sl','Horas que dormí','num']]},
-  {t:'5S de tu puesto',why:'Un espacio ordenado elimina distracciones antes de empezar.',do:['Retira de la mesa todo lo que no usarás hoy.','Deja a la vista solo lo de tu Una Cosa.','Pon el celular en silencio y llévalo a otro cuarto.'],f:[['s1','Mesa despejada','check'],['s2','Solo lo de mi Una Cosa a la vista','check'],['s3','Celular fuera','check']]},
-  {t:'Tu Una Cosa',why:'Una sola prioridad clara evita que el día decida por ti.',do:['Lee la tarea de hoy: '+D.t+'.','Responde: ¿cuál es la Una Cosa que, si la hago hoy, hace todo lo demás más fácil o innecesario?'],f:[['main','Mi Una Cosa de hoy','area']]},
-  {t:'Plan si-entonces',why:'Decidir antes cómo responderás a un obstáculo es de las herramientas con más evidencia para cumplir metas.',do:['Piensa en el obstáculo más probable de hoy.','Escribe qué harás exactamente cuando aparezca.'],f:[['ifS','Si...','text'],['ifE','Entonces...','text']]}
+  {t:'5S de tu puesto',learn:'s5',why:'Un espacio ordenado elimina distracciones antes de empezar.',do:['Retira de la mesa todo lo que no usarás hoy.','Deja a la vista solo lo de tu Una Cosa.','Pon el celular en silencio y llévalo a otro cuarto.'],f:[['s1','Mesa despejada','check'],['s2','Solo lo de mi Una Cosa a la vista','check'],['s3','Celular fuera','check']]},
+  {t:'Tu Una Cosa de hoy',learn:'unacosa',why:'Una sola prioridad clara evita que el día decida por ti.',do:['Usa la propuesta de hoy, o escribe la tuya.','Si dudas, toca Ayúdame a definirla.'],f:[['main','Completar el entrenamiento de hoy: '+D.t,'suggest'],['main','Mi Una Cosa de hoy','area'],['main','','onething']]},
+  {t:'Plan si-entonces',learn:'sientonces',why:'Decidir antes cómo responderás a un obstáculo es de las herramientas con más evidencia para cumplir metas.',do:['Piensa en el obstáculo más probable de hoy.','Escribe qué harás exactamente cuando aparezca.'],f:[['ifS','Si...','text'],['ifE','Entonces...','text']]}
  ]},
  {name:'Bloque profundo',time:'150 min',desc:D.t,steps:[
-  {t:'Inicia el bloque',why:'Cambiar de tarea cuesta. Son 150 minutos para una sola cosa.',do:['Cierra todo lo que no sea tu tarea.','Toca Iniciar y no pares hasta que el contador llegue a cero.'],timer:1},
-  {t:D.t,why:'Herramienta de la semana: '+TOOLS[Math.ceil(n/7)-1]+'. Vívela en ti antes de enseñarla.',do:D.steps,f:D.f,stats:D.stats},
-  {t:D.ex.t,src:D.ex.src,why:'30 minutos dentro del bloque.',do:D.ex.steps,f:D.ex.f},
+  {t:'Aprende: '+L.t,learnOpen:D.learn,min:5,why:'20% teoría: lo justo para entender. El resto del bloque es práctica.',do:['Lee la tarjeta.','Escribe con tus palabras qué es y para qué te sirve hoy.'],f:[['lr','En una frase, con mis palabras','text']]}
+ ].concat(dr,[
+  {t:D.ex.t,src:D.ex.src,min:D.ex.min,learn:D.ex.learn,why:'Ejercicio del libro, aplicado a tu vida.',do:D.ex.steps,f:D.ex.f},
+  {t:D.praxis.t,min:D.praxis.min,why:'Enseñar lo que practicas es la forma más rápida de dominarlo, y construye tu método.',do:D.praxis.steps,f:D.praxis.f},
   {t:'Tus interrupciones',why:'Lo que no se mide no se mejora. Este es tu dato de Gemba.',do:['Cuenta cuántas veces te desviaste durante el bloque.','Escribe qué te desvió.'],f:[['int','Veces que me desvié','num'],['intw','Qué me desvió','text']]}
- ]},
+ ])},
  {name:'Cierre',time:'30 min',desc:'Verifica, aprende y ajusta',steps:[
-  {t:'Recupera lo aprendido',why:'Recordar sin mirar fija el aprendizaje mucho mejor que releer.',do:['No mires tus notas.','Escribe 3 cosas que aprendiste hoy.'],f:[['l1','Aprendizaje 1','text'],['l2','Aprendizaje 2','text'],['l3','Aprendizaje 3','text']]},
-  {t:'Caza el desperdicio',why:'Un desperdicio que ves es un desperdicio que puedes eliminar.',do:['Marca los desperdicios que viste hoy.','Describe el más grande.'],f:[['wl','Desperdicios de hoy','chips'],['waste','El más grande','text']]},
+  {t:'Recupera lo aprendido',learn:'recuperacion',why:'Recordar sin mirar fija el aprendizaje mucho mejor que releer.',do:['No mires tus notas.','Escribe 3 cosas que aprendiste hoy.'],f:[['l1','Aprendizaje 1','text'],['l2','Aprendizaje 2','text'],['l3','Aprendizaje 3','text']]},
+  {t:'Caza el desperdicio',learn:'muda',why:'Un desperdicio que ves es un desperdicio que puedes eliminar.',do:['Marca los desperdicios que viste hoy.','Describe el más grande.'],f:[['wl','Desperdicios de hoy','chips'],['waste','El más grande','text']]},
   {t:'Tu acción incómoda',why:'Tu crecimiento está en lo que evitas.',do:[D.reto],f:[['uncDone','La hice','yes'],['unc','Qué hice exactamente','text'],['uncF','Qué sentí antes y después','text']]},
-  {t:'Kaizen del 1%',why:'Pequeñas mejoras diarias, sostenidas, construyen el cambio grande.',do:[prev?'Tu mejora de ayer era: '+prev+'.':'Mañana revisarás si aplicaste la mejora que escribas hoy.','Escribe una mejora pequeña para mañana.'],f:[['kzDone','Hoy apliqué la mejora de ayer','yes'],['imp','Mi mejora para mañana','text']]},
+  {t:'Kaizen del 1%',learn:'kaizen',why:'Pequeñas mejoras diarias, sostenidas, construyen el cambio grande.',do:[prev?'Tu mejora de ayer era: '+prev+'.':'Mañana revisarás si aplicaste la mejora que escribas hoy.','Escribe una mejora pequeña para mañana.'],f:[['kzDone','Hoy apliqué la mejora de ayer','yes'],['imp','Mi mejora para mañana','text']]},
   {t:'¿Cumpliste tu palabra?',why:'La coherencia entre lo que dices y lo que haces es la base de tu método.',do:['Califica tu día con honestidad.','Deja una frase para tu yo de mañana.'],f:[['sc','Cumplí mi palabra','scale'],['note','Para mi yo de mañana','text']]}
  ]}];
 }
 
 const $=s=>document.querySelector(s);
+let lOpen=null, ucOpen=0;
 let S=load(), view='hoy', cur=1, sess=null, confirmReset=false, msg='', tick=null;
 function load(){ try{const r=JSON.parse(localStorage.getItem(KEY)); if(r&&r.schema===SCHEMA) return r;}catch(e){} return {schema:SCHEMA,start:null,days:{},wait:[],targets:{blocks:null,mej:null},proj:{1:1,2:1,3:1,4:1}}; }
 function save(){ try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){} }
@@ -197,37 +342,56 @@ function delWait(i){ S.wait.splice(i,1); save(); render(); }
 
 function field(n,[k,l,type]){
  const d=dd(n), id='f-'+k;
+ if(type==='suggest') return `<button class="lbtn sug" onclick="useSug(${n})">Usar la propuesta: ${esc(l)}</button>`;
+ if(type==='onething') return oneThing(n,k,false);
+ if(type==='onething-open') return `<div><div class="fl">${l}</div>${oneThing(n,k,true)}</div>`;
  if(type==='scale') return `<div><div class="fl">${l}</div><div class="scale">${[1,2,3,4,5].map(v=>`<button class="${d[k]===v?'on':''}" aria-label="${l}: ${v}" onclick="setA(${n},'${k}',${v},1)">${v}</button>`).join('')}</div><div class="hero mut" style="font-size:14px;padding:0"><span>Muy bajo</span><span>Muy alto</span></div></div>`;
  if(type==='chips'){ const a=d[k]||[]; return `<div><div class="fl">${l}</div><div class="chips">${WASTES.map((w,i)=>`<button class="${a.includes(w)?'on':''}" onclick="togChip(${n},'${k}',${i})">${w}</button>`).join('')}</div></div>`; }
  if(type==='check'||type==='yes') return `<label class="chk" for="${id}"><input type="checkbox" id="${id}" ${d[k]?'checked':''} onchange="setA(${n},'${k}',this.checked,1)"><span>${l}</span></label>`;
  if(type==='area') return `<div><label class="fl" for="${id}">${l}</label><textarea id="${id}" oninput="setA(${n},'${k}',this.value)">${esc(d[k])}</textarea></div>`;
  return `<div><label class="fl" for="${id}">${l}</label><input type="${type==='num'?'number':'text'}" inputmode="${type==='num'?'numeric':'text'}" id="${id}" value="${esc(d[k])}" oninput="setA(${n},'${k}',${type==='num'?'this.value===\'\'?\'\':+this.value':'this.value'})"></div>`;
 }
+function useSug(n){ setA(n,'main','Completar el entrenamiento de hoy: '+DAYS[n-1].t,1); toast('Una Cosa definida'); }
 function setA(n,k,v,re){ dd(n)[k]=v; save(); if(re) render(); }
 function togChip(n,k,i){ const d=dd(n), w=WASTES[i]; d[k]=d[k]||[]; d[k]=d[k].includes(w)?d[k].filter(x=>x!==w):d[k].concat(w); save(); render(); }
 
 function statsBox(n){ const m=weekMetrics(Math.ceil(n/7)); return `<div class="card stats"><div><div class="k">${m.pct==null?'–':m.pct+'%'}</div><div class="mut">Sesiones cumplidas</div></div><div><div class="k">${m.mej}</div><div class="mut">Mejoras y acciones incómodas</div></div><div><div class="k">${streak()}</div><div class="mut">Días seguidos al 100%</div></div></div>`; }
+
+function learnCard(key){ const L=LEARN[key]; if(!L) return ''; return `<div class="learn stack"><div class="eyebrow">${esc(L.src)} · 1 minuto</div><h3>${esc(L.t)}</h3><div>${esc(L.que)}</div><div class="ex2"><b>En una fábrica: </b>${esc(L.fab)}</div><div class="ex2"><b>En tu vida: </b>${esc(L.vida)}</div><div class="kq">${esc(L.q)}</div></div>`; }
+function learnBtn(key){ const L=LEARN[key]; if(!L) return ''; const open=lOpen===key; return `<button class="lbtn" aria-expanded="${open}" onclick="lOpen=lOpen==='${key}'?null:'${key}';render()">${open?'Ocultar':'¿Qué es '+esc(L.t)+'?'} <span class="mut">(1 min)</span></button>${open?learnCard(key):''}`; }
+function oneThing(n,k,open){
+ const d=dd(n), p=k+'_o';
+ if(!open && !ucOpen) return `<button class="btn2" onclick="ucOpen=1;render()">Ayúdame a definirla</button>`;
+ const rows=[0,1,2,3,4].map(i=>{const v=d[p+i]||'', y=d[p+'y'+i], im=d[p+'i'+i]; return `<div class="opt stack"><input type="text" id="${p}${i}" aria-label="Opción ${i+1}" placeholder="Opción ${i+1}" value="${esc(v)}" oninput="setA(${n},'${p}${i}',this.value)"><div class="mut">¿Si la hago, lo demás se vuelve más fácil o innecesario?</div><div class="scale">${[['Sí',true],['No',false]].map(([l,b])=>`<button class="${y===b?'on':''}" onclick="setA(${n},'${p}y${i}',${b},1)">${l}</button>`).join('')}</div><div class="mut">Impacto en tu vida y en Praxis</div><div class="scale">${[1,2,3,4,5].map(x=>`<button class="${im===x?'on':''}" onclick="setA(${n},'${p}i${i}',${x},1)">${x}</button>`).join('')}</div></div>`}).join('');
+ const opts=[0,1,2,3,4].filter(i=>d[p+i]&&d[p+'y'+i]!==undefined&&d[p+'i'+i]).map(i=>({i,t:d[p+i],s:(d[p+'y'+i]?10:0)+d[p+'i'+i]})).sort((a,b)=>b.s-a.s);
+ const best=opts[0];
+ return `<div class="card stack"><h3>Encuentra tu Una Cosa</h3><div class="mut">Escribe hasta 5 opciones y evalúa cada una. La app ordena y te sugiere la más fuerte.</div>${rows}
+ ${best?`<div class="learn stack"><div class="eyebrow">Sugerencia</div><h3>${esc(best.t)}</h3><button class="btn" onclick="setA(${n},'${k}',dd(${n})['${p}${best.i}'],1);toast('Una Cosa definida')">Elegir esta</button></div>`:''}
+ ${d[k]&&k!=='main'?`<div class="kq">Elegida: ${esc(d[k])}</div>`:''}</div>`;
+}
 
 function vSess(){
  const n=cur, S0=sessions(n)[sess.k], st=S0.steps[sess.s], last=sess.s===S0.steps.length-1;
  return `<div class="stack">
  <div class="hero"><button class="btn2" onclick="sess=null;render()">‹ Hoy</button><span class="mut">Día ${n} · ${S0.name}</span></div>
  <div class="dots" aria-label="Paso ${sess.s+1} de ${S0.steps.length}">${S0.steps.map((_,i)=>`<i class="${i<=sess.s?'on':''}"></i>`).join('')}</div>
- <div class="eyebrow">Paso ${sess.s+1} de ${S0.steps.length}${st.src?' · '+esc(st.src):''}</div>
+ <div class="eyebrow">Paso ${sess.s+1} de ${S0.steps.length}${st.min?' · '+st.min+' min':''}${st.src?' · '+esc(st.src):''}</div>
  <h2>${esc(st.t)}</h2>
+ ${st.learnOpen?learnCard(st.learnOpen):''}
  <ol class="do">${st.do.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>
- ${st.timer?timerBox(n):''}
+ ${st.learn?learnBtn(st.learn):''}
+ ${st.min&&!st.learnOpen?timerBox(n,'tm'+sess.k+'_'+sess.s,st.min):''}
  ${st.stats?statsBox(n):''}
  ${(st.f||[]).map(f=>field(n,f)).join('')}
  <div class="why"><b>Por qué: </b>${esc(st.why)}</div>
- <div class="actions">${sess.s>0?`<button class="btn2" onclick="sess.s--;render();scrollTo(0,0)">‹ Atrás</button>`:''}<button class="btn" onclick="${last?'finish()':'sess.s++;render();scrollTo(0,0)'}">${last?'Terminar '+S0.name:'Siguiente'}</button></div>
+ <div class="actions">${sess.s>0?`<button class="btn2" onclick="go2(-1)">‹ Atrás</button>`:''}<button class="btn" onclick="${last?'finish()':'go2(1)'}">${last?'Terminar '+S0.name:'Siguiente'}</button></div>
  </div>`;
 }
+function go2(k){ sess.s+=k; lOpen=null; ucOpen=0; render(); scrollTo(0,0); }
 function finish(){ const n=cur, d=dd(n); d.b[sess.k]=true; save(); const name=sessions(n)[sess.k].name; sess=null; render(); scrollTo(0,0); toast(name+' completada'); }
 
-const BLOCK=150*60*1000;
-function timerBox(n){ const d=dd(n); return `<div class="card stack" style="text-align:center"><div class="timer" id="tm">150:00</div><div class="mut" id="tms">Listo para empezar</div>${d.ts?`<button class="btn2" onclick="dd(${n}).ts=null;save();render()">Reiniciar contador</button>`:`<button class="btn" onclick="dd(${n}).ts=Date.now();save();render()">Iniciar 150 minutos</button>`}</div>`; }
-function upTimer(){ const e=$('#tm'); if(!e) return; const ts=dd(cur).ts; if(!ts){ e.textContent='150:00'; return; } const left=Math.max(0,BLOCK-(Date.now()-ts)); const m=Math.floor(left/60000), s=Math.floor(left%60000/1000); e.textContent=m+':'+String(s).padStart(2,'0'); $('#tms').textContent=left?'En curso. Sigue en tu Una Cosa; puedes avanzar a los siguientes pasos.':'Bloque terminado.'; }
+function timerBox(n,key,min){ const ts=dd(n)[key]; return `<div class="card timerc"><div class="timer" id="tm" data-k="${key}" data-m="${min}">${min}:00</div><div class="mut" id="tms">${min} minutos para este ejercicio</div>${ts?`<button class="btn2" onclick="dd(${n})['${key}']=null;save();render()">Reiniciar</button>`:`<button class="btn" onclick="dd(${n})['${key}']=Date.now();save();render()">Iniciar ${min} min</button>`}</div>`; }
+function upTimer(){ const e=$('#tm'); if(!e) return; const ts=dd(cur)[e.dataset.k], dur=e.dataset.m*60000; if(!ts) return; const left=Math.max(0,dur-(Date.now()-ts)); const m=Math.floor(left/60000), s=Math.floor(left%60000/1000); e.textContent=m+':'+String(s).padStart(2,'0'); $('#tms').textContent=left?'En curso: sigue los pasos.':'Tiempo cumplido. Completa tus respuestas y sigue.'; }
 
 function vPlan(){
  const t=dayNum();
@@ -262,7 +426,7 @@ function context(){
  const lab={};
  let out=`# Forja Praxis: registro de Salomon\nInicio: ${S.start||'sin iniciar'} · Día actual: ${Math.min(dayNum(),28)} de 28\n`;
  for(let n=1;n<=28;n++){ const d=S.days[n]; if(!d) continue; const ss=sessions(n); const lines=[];
-  ss.forEach(s=>s.steps.forEach(st=>(st.f||[]).forEach(([k,l])=>{ let v=d[k]; if(v===undefined||v===''||v===false||(Array.isArray(v)&&!v.length)) return; if(v===true) v='sí'; if(Array.isArray(v)) v=v.join(', '); lines.push(`- ${l}: ${v}`); })));
+  ss.forEach(s=>s.steps.forEach(st=>(st.f||[]).forEach(([k,l,ty])=>{ if(ty==='suggest'||ty==='onething') return; let v=d[k]; if(v===undefined||v===''||v===false||(Array.isArray(v)&&!v.length)) return; if(v===true) v='sí'; if(Array.isArray(v)) v=v.join(', '); lines.push(`- ${l}: ${v}`); })));
   if(!lines.length&&!lvl(n)) continue;
   out+=`\n## Día ${n} · ${DAYS[n-1].t} · sesiones ${lvl(n)}/3\n`+lines.join('\n')+'\n'; }
  if(S.wait.length) out+=`\n## Lista de espera\n`+S.wait.map(w=>'- '+w.x).join('\n')+'\n';
