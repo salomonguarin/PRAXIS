@@ -4,232 +4,285 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap">
 <style>
-/* Layout: una columna de taller, tarjetas por bloque del dia, barra de navegacion fija abajo */
+/* Layout: una columna amplia; Hoy = 3 sesiones grandes; cada sesion = un paso por pantalla */
 :root{
- --bg:#f6f5f3;--card:#ffffff;--line:#e3dfdb;--tx:#1d1a18;--mut:#6b6460;--ac:#b5432c;--ok:#3f8a4f;--warn:#a87a0c;--field:#fbfaf9;--on-ac:#ffffff;--on-ok:#ffffff;
+ --bg:#f5f3f0;--card:#ffffff;--line:#e4dfda;--tx:#1d1a18;--mut:#6b6460;--ac:#b5432c;--acs:#f6e3dd;--ok:#3f8a4f;--oks:#e1efe3;--warn:#a87a0c;--field:#fbfaf9;--on-ac:#ffffff;
  --display:'Barlow Condensed','Arial Narrow',system-ui,sans-serif;--body:'Inter',system-ui,'Segoe UI',Roboto,sans-serif;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#141211;--card:#1e1b1a;--line:#302c2a;--tx:#f2efec;--mut:#a39a95;--ac:#d4654b;--ok:#6fae6f;--warn:#d9a441;--field:#100f0e;--on-ac:#ffffff;--on-ok:#141211;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#141211;--card:#1e1b1a;--line:#302c2a;--tx:#f2efec;--mut:#a39a95;--ac:#d4654b;--ok:#6fae6f;--warn:#d9a441;--field:#100f0e;--on-ac:#ffffff;--on-ok:#141211;color-scheme:dark}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#141211;--card:#1e1b1a;--line:#322e2b;--tx:#f3f0ed;--mut:#a69d98;--ac:#e0705a;--acs:#3a231d;--ok:#76b77a;--oks:#1e3122;--warn:#d9a441;--field:#100f0e;--on-ac:#ffffff;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141211;--card:#1e1b1a;--line:#322e2b;--tx:#f3f0ed;--mut:#a69d98;--ac:#e0705a;--acs:#3a231d;--ok:#76b77a;--oks:#1e3122;--warn:#d9a441;--field:#100f0e;--on-ac:#ffffff;color-scheme:dark}
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--tx);font:16px/1.5 var(--body);max-width:720px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:8px calc(96px + env(safe-area-inset-bottom,0px))}
-h1,h2,.k{font-family:var(--display);letter-spacing:.01em;text-wrap:balance}
-h1{font-size:30px;margin:12px 0 2px;text-transform:uppercase}h2{font-size:20px;margin:0 0 8px}
-.mut{color:var(--mut);font-size:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}
-.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden}.bar>i{display:block;height:100%;background:var(--ac)}
-nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
-nav button{flex:1;max-width:180px;background:none;border:0;color:var(--mut);padding:14px 4px;font:500 15px var(--body);cursor:pointer}
-nav button.on{color:var(--tx);box-shadow:inset 0 2px 0 var(--ac)}
-label.chk{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line)}
-label.chk:last-child{border:0}
-input[type=checkbox]{width:22px;height:22px;accent-color:var(--ac);flex:none;margin-top:2px}
-input[type=text],input[type=number],textarea{width:100%;background:var(--field);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:10px;font:inherit;margin:4px 0 10px}
-textarea{min-height:90px;font-size:13px}
-button.b{background:var(--ac);color:var(--on-ac);border:0;border-radius:8px;padding:10px 14px;font:600 15px var(--body);cursor:pointer}
-button.g{background:none;color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font:inherit;cursor:pointer}
-button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
-.btns{display:flex;flex-wrap:wrap;gap:8px}
-.quote{border-left:3px solid var(--ac);padding-left:12px;font-style:italic}
-.row{display:flex;gap:8px;align-items:center;justify-content:space-between}
-.row>*{min-width:0}
-.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
-.d{aspect-ratio:1;max-width:100%;border-radius:8px;border:1px solid var(--line);background:none;color:var(--tx);font:500 14px var(--body);font-variant-numeric:tabular-nums;cursor:pointer}
-.d.full{background:var(--ok);color:var(--on-ok);border-color:var(--ok)}.d.part{background:var(--warn);color:var(--on-ok);border-color:var(--warn)}.d.cur{outline:2px solid var(--ac);outline-offset:1px}
+body{background:var(--bg);color:var(--tx);font:18px/1.55 var(--body);max-width:680px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:8px calc(110px + env(safe-area-inset-bottom,0px))}
+h1,h2,h3,.k,.big{font-family:var(--display);letter-spacing:.01em;text-wrap:balance;margin:0}
+h1{font-size:44px;line-height:1}h2{font-size:30px;line-height:1.1}h3{font-size:24px;line-height:1.15}
+.mut{color:var(--mut);font-size:16px}
+.stack{display:flex;flex-direction:column;gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
+.eyebrow{font-size:14px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);font-weight:600}
+button{font:inherit;cursor:pointer}
+.btn{background:var(--ac);color:var(--on-ac);border:0;border-radius:12px;padding:16px 20px;font-weight:600;font-size:18px;width:100%}
+.btn2{background:none;color:var(--tx);border:1px solid var(--line);border-radius:12px;padding:14px 18px;font-size:17px}
+.btn:focus-visible,.btn2:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+input[type=text],input[type=number],textarea{width:100%;background:var(--field);color:var(--tx);border:1px solid var(--line);border-radius:12px;padding:14px;font:inherit;font-size:18px}
+textarea{min-height:110px;resize:vertical}
+label.fl{display:block;font-weight:600;margin-bottom:6px}
+.hero{display:flex;align-items:center;gap:16px;justify-content:space-between;padding-top:8px}
+.ring{width:84px;height:84px;flex:none}
+.ring circle{fill:none;stroke-width:9}.ring .bgc{stroke:var(--line)}.ring .fgc{stroke:var(--ac);stroke-linecap:round;transition:stroke-dashoffset .4s}
+.ring text{font:700 22px var(--display);fill:var(--tx)}
+.quote{font-size:20px;font-style:italic;border-left:4px solid var(--ac);padding:4px 0 4px 14px}
+.tile{display:flex;gap:16px;align-items:center;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;color:var(--tx);width:100%}
+.tile .num{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font:700 26px var(--display);background:var(--acs);color:var(--ac);flex:none}
+.tile.done .num{background:var(--ok);color:var(--on-ac)}
+.tile .tx{flex:1;min-width:0}
+.tile .go{font-size:28px;color:var(--mut)}
+.pill{display:inline-block;padding:3px 12px;border-radius:99px;font-size:14px;font-weight:600;background:var(--acs);color:var(--ac)}
+.pill.ok{background:var(--oks);color:var(--ok)}.pill.nt{background:none;border:1px solid var(--line);color:var(--mut)}
+.dots{display:flex;gap:8px}.dots i{height:6px;flex:1;border-radius:3px;background:var(--line)}.dots i.on{background:var(--ac)}
+ol.do{margin:0;padding-left:26px;display:flex;flex-direction:column;gap:10px;font-size:19px}
+ol.do li::marker{font-weight:700;color:var(--ac)}
+.why{background:var(--acs);border-radius:12px;padding:14px 16px;font-size:16px}
+.why b{color:var(--ac)}
+.scale{display:flex;gap:8px}.scale button{flex:1;padding:14px 0;border-radius:12px;border:1px solid var(--line);background:var(--field);color:var(--tx);font:700 22px var(--display)}
+.scale button.on{background:var(--ac);color:var(--on-ac);border-color:var(--ac)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chips button{border:1px solid var(--line);background:var(--field);color:var(--tx);border-radius:99px;padding:8px 14px;font-size:16px}
+.chips button.on{background:var(--ac);color:var(--on-ac);border-color:var(--ac)}
+.chk{display:flex;gap:14px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--field);font-size:18px}
+.chk input{width:26px;height:26px;accent-color:var(--ac);flex:none}
+.actions{display:flex;gap:10px}.actions .btn2{flex:0 0 auto}
+.timer{font:700 64px var(--display);text-align:center;font-variant-numeric:tabular-nums;line-height:1}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stats>div{min-width:0}
+.k{font-size:40px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.heat{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.heat button{aspect-ratio:1;max-width:100%;border-radius:10px;border:1px solid var(--line);background:var(--field);color:var(--tx);font:600 16px var(--body);font-variant-numeric:tabular-nums}
+.heat .l1{background:var(--acs)}.heat .l2{background:var(--warn);color:var(--on-ac);border-color:var(--warn)}.heat .l3{background:var(--ok);color:var(--on-ac);border-color:var(--ok)}
+.heat .cur{outline:3px solid var(--ac);outline-offset:1px}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:14px;color:var(--mut)}.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px;border:1px solid var(--line)}
+.chart{width:100%;height:auto}.chart .grid{stroke:var(--line)}.chart text{fill:var(--mut);font:11px var(--body)}.chart .ln{fill:none;stroke:var(--ac);stroke-width:2.5}.chart .pt{fill:var(--ac)}
+.dayrow{display:flex;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);background:none;border-left:0;border-right:0;border-top:0;width:100%;text-align:left;color:var(--tx)}
+.dayrow:last-child{border-bottom:0}
+.dayrow .n{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font:700 20px var(--display);border:1px solid var(--line);flex:none}
+.dayrow .n.l3{background:var(--ok);color:var(--on-ac);border-color:var(--ok)}.dayrow .n.l1,.dayrow .n.l2{background:var(--acs);color:var(--ac)}
+.dayrow.cur .n{outline:3px solid var(--ac)}
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px);z-index:5}
+nav button{flex:1;max-width:170px;background:none;border:0;color:var(--mut);padding:16px 4px;font-weight:600;font-size:16px}
+nav button.on{color:var(--ac);box-shadow:inset 0 3px 0 var(--ac)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(80px + env(safe-area-inset-bottom,0px));background:var(--tx);color:var(--bg);padding:12px 18px;border-radius:12px;font-weight:600;z-index:9}
+.msg{color:var(--ac);font-weight:600;min-height:1.2em}
 .tw{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}td,th{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left}
-.k{font-size:34px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
-.pill{display:inline-block;padding:2px 8px;border-radius:99px;font-size:12px;border:1px solid var(--line)}
-.okc{color:var(--ok)}.bad{color:var(--ac)}
-.msg{color:var(--ac);font-size:14px;min-height:1em}
-@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
+table{width:100%;border-collapse:collapse;font-size:16px;font-variant-numeric:tabular-nums}td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left}
+@media (max-width:420px){h1{font-size:38px}.k{font-size:32px}ol.do{font-size:18px}}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
 </style>
-<h1>Forja Praxis</h1>
 <div id="app"></div>
 <nav id="nav"></nav>
+<div id="toast" class="toast" hidden></div>
 <script>
-const SCHEMA = 1, KEY = 'forja-praxis-v1';
-const WEEKS = [
- {t:'Gemba + 5S', d:[
-  ['Registra tu dia real cada 30 min. Al final, lista en que se fue el tiempo.','Define la accion incomoda que mas evitas.'],
-  ['Seiri (Clasificar): saca del espacio fisico todo lo que no usaras esta semana.','Regala o bota algo que te cuesta soltar.'],
-  ['Seiri digital: desinstala apps, cancela suscripciones, vacia la bandeja de entrada.','Elimina una app que te distrae.'],
-  ['Seiton (Ordenar): un lugar para cada cosa. Ordena archivos y carpetas de Praxis.','Nombra y ubica todo en 15 minutos.'],
-  ['Seiso (Limpiar): limpia espacio y escritorio digital. Define como evitar que se ensucie.','Limpia primero lo que mas evitas.'],
-  ['Seiketsu (Estandarizar): escribe el estandar del puesto y toma foto de como debe quedar.','Muestrale el estandar a alguien.'],
-  ['Shitsuke (Disciplina): audita el 5S. Calcula tu linea base de indicadores (revision semanal).','Di en voz alta que vas a cambiar.']]},
- {t:'PHVA + 7 desperdicios', d:[
-  ['PHVA completo: plan escrito en la apertura, verificacion en el cierre. Desperdicio de hoy: espera.','Elimina una espera hoy.'],
-  ['Sobreproduccion de ideas: lista todos tus proyectos. Solo Praxis sigue; el resto va a la lista de espera.','Archiva un proyecto que amas.'],
-  ['Inventario: libros y cursos sin aplicar. Elige uno y aplica hoy lo aprendido.','Aplica algo en la vida real, no en notas.'],
-  ['Movimiento y transporte: cuenta cuantas veces cambiaste de tarea. Reduce a la mitad manana.','Un solo bloque sin cambiar de tarea.'],
-  ['Defectos y retrabajo: que repites? Haz 5 porques hasta la causa raiz.','Corrige la causa, no el sintoma.'],
-  ['Sobreprocesamiento: planear sin ejecutar. Tope de 15 min de planeacion por tarea.','Ejecuta algo imperfecto hoy.'],
-  ['Talento sin usar: que fortaleza no estas usando? Ajuste y revision semanal.','Usa esa fortaleza frente a otra persona.']]},
- {t:'Teoria de Restricciones + estandar', d:[
-  ['Identifica tu restriccion y confirmala con datos de tu registro.','Escribe la restriccion y compartela.'],
-  ['Explota la restriccion: disena tu rutina matutina estandar, hora por hora.','Sigue la rutina desde el primer minuto.'],
-  ['Poka-yoke: disena barreras (celular fuera, bloqueadores, una sola pestana).','Instala una barrera ahora.'],
-  ['Andon: define la senal de alerta cuando te desvias y que haces al recibirla.','Activa la senal las veces que haga falta.'],
-  ['Trabajo estandarizado: ejecuta la rutina tal cual y anota las desviaciones.','Sostiene la rutina aunque no tengas ganas.'],
-  ['Subordinar: revisa tus compromisos; recorta los que no alimentan la restriccion.','Dile no a algo hoy.'],
-  ['Revision semanal: la restriccion se movio? Cual es la siguiente?','Cuentale a alguien tu avance.']]},
- {t:'Kaizen 1%', d:[
-  ['Elige 1 mejora medible de 1%. Define metrica y valor base.','Compromete la mejora con una fecha.'],
-  ['Aplica la mejora (PHVA) y mide el resultado.','Mide con datos, no con sensaciones.'],
-  ['Segunda mejora: elige, define metrica y aplica.','Hazlo antes de las 10 am.'],
-  ['Estandariza lo que funciono. Escribe el nuevo estandar.','Enseña el estandar a otra persona.'],
-  ['Tercera mejora. Elimina algo que no funciono.','Corta algo querido que no rinde.'],
-  ['Documenta tu antes/despues con datos reales del registro: primer caso de Praxis.','Presentalo en 2 minutos sin libreto.'],
-  ['Auditoria final y puerta a Fase 2: evalua los 3 indicadores.','Dilo directo: pasaste o no pasaste.']]}
-];
-const PD = 'Practica deliberada + recuperacion: explica sin notas, en 2 minutos y grabandote, el concepto Lean de la semana. Detecta 1 error y repite. (Base: practica con retroalimentacion; la recuperacion y la practica espaciada son las tecnicas de estudio mejor evaluadas.)';
-const FORJA = [
- 'Keller, metas al ahora: algun dia, 5 anos, 1 ano, este mes, esta semana, hoy, ahora. Una sola respuesta por nivel.',
- 'Pre-mortem: es el dia 28 y fallaste. Escribe 5 causas y convierte cada una en un plan si-entonces.',
- PD,
- 'Buzan: dibuja a mano el mapa mental de tu dia real con los datos del registro (Gemba). Crearlo tu es lo que ayuda.',
- PD,
- 'Maestria + practica deliberada: elige un maestro a estudiar y UNA subhabilidad a entrenar estos 28 dias (explicar, facilitar o vender).',
- 'Revision semanal + WOOP: deseo, mejor resultado, obstaculo interno, plan si-entonces para la semana 2. Pide feedback a 3 personas de confianza (estacion Feedback, Ikigai).',
- PD,
- 'Dimostrazione + 5 porques: toma tu error mas repetido, llega a la causa raiz y escribe un plan si-entonces.',
- PD,
- 'Rendicion de cuentas (Master Mind de Hill, adaptado): elige 1 persona y enviale cada domingo tus 3 indicadores. Reportar el progreso aumenta su efecto.',
- PD,
- PD,
- 'Revision semanal + WOOP para la semana 3.',
- '33 estrategias, declara la guerra a tu enemigo: escribe en una pagina como te ataca la dispersion y como la vences. Leela cada manana esta semana.',
- PD,
- 'Corporalita: 20 minutos de ejercicio fisico antes del bloque profundo. Agregalo a tu rutina estandar.',
- PD,
- 'Buzan: mapa mental de tu rutina estandar y tus barreras poka-yoke.',
- PD,
- 'Revision semanal + WOOP para la semana 4.',
- 'Experimento personal (Kaizen + Maestria): hipotesis, cambio, metrica y fecha. Una sola variable.',
- PD,
- PD,
- 'Pre-mortem de Fase 2: es dentro de 90 dias y Praxis no tiene clientes. Por que? 5 causas y sus planes si-entonces.',
- PD,
- 'Buzan + Gelb: mapa maestro de tu Fase 1: antes/despues con datos, aprendizajes y siguiente paso.',
- 'Keller, metas al ahora otra vez, y feedback de las mismas 3 personas. Compara con los dias 1 y 7.'];
-const QUOTES = [
- ['Simplificar antes de complejizar.','Principio de Praxis'],
- ['Mejorar 1% cada dia.','Principio de Praxis'],
- ['Aprender haciendo, no solo leyendo.','Principio de Praxis'],
- ['Eliminar el desperdicio antes de trabajar mas.','Principio de Praxis'],
- ['El que predica debe aplicar.','Principio de Praxis'],
- ['Una sola cosa, y darla toda.','Principio de Praxis'],
- ['No hagas nada que no sirva.','Miyamoto Musashi, Dokkodo (atribuida)'],
- ['Encontrare un camino o lo abrire.','Anibal Barca (atribuida)'],
- ['Donde no hay estandar no puede haber kaizen.','Taiichi Ohno (atribuida)'],
- ['Somos lo que hacemos repetidamente.','Will Durant, sobre Aristoteles (atribuida)'],
- ['La disciplina de hoy es la libertad de manana.','Principio de Praxis']
-];
-const $ = s => document.querySelector(s);
-let S = load(), view = 'hoy', cur = 1, confirmReset = false, msg = '';
+const SCHEMA=1, KEY='forja-praxis-v1';
+const TOOLS=['Gemba + 5S','PHVA + 7 desperdicios','Restricciones + estándar','Kaizen 1%'];
+const WASTES=['Espera','Sobreproducción de ideas','Movimiento sin avance','Retrabajo','Inventario sin aplicar','Planear sin ejecutar','Transporte','Talento sin usar'];
 
-function load(){
- try{ const r = JSON.parse(localStorage.getItem(KEY)); if(r && r.schema===SCHEMA) return r; }catch(e){}
- return {schema:SCHEMA,start:null,days:{},wait:[],targets:{blocks:null,mej:null},proj:{1:1,2:1,3:1,4:1}};
+const PD={t:'Práctica deliberada',src:'Ericsson · Dunlosky',steps:['Elige el concepto Lean de esta semana.','Grábate explicándolo en 2 minutos, sin notas.','Escucha la grabación y encuentra 1 error o duda.','Grábate otra vez corrigiéndolo.'],f:[['e1','Concepto que explicaste','text'],['e2','Error o duda que encontraste','area'],['e3','Qué mejoró en la segunda versión','area']]};
+const METAS=(extra)=>({t:'Metas al ahora',src:'Keller, Solo una cosa',steps:['Responde cada nivel con una sola frase.','Ve de lo lejano a lo inmediato: cada respuesta prepara la siguiente.'].concat(extra||[]),f:[['e1','Algún día quiero...','text'],['e2','En 5 años...','text'],['e3','Este año...','text'],['e4','Este mes...','text'],['e5','Esta semana...','text'],['e6','Hoy...','text'],['e7','Ahora mismo...','text']]});
+const WOOP=(w,extra)=>({t:'WOOP de la semana '+w,src:'Oettingen',steps:['Escribe tu deseo para la semana '+w+'.','Escribe el mejor resultado si lo logras.','Escribe tu obstáculo interno principal: algo en ti, no afuera.','Escribe qué harás cuando aparezca.'].concat(extra?[extra[0]]:[]),f:[['e1','Deseo','text'],['e2','Mejor resultado','text'],['e3','Obstáculo interno','text'],['e4','Si aparece ese obstáculo, entonces...','text']].concat(extra?[extra[1]]:[])});
+
+const DAYS=[
+ {t:'Gemba: tu día real',steps:['Pon una alarma cada 30 minutos durante el bloque.','Cada vez que suene, anota en una línea qué estabas haciendo.','Al final, suma los minutos que fueron de verdad a tu Una Cosa.'],f:[['t1','Registro cada 30 minutos','area'],['t2','Minutos reales en mi Una Cosa','num']],ex:METAS(),reto:'Escribe cuál es la acción incómoda que más evitas.'},
+ {t:'Seiri: clasifica tu espacio',steps:['Saca todo de tu escritorio y cajones.','Haz 3 grupos: uso diario, uso ocasional, no uso.','Lo que no usas: regálalo, véndelo o bótalo hoy.'],f:[['t1','Qué eliminé','area'],['t2','Qué me costó soltar y por qué','text']],ex:{t:'Pre-mortem',src:'Gary Klein',steps:['Imagina que es el día 28 y fracasaste.','Escribe 5 causas de ese fracaso.','Convierte la más probable en un plan si-entonces.'],f:[['e1','5 causas del fracaso','area'],['e2','Si ___, entonces ___ (para la causa principal)','text']]},reto:'Regala o bota algo que te cuesta soltar.'},
+ {t:'Seiri digital',steps:['Borra las apps que no usaste en 30 días.','Cancela suscripciones y correos que no lees.','Deja máximo 8 apps en la pantalla principal.'],f:[['t1','Apps y suscripciones eliminadas','area'],['t2','Tiempo de pantalla de ayer (míralo en la configuración del celular)','text']],ex:PD,reto:'Elimina la app que más te distrae.'},
+ {t:'Seiton: un lugar para cada cosa',steps:['Crea una carpeta Praxis con 4 subcarpetas: Clientes, Método, Marca, Admin.','Mueve ahí todo lo de Praxis.','Define un lugar fijo para cada objeto de tu escritorio.'],f:[['t1','Estructura que creé','text'],['t2','Qué busqué más de 1 minuto esta semana','text']],ex:{t:'Mapa mental de tu día real',src:'Buzan',steps:['Toma una hoja horizontal.','En el centro dibuja tu día.','Saca una rama por actividad del registro del día 1: una palabra y un color por rama.','Marca en rojo lo que fue desperdicio.'],f:[['e1','Qué descubrí al verlo dibujado','area']]},reto:'Ordena y nombra todo en 15 minutos, sin pausas.'},
+ {t:'Seiso: limpia',steps:['Limpia escritorio, pantalla y teclado.','Deja la bandeja de entrada en cero: responde, archiva o borra.','Identifica qué ensucia o desordena tu espacio.'],f:[['t1','Qué ensucia o desordena mi espacio','text'],['t2','Cómo lo voy a evitar','text']],ex:PD,reto:'Limpia primero lo que más evitas.'},
+ {t:'Seiketsu: estandariza',steps:['Toma una foto de tu escritorio ordenado: ese es tu estándar.','Escribe el estándar en 5 líneas: qué hay y dónde está.','Escribe la rutina de 5 minutos para dejarlo así cada día.'],f:[['t1','Mi estándar en 5 líneas','area'],['t2','Mi rutina de 5 minutos','area']],ex:{t:'Tu maestro y tu subhabilidad',src:'Greene, Maestría · Ericsson',steps:['Elige una persona que domine la mejora continua y que puedas estudiar.','Elige UNA subhabilidad para estos 28 días: explicar, facilitar o vender.','Define cómo vas a medir tu avance.'],f:[['e1','Mi maestro','text'],['e2','Mi subhabilidad','text'],['e3','Cómo la mediré','text']]},reto:'Muéstrale tu estándar a alguien.'},
+ {t:'Shitsuke y revisión semanal',stats:1,steps:['Revisa si tu espacio sigue en el estándar.','Mira tus números de la semana (abajo).','Anota tu línea base: esto será tu punto de partida.'],f:[['t1','Mi 5S del 1 al 5, y por qué','text'],['t2','Qué funcionó y qué no esta semana','area']],ex:WOOP(2,['Envía a 3 personas de confianza: ¿Qué valoras de mí y qué debería mejorar?',['e5','Respuestas de las 3 personas (puedes completarlo después)','area']]),reto:'Di en voz alta qué vas a cambiar.'},
+ {t:'Desperdicio: espera',steps:['Anota cada vez que esperas algo o a alguien hoy.','Para cada espera, decide qué hacer en ella o cómo eliminarla.'],f:[['t1','Esperas que detecté','area'],['t2','Cómo eliminaré la más grande','text']],ex:PD,reto:'Elimina una espera hoy.'},
+ {t:'Desperdicio: sobreproducción de ideas',steps:['Escribe todos tus proyectos e ideas activas.','Deja solo Praxis.','Pasa el resto a la Lista de espera (en Hoy).'],f:[['t1','Proyectos e ideas que tenía','area'],['t2','Qué siento al soltarlos','text']],ex:{t:'Tu error repetido',src:'Gelb, Dimostrazione · 5 porqués',steps:['Escribe el error que más repites.','Pregúntate por qué, cinco veces seguidas.','Escribe un plan si-entonces contra la causa raíz.'],f:[['e1','Mi error repetido','text'],['e2','Los 5 porqués','area'],['e3','Si ___, entonces ___','text']]},reto:'Archiva un proyecto que amas.'},
+ {t:'Desperdicio: inventario',steps:['Lista los libros y cursos que no has aplicado.','Elige uno.','Aplica hoy una idea concreta de él.'],f:[['t1','Mi inventario sin aplicar','area'],['t2','Idea que apliqué hoy y resultado','text']],ex:PD,reto:'Aplica algo en la vida real, no en notas.'},
+ {t:'Desperdicio: movimiento',steps:['Durante el bloque, marca una raya cada vez que cambies de tarea.','Al final, cuéntalas.','Meta de mañana: la mitad.'],f:[['t1','Cambios de tarea hoy','num'],['t2','Qué me hizo cambiar','text']],ex:{t:'Socio de rendición de cuentas',src:'Hill, Master Mind · Harkin 2016',steps:['Elige 1 persona que te exija.','Pídele que reciba tus 3 indicadores cada domingo.','Escribe el mensaje y envíalo hoy.'],f:[['e1','Mi socio','text'],['e2','Mensaje que envié','area']]},reto:'Un bloque completo sin cambiar de tarea.'},
+ {t:'Desperdicio: retrabajo',steps:['Anota qué tuviste que repetir o corregir hoy.','Encuentra la causa.','Diseña cómo evitarlo la próxima vez.'],f:[['t1','Retrabajo de hoy','text'],['t2','Causa y prevención','area']],ex:PD,reto:'Corrige la causa, no el síntoma.'},
+ {t:'Desperdicio: planear sin ejecutar',steps:['Ponte un tope de 15 minutos para planear cada tarea.','Ejecuta una tarea imperfecta y entrégala hoy.'],f:[['t1','Qué entregué imperfecto','text'],['t2','Qué pasó realmente','text']],ex:PD,reto:'Entrega algo imperfecto hoy.'},
+ {t:'Talento sin usar y revisión semanal',stats:1,steps:['Escribe tus 3 fortalezas.','¿Cuál no usaste esta semana?','Mira tus números de la semana (abajo).'],f:[['t1','Fortaleza sin usar y cómo la usaré','text'],['t2','Qué funcionó y qué no esta semana','area']],ex:WOOP(3),reto:'Usa esa fortaleza frente a otra persona.'},
+ {t:'Encuentra tu restricción',steps:['Revisa tus registros de 2 semanas en Progreso.','Busca el patrón: ¿qué limitó más tu avance?','Escríbelo en una frase, con su evidencia.'],f:[['t1','Mi restricción es...','text'],['t2','Evidencia (datos de mi registro)','area']],ex:{t:'Declara la guerra a tu enemigo',src:'Greene, 33 estrategias',steps:['Escribe cómo te ataca la dispersión: cuándo, con qué excusa.','Escribe cómo la vences.','Léelo cada mañana esta semana.'],f:[['e1','Cómo me ataca','area'],['e2','Cómo la venzo','area']]},reto:'Comparte tu restricción con alguien.'},
+ {t:'Diseña tu rutina estándar',steps:['Escribe tu mañana hora por hora, desde que despiertas hasta el cierre.','Incluye: despertar, ejercicio, apertura, bloque y cierre.','Fija una hora de despertar.'],f:[['t1','Mi rutina hora por hora','area'],['t2','Hora fija de despertar','text']],ex:PD,reto:'Sigue la rutina desde el primer minuto.'},
+ {t:'Poka-yoke: barreras',steps:['Diseña 3 barreras contra la dispersión.','Ejemplos: celular en otro cuarto, bloqueador de sitios, una sola pestaña.','Instálalas hoy.'],f:[['t1','Mis 3 barreras','area'],['t2','Las instalé','yes']],ex:{t:'Cuerpo en movimiento',src:'Gelb, Corporalità',steps:['Haz 20 minutos de ejercicio antes del bloque.','Anota tu energía antes y después.'],f:[['e1','Ejercicio que hice','text'],['e2','Energía antes y después (1 a 5)','text']]},reto:'Instala una barrera ahora mismo.'},
+ {t:'Andon: tu señal de alerta',steps:['Define qué haces cuando notas que te desviaste.','Ejemplo: me levanto, respiro 1 minuto, leo mi Una Cosa y vuelvo.','Úsala cada vez que haga falta hoy.'],f:[['t1','Mi señal y mi protocolo','area'],['t2','Veces que la usé hoy','num']],ex:PD,reto:'Activa la señal todas las veces que haga falta.'},
+ {t:'Trabajo estandarizado',steps:['Ejecuta tu rutina exactamente como la escribiste.','Anota cada desviación.','Ajusta el estándar si algo no funciona.'],f:[['t1','Desviaciones de hoy','area'],['t2','Ajuste a mi estándar','text']],ex:{t:'Mapa de tu rutina',src:'Buzan',steps:['Dibuja tu rutina estándar como mapa mental.','Agrega tus barreras en otro color.','Pégalo donde lo veas cada mañana.'],f:[['e1','Qué cambió al dibujarla','area']]},reto:'Sostén la rutina aunque no tengas ganas.'},
+ {t:'Subordina todo a tu Una Cosa',steps:['Lista tus compromisos de la semana.','Marca los que no ayudan a tu Una Cosa.','Cancela o delega uno hoy.'],f:[['t1','Compromiso que cancelé o delegué','text'],['t2','Cómo me sentí al decir no','text']],ex:PD,reto:'Dile no a algo hoy.'},
+ {t:'Revisión semanal: tu restricción',stats:1,steps:['Revisa si tu restricción se movió.','Define cuál es la siguiente.','Mira tus números de la semana (abajo).'],f:[['t1','¿Se movió mi restricción? Evidencia','area'],['t2','Mi siguiente restricción','text']],ex:WOOP(4),reto:'Cuéntale a tu socio tu avance.'},
+ {t:'Elige tu mejora del 1%',steps:['Elige una sola cosa que mejorar.','Define cómo medirla.','Mide su valor hoy: es tu base.'],f:[['t1','Mi mejora','text'],['t2','Métrica y valor de hoy','text']],ex:{t:'Diseña el experimento',src:'Kaizen · Greene, Maestría',steps:['Escribe tu hipótesis: si cambio X, entonces Y mejora.','Un solo cambio a la vez.','Pon fecha para evaluar.'],f:[['e1','Hipótesis','text'],['e2','El cambio','text'],['e3','Fecha de evaluación','text']]},reto:'Compromete la mejora con una fecha.'},
+ {t:'Aplica y mide',steps:['Aplica tu mejora (Hacer).','Mide el resultado (Verificar).','Decide: sigue, ajusta o descarta (Actuar).'],f:[['t1','Resultado medido','text'],['t2','Decisión: sigo, ajusto o descarto','text']],ex:PD,reto:'Mide con datos, no con sensaciones.'},
+ {t:'Segunda mejora',steps:['Elige una nueva mejora del 1%.','Aplícala y mídela hoy.'],f:[['t1','Mi segunda mejora','text'],['t2','Resultado medido','text']],ex:PD,reto:'Hazlo antes de las 10 a.m.'},
+ {t:'Estandariza lo que funcionó',steps:['Escribe como estándar lo que funcionó.','Enséñaselo a otra persona.'],f:[['t1','Mi nuevo estándar','area'],['t2','A quién se lo enseñé y qué preguntó','text']],ex:{t:'Pre-mortem de Praxis',src:'Gary Klein',steps:['Imagina que en 90 días Praxis no tiene clientes.','Escribe 5 causas.','Convierte cada una en un plan si-entonces.'],f:[['e1','5 causas','area'],['e2','Mis planes si-entonces','area']]},reto:'Enséñale el estándar a alguien.'},
+ {t:'Tercera mejora y elimina',steps:['Aplica una tercera mejora del 1%.','Elimina algo que no funcionó.'],f:[['t1','Mi tercera mejora y resultado','text'],['t2','Lo que eliminé','text']],ex:PD,reto:'Corta algo querido que no rinde.'},
+ {t:'Tu antes y después',steps:['Compara el día 1 con hoy usando datos: minutos en la Una Cosa, tiempo de pantalla, cumplimiento.','Escribe tu caso en 5 líneas: situación, problema, acción, resultado, aprendizaje.'],f:[['t1','Antes (datos)','area'],['t2','Después (datos)','area'],['t3','Mi caso en 5 líneas','area']],ex:{t:'Mapa maestro de tu Fase 1',src:'Buzan · Gelb',steps:['Dibuja el mapa de tu Fase 1. En el centro: tú, forjado.','Ramas: aprendizajes, antes y después, siguiente paso.'],f:[['e1','Lo más importante de mi mapa','area']]},reto:'Presenta tu caso en 2 minutos sin libreto.'},
+ {t:'Puerta a Fase 2',stats:1,steps:['Mira tus números (abajo) y tu Progreso.','Responde con datos: ¿pasaste la puerta?','Define tu siguiente paso.'],f:[['t1','Mi veredicto y sus datos','area'],['t2','Mi siguiente paso','text']],ex:METAS(['Compara con lo que escribiste el día 1.']),reto:'Dilo directo: pasaste o no pasaste.'}
+];
+const QUOTES=[
+ ['Simplificar antes de complejizar.','Principio de Praxis'],['Mejorar 1% cada día.','Principio de Praxis'],['Aprender haciendo, no solo leyendo.','Principio de Praxis'],
+ ['Eliminar el desperdicio antes de trabajar más.','Principio de Praxis'],['El que predica debe aplicar.','Principio de Praxis'],['Una sola cosa, y darla toda.','Principio de Praxis'],
+ ['No hagas nada que no sirva.','Miyamoto Musashi, Dokkodo (atribuida)'],['Encontraré un camino o lo abriré.','Aníbal Barca (atribuida)'],
+ ['Donde no hay estándar no puede haber kaizen.','Taiichi Ohno (atribuida)'],['Somos lo que hacemos repetidamente.','Will Durant, sobre Aristóteles'],['La disciplina de hoy es la libertad de mañana.','Principio de Praxis']
+];
+
+function sessions(n){
+ const D=DAYS[n-1], prev=S.days[n-1]&&S.days[n-1].imp;
+ return [
+ {name:'Apertura',time:'30 min',desc:'Prepara tu mente y tu espacio',steps:[
+  {t:'¿Cómo llegas hoy?',why:'Un coach empieza por tu estado, no por la tarea. Nombrar lo que sientes te ayuda a manejarlo.',do:['Respira profundo tres veces.','Responde con honestidad, sin juzgarte.'],f:[['en','Mi energía','scale'],['emo','Lo que siento, en una palabra','text'],['sl','Horas que dormí','num']]},
+  {t:'5S de tu puesto',why:'Un espacio ordenado elimina distracciones antes de empezar.',do:['Retira de la mesa todo lo que no usarás hoy.','Deja a la vista solo lo de tu Una Cosa.','Pon el celular en silencio y llévalo a otro cuarto.'],f:[['s1','Mesa despejada','check'],['s2','Solo lo de mi Una Cosa a la vista','check'],['s3','Celular fuera','check']]},
+  {t:'Tu Una Cosa',why:'Una sola prioridad clara evita que el día decida por ti.',do:['Lee la tarea de hoy: '+D.t+'.','Responde: ¿cuál es la Una Cosa que, si la hago hoy, hace todo lo demás más fácil o innecesario?'],f:[['main','Mi Una Cosa de hoy','area']]},
+  {t:'Plan si-entonces',why:'Decidir antes cómo responderás a un obstáculo es de las herramientas con más evidencia para cumplir metas.',do:['Piensa en el obstáculo más probable de hoy.','Escribe qué harás exactamente cuando aparezca.'],f:[['ifS','Si...','text'],['ifE','Entonces...','text']]}
+ ]},
+ {name:'Bloque profundo',time:'150 min',desc:D.t,steps:[
+  {t:'Inicia el bloque',why:'Cambiar de tarea cuesta. Son 150 minutos para una sola cosa.',do:['Cierra todo lo que no sea tu tarea.','Toca Iniciar y no pares hasta que el contador llegue a cero.'],timer:1},
+  {t:D.t,why:'Herramienta de la semana: '+TOOLS[Math.ceil(n/7)-1]+'. Vívela en ti antes de enseñarla.',do:D.steps,f:D.f,stats:D.stats},
+  {t:D.ex.t,src:D.ex.src,why:'30 minutos dentro del bloque.',do:D.ex.steps,f:D.ex.f},
+  {t:'Tus interrupciones',why:'Lo que no se mide no se mejora. Este es tu dato de Gemba.',do:['Cuenta cuántas veces te desviaste durante el bloque.','Escribe qué te desvió.'],f:[['int','Veces que me desvié','num'],['intw','Qué me desvió','text']]}
+ ]},
+ {name:'Cierre',time:'30 min',desc:'Verifica, aprende y ajusta',steps:[
+  {t:'Recupera lo aprendido',why:'Recordar sin mirar fija el aprendizaje mucho mejor que releer.',do:['No mires tus notas.','Escribe 3 cosas que aprendiste hoy.'],f:[['l1','Aprendizaje 1','text'],['l2','Aprendizaje 2','text'],['l3','Aprendizaje 3','text']]},
+  {t:'Caza el desperdicio',why:'Un desperdicio que ves es un desperdicio que puedes eliminar.',do:['Marca los desperdicios que viste hoy.','Describe el más grande.'],f:[['wl','Desperdicios de hoy','chips'],['waste','El más grande','text']]},
+  {t:'Tu acción incómoda',why:'Tu crecimiento está en lo que evitas.',do:[D.reto],f:[['uncDone','La hice','yes'],['unc','Qué hice exactamente','text'],['uncF','Qué sentí antes y después','text']]},
+  {t:'Kaizen del 1%',why:'Pequeñas mejoras diarias, sostenidas, construyen el cambio grande.',do:[prev?'Tu mejora de ayer era: '+prev+'.':'Mañana revisarás si aplicaste la mejora que escribas hoy.','Escribe una mejora pequeña para mañana.'],f:[['kzDone','Hoy apliqué la mejora de ayer','yes'],['imp','Mi mejora para mañana','text']]},
+  {t:'¿Cumpliste tu palabra?',why:'La coherencia entre lo que dices y lo que haces es la base de tu método.',do:['Califica tu día con honestidad.','Deja una frase para tu yo de mañana.'],f:[['sc','Cumplí mi palabra','scale'],['note','Para mi yo de mañana','text']]}
+ ]}];
 }
-function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+const $=s=>document.querySelector(s);
+let S=load(), view='hoy', cur=1, sess=null, confirmReset=false, msg='', tick=null;
+function load(){ try{const r=JSON.parse(localStorage.getItem(KEY)); if(r&&r.schema===SCHEMA) return r;}catch(e){} return {schema:SCHEMA,start:null,days:{},wait:[],targets:{blocks:null,mej:null},proj:{1:1,2:1,3:1,4:1}}; }
+function save(){ try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){} }
 function ymd(d){ const z=new Date(d.getTime()-d.getTimezoneOffset()*6e4); return z.toISOString().slice(0,10); }
-function dayNum(){ if(!S.start) return 0; const a=new Date(S.start+'T00:00'), b=new Date(ymd(new Date())+'T00:00'); return Math.round((b-a)/864e5)+1; }
-function dd(n){ if(!S.days[n]) S.days[n]={b:[false,false,false],main:'',ifthen:'',learn:'',waste:'',unc:'',uncDone:false,kzDone:false,imp:''}; return S.days[n]; }
-function weekOf(n){ return Math.ceil(n/7); }
-function dayData(n){ const w=WEEKS[weekOf(n)-1], i=(n-1)%7; return {tool:w.t, task:w.d[i][0], reto:w.d[i][1], forja:FORJA[n-1]}; }
-function stat(n){ const d=S.days[n]; if(!d) return 'none'; const c=d.b.filter(Boolean).length; return c===3?'full':c>0?'part':'none'; }
-function weekMetrics(w){
- let done=0,prom=0,mej=0; const t=dayNum();
- for(let n=(w-1)*7+1;n<=w*7;n++){ if(n>t) break; prom+=3; const d=S.days[n]; if(d){done+=d.b.filter(Boolean).length; mej+=(d.kzDone?1:0)+(d.uncDone?1:0);} }
- return {done,prom,pct:prom?Math.round(done/prom*100):null,mej,complete:w*7<=t};
-}
-function weekPass(w){
- const m=weekMetrics(w), T=S.targets;
- if(!m.complete||T.blocks==null||T.mej==null) return null;
- return m.pct>=T.blocks && m.mej>=T.mej && (S.proj[w]??1)<=1;
-}
-function streak(){ let s=0; const t=Math.min(dayNum(),28); for(let n=t;n>=1;n--){ if(stat(n)==='full') s++; else if(n===t) continue; else break; } return s; }
+function dayNum(){ if(!S.start) return 0; return Math.round((new Date(ymd(new Date())+'T00:00')-new Date(S.start+'T00:00'))/864e5)+1; }
+function dd(n){ if(!S.days[n]) S.days[n]={b:[false,false,false]}; if(!S.days[n].b) S.days[n].b=[false,false,false]; return S.days[n]; }
+function lvl(n){ const d=S.days[n]; return d&&d.b?d.b.filter(Boolean).length:0; }
 function esc(s){ return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function toast(t){ const e=$('#toast'); e.textContent=t; e.hidden=false; clearTimeout(e._t); e._t=setTimeout(()=>e.hidden=true,2200); }
+function weekMetrics(w){ let done=0,prom=0,mej=0; const t=dayNum(); for(let n=(w-1)*7+1;n<=w*7;n++){ if(n>t) break; prom+=3; const d=S.days[n]; if(d){done+=lvl(n); mej+=(d.kzDone?1:0)+(d.uncDone?1:0);} } return {done,prom,pct:prom?Math.round(done/prom*100):null,mej,complete:w*7<=t}; }
+function weekPass(w){ const m=weekMetrics(w),T=S.targets; if(!m.complete||T.blocks==null||T.mej==null) return null; return m.pct>=T.blocks&&m.mej>=T.mej&&(S.projNow??1)<=1; }
+function streak(){ let s=0; const t=Math.min(dayNum(),28); for(let n=t;n>=1;n--){ if(lvl(n)===3) s++; else if(n===t) continue; else break; } return s; }
 
-function head(){
- const t=Math.min(Math.max(dayNum(),0),28), pct=Math.round(t/28*100);
- return `<div class="mut">Fase 1: forjar a Salomon</div><div class="row mut"><span>${S.start?('Dia '+t+' de 28'):'Sin iniciar'}</span><span>${pct}%</span></div><div class="bar"><i style="width:${pct}%"></i></div>`;
-}
 function render(){
+ clearInterval(tick);
  const nav=[['hoy','Hoy'],['plan','Plan'],['prog','Progreso'],['aj','Ajustes']];
- $('#nav').innerHTML=nav.map(([k,l])=>`<button class="${view===k?'on':''}" onclick="go('${k}')">${l}</button>`).join('');
- let h=head();
- if(!S.start && view==='hoy') h+=`<div class="card"><h2>Inicia la Fase 1</h2><p class="mut">El dia 1 es hoy. Cuatro semanas, una herramienta Lean por semana, 4 horas cada manana. Abajo ves como se ve el dia 1.</p><button class="b" onclick="startNow()">Iniciar hoy</button></div>`;
- h+= {hoy:vHoy,plan:vPlan,prog:vProg,aj:vAj}[view]();
- $('#app').innerHTML=h;
+ $('#nav').innerHTML=nav.map(([k,l])=>`<button class="${view===k&&!sess?'on':''}" onclick="go('${k}')">${l}</button>`).join('');
+ $('#nav').hidden=!!sess;
+ $('#app').innerHTML = sess ? vSess() : {hoy:vHoy,plan:vPlan,prog:vProg,aj:vAj}[view]();
+ if(sess && $('#tm')) { upTimer(); tick=setInterval(upTimer,1000); }
 }
-function go(v){ view=v; msg=''; confirmReset=false; if(v==='hoy') cur=Math.min(Math.max(dayNum(),1),28); render(); scrollTo(0,0); }
+function go(v){ view=v; sess=null; msg=''; confirmReset=false; if(v==='hoy') cur=Math.min(Math.max(dayNum(),1),28); render(); scrollTo(0,0); }
 function startNow(){ S.start=ymd(new Date()); cur=1; save(); render(); }
 
+function ring(k){ const r=36,c=2*Math.PI*r; return `<svg class="ring" viewBox="0 0 84 84" role="img" aria-label="${k} de 3 sesiones"><circle class="bgc" cx="42" cy="42" r="${r}"/><circle class="fgc" cx="42" cy="42" r="${r}" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-k/3)}" transform="rotate(-90 42 42)"/><text x="42" y="50" text-anchor="middle">${k}/3</text></svg>`; }
+
 function vHoy(){
- const n=cur, d=dd(n), x=dayData(n), q=QUOTES[(n-1)%QUOTES.length], today=dayNum();
- const blocks=['Apertura (30 min)','Bloque profundo (150 min)','Cierre (30 min)'];
- const hints=['5S del puesto. Pregunta de enfoque: cual es la Una Cosa que, si la hago, hace todo lo demas mas facil o innecesario? Escribe tu plan si-entonces.','Una sola tarea, celular fuera. '+x.task,'Llena el registro. Escribe sin mirar 3 cosas que aprendiste hoy.'];
- const wl=S.wait.map((w,i)=>{const left=30-Math.floor((Date.now()-w.t)/864e5);return `<div class="row mut"><span>${esc(w.x)}</span><span>${left>0?'faltan '+left+' d':'ya puedes evaluarla'} <button class="g" aria-label="Quitar idea" onclick="delWait(${i})">x</button></span></div>`}).join('');
- const f=(k,l)=>`<label class="mut" for="f-${k}">${l}</label><input type="text" id="f-${k}" value="${esc(d[k])}" oninput="setF(${n},'${k}',this.value)">`;
- return `<div class="card quote">${esc(q[0])}<div class="mut">${esc(q[1])}</div></div>
- <div class="card"><div class="row"><button class="g" onclick="step(-1)">Ant</button><div style="text-align:center"><b>Dia ${n}${n===today?' (hoy)':''}</b><div class="mut">Semana ${weekOf(n)}: ${esc(x.tool)}</div></div><button class="g" onclick="step(1)">Sig</button></div></div>
- <div class="card"><h2>Manana de 4 horas</h2>${blocks.map((b,i)=>`<label class="chk"><input type="checkbox" id="b-${i}" ${d.b[i]?'checked':''} onchange="setB(${n},${i},this.checked)"><span>${b}<div class="mut">${esc(hints[i])}</div></span></label>`).join('')}</div>
- <div class="card"><h2>Ejercicio de libro (30 min dentro del bloque profundo)</h2><div>${esc(x.forja)}</div><h2 style="margin-top:12px">Accion incomoda</h2><div class="mut">${esc(x.reto)}</div>
- <label class="chk"><input type="checkbox" id="c-unc" ${d.uncDone?'checked':''} onchange="setF(${n},'uncDone',this.checked)"><span>Ejecute la accion incomoda</span></label>
- <label class="chk"><input type="checkbox" id="c-kz" ${d.kzDone?'checked':''} onchange="setF(${n},'kzDone',this.checked)"><span>Hice mi mejora kaizen</span></label></div>
- <div class="card"><h2>Registro del dia</h2>
- ${f('main','La Una Cosa de hoy')}${f('ifthen','Plan si-entonces (Si ___, entonces ___)')}${f('learn','3 cosas que aprendi hoy (escritas sin mirar)')}${f('waste','Desperdicio detectado')}${f('unc','Accion incomoda (cual fue)')}${f('imp','Mejora para manana')}</div>
- <div class="card"><h2>Lista de espera (Una Cosa)</h2><div class="mut">Idea nueva? Anotala. No se toca por 30 dias.</div>
- <input type="text" id="wi" placeholder="Idea nueva" aria-label="Idea nueva"><button class="b" onclick="addWait()">Anotar</button><div style="margin-top:10px">${wl||'<div class="mut">Vacia.</div>'}</div></div>`;
+ const n=cur, d=dd(n), q=QUOTES[(n-1)%QUOTES.length], today=dayNum(), ss=sessions(n);
+ const startCard = !S.start ? `<div class="card stack"><h3>Empieza tu Fase 1</h3><div class="mut">28 días. Cada mañana: 3 sesiones guiadas. La app te dice qué hacer, paso a paso.</div><button class="btn" onclick="startNow()">Empezar hoy</button></div>` : '';
+ const tiles=ss.map((s,i)=>{const done=d.b[i]; return `<button class="tile ${done?'done':''}" onclick="openS(${i})"><span class="num">${done?'✓':i+1}</span><span class="tx"><h3>${s.name}</h3><span class="mut">${s.time} · ${esc(s.desc)}</span></span><span class="go" aria-hidden="true">›</span></button>`}).join('');
+ const wl=S.wait.map((w,i)=>{const left=30-Math.floor((Date.now()-w.t)/864e5);return `<div class="hero"><span>${esc(w.x)}</span><span class="mut">${left>0?left+' días':'lista para evaluar'} <button class="btn2" style="padding:4px 10px" aria-label="Quitar" onclick="delWait(${i})">×</button></span></div>`}).join('');
+ return `<div class="stack">
+ <div class="hero"><div><div class="eyebrow">Semana ${Math.ceil(n/7)} · ${TOOLS[Math.ceil(n/7)-1]}</div><h1>Día ${n}${n===today?'':''}</h1><div class="mut">${n===today?'Hoy':S.start?'Viendo otro día':'Vista previa'}</div></div>${ring(lvl(n))}</div>
+ ${startCard}
+ <div class="quote">${esc(q[0])}<div class="mut" style="font-style:normal">${esc(q[1])}</div></div>
+ ${tiles}
+ <div class="actions" style="justify-content:space-between"><button class="btn2" onclick="step(-1)">‹ Día anterior</button><button class="btn2" onclick="step(1)">Día siguiente ›</button></div>
+ <div class="card stack"><h3>¿Idea nueva?</h3><div class="mut">Anótala aquí y vuelve a tu Una Cosa. Se evalúa en 30 días.</div><input type="text" id="wi" placeholder="Escribe la idea" aria-label="Idea nueva"><button class="btn2" onclick="addWait()">Guardar en lista de espera</button>${wl}</div>
+ </div>`;
 }
 function step(k){ cur=Math.min(28,Math.max(1,cur+k)); render(); }
-function setB(n,i,v){ dd(n).b[i]=v; save(); render(); }
-function setF(n,k,v){ dd(n)[k]=v; save(); if(typeof v==='boolean') render(); }
-function addWait(){ const v=$('#wi').value.trim(); if(!v) return; S.wait.push({x:v,t:Date.now()}); save(); render(); }
+function openS(i){ sess={k:i,s:0}; render(); scrollTo(0,0); }
+function addWait(){ const v=$('#wi').value.trim(); if(!v) return; S.wait.push({x:v,t:Date.now()}); save(); toast('Guardada. Vuelve a tu Una Cosa.'); render(); }
 function delWait(i){ S.wait.splice(i,1); save(); render(); }
+
+function field(n,[k,l,type]){
+ const d=dd(n), id='f-'+k;
+ if(type==='scale') return `<div><div class="fl">${l}</div><div class="scale">${[1,2,3,4,5].map(v=>`<button class="${d[k]===v?'on':''}" aria-label="${l}: ${v}" onclick="setA(${n},'${k}',${v},1)">${v}</button>`).join('')}</div><div class="hero mut" style="font-size:14px;padding:0"><span>Muy bajo</span><span>Muy alto</span></div></div>`;
+ if(type==='chips'){ const a=d[k]||[]; return `<div><div class="fl">${l}</div><div class="chips">${WASTES.map((w,i)=>`<button class="${a.includes(w)?'on':''}" onclick="togChip(${n},'${k}',${i})">${w}</button>`).join('')}</div></div>`; }
+ if(type==='check'||type==='yes') return `<label class="chk" for="${id}"><input type="checkbox" id="${id}" ${d[k]?'checked':''} onchange="setA(${n},'${k}',this.checked,1)"><span>${l}</span></label>`;
+ if(type==='area') return `<div><label class="fl" for="${id}">${l}</label><textarea id="${id}" oninput="setA(${n},'${k}',this.value)">${esc(d[k])}</textarea></div>`;
+ return `<div><label class="fl" for="${id}">${l}</label><input type="${type==='num'?'number':'text'}" inputmode="${type==='num'?'numeric':'text'}" id="${id}" value="${esc(d[k])}" oninput="setA(${n},'${k}',${type==='num'?'this.value===\'\'?\'\':+this.value':'this.value'})"></div>`;
+}
+function setA(n,k,v,re){ dd(n)[k]=v; save(); if(re) render(); }
+function togChip(n,k,i){ const d=dd(n), w=WASTES[i]; d[k]=d[k]||[]; d[k]=d[k].includes(w)?d[k].filter(x=>x!==w):d[k].concat(w); save(); render(); }
+
+function statsBox(n){ const m=weekMetrics(Math.ceil(n/7)); return `<div class="card stats"><div><div class="k">${m.pct==null?'–':m.pct+'%'}</div><div class="mut">Sesiones cumplidas</div></div><div><div class="k">${m.mej}</div><div class="mut">Mejoras y acciones incómodas</div></div><div><div class="k">${streak()}</div><div class="mut">Días seguidos al 100%</div></div></div>`; }
+
+function vSess(){
+ const n=cur, S0=sessions(n)[sess.k], st=S0.steps[sess.s], last=sess.s===S0.steps.length-1;
+ return `<div class="stack">
+ <div class="hero"><button class="btn2" onclick="sess=null;render()">‹ Hoy</button><span class="mut">Día ${n} · ${S0.name}</span></div>
+ <div class="dots" aria-label="Paso ${sess.s+1} de ${S0.steps.length}">${S0.steps.map((_,i)=>`<i class="${i<=sess.s?'on':''}"></i>`).join('')}</div>
+ <div class="eyebrow">Paso ${sess.s+1} de ${S0.steps.length}${st.src?' · '+esc(st.src):''}</div>
+ <h2>${esc(st.t)}</h2>
+ <ol class="do">${st.do.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>
+ ${st.timer?timerBox(n):''}
+ ${st.stats?statsBox(n):''}
+ ${(st.f||[]).map(f=>field(n,f)).join('')}
+ <div class="why"><b>Por qué: </b>${esc(st.why)}</div>
+ <div class="actions">${sess.s>0?`<button class="btn2" onclick="sess.s--;render();scrollTo(0,0)">‹ Atrás</button>`:''}<button class="btn" onclick="${last?'finish()':'sess.s++;render();scrollTo(0,0)'}">${last?'Terminar '+S0.name:'Siguiente'}</button></div>
+ </div>`;
+}
+function finish(){ const n=cur, d=dd(n); d.b[sess.k]=true; save(); const name=sessions(n)[sess.k].name; sess=null; render(); scrollTo(0,0); toast(name+' completada'); }
+
+const BLOCK=150*60*1000;
+function timerBox(n){ const d=dd(n); return `<div class="card stack" style="text-align:center"><div class="timer" id="tm">150:00</div><div class="mut" id="tms">Listo para empezar</div>${d.ts?`<button class="btn2" onclick="dd(${n}).ts=null;save();render()">Reiniciar contador</button>`:`<button class="btn" onclick="dd(${n}).ts=Date.now();save();render()">Iniciar 150 minutos</button>`}</div>`; }
+function upTimer(){ const e=$('#tm'); if(!e) return; const ts=dd(cur).ts; if(!ts){ e.textContent='150:00'; return; } const left=Math.max(0,BLOCK-(Date.now()-ts)); const m=Math.floor(left/60000), s=Math.floor(left%60000/1000); e.textContent=m+':'+String(s).padStart(2,'0'); $('#tms').textContent=left?'En curso. Sigue en tu Una Cosa; puedes avanzar a los siguientes pasos.':'Bloque terminado.'; }
 
 function vPlan(){
  const t=dayNum();
- return WEEKS.map((w,wi)=>`<div class="card"><h2>Semana ${wi+1}: ${esc(w.t)}</h2><div class="days">${[0,1,2,3,4,5,6].map(i=>{const n=wi*7+i+1;return `<button class="d ${stat(n)} ${n===t?'cur':''}" onclick="cur=${n};view='hoy';render();scrollTo(0,0)">${n}</button>`}).join('')}</div></div>`).join('')+`<div class="mut">Verde: 3 de 3 bloques. Amarillo: parcial. Borde de color: hoy.</div>`;
+ return `<div class="stack"><h1>Plan</h1><div class="mut">28 días, una herramienta por semana. Toca un día para abrirlo.</div>`+[0,1,2,3].map(w=>`<div class="card"><div class="eyebrow">Semana ${w+1}</div><h3 style="margin-bottom:6px">${TOOLS[w]}</h3>${[0,1,2,3,4,5,6].map(i=>{const n=w*7+i+1;return `<button class="dayrow ${n===t?'cur':''}" onclick="cur=${n};view='hoy';render();scrollTo(0,0)"><span class="n l${lvl(n)}">${n}</span><span>${esc(DAYS[n-1].t)}</span></button>`}).join('')}</div>`).join('')+`</div>`;
 }
 
+function energyChart(){
+ const pts=[]; for(let n=1;n<=28;n++){ const v=S.days[n]&&S.days[n].en; if(v) pts.push([n,v]); }
+ const X=n=>24+(n-1)*(256/27), Y=v=>100-(v-1)*20;
+ const grid=[1,3,5].map(v=>`<line class="grid" x1="24" x2="280" y1="${Y(v)}" y2="${Y(v)}"/><text x="14" y="${Y(v)+4}" text-anchor="middle">${v}</text>`).join('');
+ const xl=[1,7,14,21,28].map(n=>`<text x="${X(n)}" y="118" text-anchor="middle">${n}</text>`).join('');
+ const line=pts.length>1?`<polyline class="ln" points="${pts.map(([n,v])=>X(n)+','+Y(v)).join(' ')}"/>`:'';
+ return `<svg class="chart" viewBox="0 0 290 122" role="img" aria-label="Energía por día">${grid}${xl}${line}${pts.map(([n,v])=>`<circle class="pt" cx="${X(n)}" cy="${Y(v)}" r="3.5"/>`).join('')}</svg>${pts.length?'':'<div class="mut">Aparece cuando registres tu energía en la Apertura.</div>'}`;
+}
 function vProg(){
  const t=Math.min(dayNum(),28), all=[1,2,3,4].map(weekMetrics);
- const done=all.reduce((a,m)=>a+m.done,0), prom=all.reduce((a,m)=>a+m.prom,0), pct=prom?Math.round(done/prom*100):0;
- const T=S.targets;
- const rows=[1,2,3,4].map(w=>{const m=all[w-1], p=weekPass(w);return `<tr><td>S${w}</td><td>${m.pct==null?'-':m.pct+'%'}</td><td>${m.prom?m.mej:'-'}</td><td><input type="number" id="pj-${w}" aria-label="Proyectos activos semana ${w}" min="0" style="width:56px;margin:0" value="${S.proj[w]??1}" onchange="S.proj[${w}]=+this.value;save();render()"></td><td>${p==null?'<span class="pill">pendiente</span>':p?'<span class="pill okc">cumple</span>':'<span class="pill bad">no cumple</span>'}</td></tr>`}).join('');
+ const done=all.reduce((a,m)=>a+m.done,0), prom=all.reduce((a,m)=>a+m.prom,0), pct=prom?Math.round(done/prom*100):0, T=S.targets;
  const passes=[2,3,4].map(weekPass);
- const gateTxt = T.blocks==null||T.mej==null ? 'Fija tus metas en Ajustes tras la semana 1.' : passes.includes(false) ? 'No pasa la puerta: repite la Fase 1.' : passes.every(p=>p===true) ? 'Puerta superada: pasa a Fase 2 (Praxis).' : 'En evaluacion: faltan semanas por cerrar.';
- return `<div class="card"><div class="row" style="flex-wrap:wrap"><div><div class="k">${pct}%</div><div class="mut">Bloques cumplidos</div></div><div><div class="k">${streak()}</div><div class="mut">Dias seguidos al 100%</div></div><div><div class="k">${t}/28</div><div class="mut">Dias transcurridos</div></div></div></div>
- <div class="card"><h2>Indicadores por semana</h2><div class="tw"><table><tr><th></th><th>Bloques</th><th>Mejoras</th><th>Proyectos activos</th><th>Estado</th></tr>${rows}</table></div>
- <div class="mut" style="margin-top:8px">Metas: bloques ${T.blocks==null?'sin fijar':'>= '+T.blocks+'%'}, mejoras ${T.mej==null?'sin fijar':'>= '+T.mej+' por semana'}, proyectos activos <= 1.</div></div>
- <div class="card"><h2>Puerta a Fase 2</h2><div>${gateTxt}</div><div class="mut">Regla: semanas 2, 3 y 4 seguidas cumpliendo los 3 indicadores, con tu antes/despues documentado.</div></div>`;
+ const gate = T.blocks==null||T.mej==null ? ['nt','Fija tus metas en Ajustes al terminar la semana 1.'] : passes.includes(false) ? ['','No pasa: repite la Fase 1.'] : passes.every(p=>p===true) ? ['ok','Superada: pasa a Fase 2, Praxis.'] : ['nt','En evaluación.'];
+ const rows=[1,2,3,4].map(w=>{const m=all[w-1],p=weekPass(w);return `<tr><td>Semana ${w}</td><td>${m.pct==null?'–':m.pct+'%'}</td><td>${m.prom?m.mej:'–'}</td><td>${p==null?'<span class="pill nt">pendiente</span>':p?'<span class="pill ok">cumple</span>':'<span class="pill">no cumple</span>'}</td></tr>`}).join('');
+ return `<div class="stack"><h1>Progreso</h1>
+ <div class="card stats"><div><div class="k">${pct}%</div><div class="mut">Sesiones cumplidas</div></div><div><div class="k">${streak()}</div><div class="mut">Días seguidos al 100%</div></div><div><div class="k">${t}/28</div><div class="mut">Días</div></div></div>
+ <div class="card stack"><h3>Tus 28 días</h3><div class="heat">${Array.from({length:28},(_,i)=>`<button class="l${lvl(i+1)} ${i+1===dayNum()?'cur':''}" aria-label="Día ${i+1}" onclick="cur=${i+1};view='hoy';render();scrollTo(0,0)">${i+1}</button>`).join('')}</div>
+ <div class="legend"><span><i></i>0 sesiones</span><span><i style="background:var(--acs)"></i>1</span><span><i style="background:var(--warn)"></i>2</span><span><i style="background:var(--ok)"></i>3</span></div></div>
+ <div class="card stack"><h3>Tu energía</h3>${energyChart()}</div>
+ <div class="card stack"><h3>Indicadores por semana</h3><div class="tw"><table><tr><th></th><th>Sesiones</th><th>Mejoras</th><th>Estado</th></tr>${rows}</table></div><div class="mut">Metas: sesiones ${T.blocks==null?'sin fijar':'≥ '+T.blocks+'%'}, mejoras ${T.mej==null?'sin fijar':'≥ '+T.mej+' por semana'}, proyectos activos ≤ 1.</div></div>
+ <div class="card stack"><h3>Puerta a Fase 2</h3><div class="pill ${gate[0]}" style="border-radius:12px;padding:10px 14px;font-size:16px">${gate[1]}</div><div class="mut">Regla: semanas 2, 3 y 4 seguidas cumpliendo, con tu antes y después documentado.</div></div>
+ <div class="card stack"><h3>Contexto para tu coach</h3><div class="mut">Copia todo tu registro y pégalo en tu Claude Project. Así tu coach conoce tu avance real.</div><button class="btn" onclick="copyCtx()">Copiar mi registro</button><textarea id="ctx" aria-label="Registro en texto" hidden></textarea></div>
+ </div>`;
 }
+function context(){
+ const lab={};
+ let out=`# Forja Praxis: registro de Salomon\nInicio: ${S.start||'sin iniciar'} · Día actual: ${Math.min(dayNum(),28)} de 28\n`;
+ for(let n=1;n<=28;n++){ const d=S.days[n]; if(!d) continue; const ss=sessions(n); const lines=[];
+  ss.forEach(s=>s.steps.forEach(st=>(st.f||[]).forEach(([k,l])=>{ let v=d[k]; if(v===undefined||v===''||v===false||(Array.isArray(v)&&!v.length)) return; if(v===true) v='sí'; if(Array.isArray(v)) v=v.join(', '); lines.push(`- ${l}: ${v}`); })));
+  if(!lines.length&&!lvl(n)) continue;
+  out+=`\n## Día ${n} · ${DAYS[n-1].t} · sesiones ${lvl(n)}/3\n`+lines.join('\n')+'\n'; }
+ if(S.wait.length) out+=`\n## Lista de espera\n`+S.wait.map(w=>'- '+w.x).join('\n')+'\n';
+ return out;
+}
+function copyCtx(){ const t=$('#ctx'), txt=context(); t.value=txt; navigator.clipboard.writeText(txt).then(()=>toast('Registro copiado'),()=>{t.hidden=false;t.select();toast('Selecciona y copia el texto');}); }
 
 function vAj(){
  const T=S.targets;
- return `<div class="card"><h2>Fecha de inicio</h2><label class="mut" for="sd">Formato AAAA-MM-DD</label><input type="text" id="sd" value="${S.start||''}" placeholder="2026-11-11"><button class="b" onclick="setStart()">Guardar</button></div>
- <div class="card"><h2>Metas (fijalas tras la semana 1)</h2><label class="mut" for="tb">Meta de bloques cumplidos (%)</label><input type="number" id="tb" min="0" max="100" value="${T.blocks??''}" onchange="S.targets.blocks=this.value===''?null:+this.value;save()">
- <label class="mut" for="tm">Meta de mejoras + acciones incomodas por semana</label><input type="number" id="tm" min="0" value="${T.mej??''}" onchange="S.targets.mej=this.value===''?null:+this.value;save()">
- <div class="mut">Usa tu linea base real de la semana 1. No inventes metas.</div></div>
- <div class="card"><h2>Respaldo</h2><div class="mut">Tus datos viven solo en este navegador. Cada domingo copia el respaldo y guardalo en tus notas.</div>
- <div class="btns" style="margin-top:8px"><button class="b" onclick="showBk()">Mostrar respaldo</button><button class="g" onclick="copyBk()">Copiar</button></div>
- <label class="mut" for="bk">Respaldo (para restaurar, pega aqui el texto guardado)</label><textarea id="bk"></textarea>
- <div class="btns"><button class="g" onclick="impText()">Restaurar desde el texto</button><button class="g" onclick="$('#imp').click()">Restaurar desde archivo</button></div><input id="imp" type="file" accept=".json,.txt" hidden onchange="impFile(this.files[0])"></div>
+ return `<div class="stack"><h1>Ajustes</h1>
+ <div class="card stack"><h3>Metas</h3><div class="mut">Fíjalas al terminar la semana 1, con tus datos reales.</div><div><label class="fl" for="tb">Meta de sesiones cumplidas (%)</label><input type="number" id="tb" min="0" max="100" value="${T.blocks??''}" onchange="S.targets.blocks=this.value===''?null:+this.value;save()"></div><div><label class="fl" for="tm2">Meta de mejoras y acciones incómodas por semana</label><input type="number" id="tm2" min="0" value="${T.mej??''}" onchange="S.targets.mej=this.value===''?null:+this.value;save()"></div><div><label class="fl" for="pn">Proyectos activos hoy (meta: 1)</label><input type="number" id="pn" min="0" value="${S.projNow??1}" onchange="S.projNow=+this.value;save()"></div></div>
+ <div class="card stack"><h3>Fecha de inicio</h3><div><label class="fl" for="sd">AAAA-MM-DD</label><input type="text" id="sd" value="${S.start||''}" placeholder="2026-11-11"></div><button class="btn2" onclick="setStart()">Guardar fecha</button></div>
+ <div class="card stack"><h3>Respaldo</h3><div class="mut">Tus datos viven solo en este navegador. Cada domingo copia el respaldo y guárdalo en tus notas.</div><button class="btn" onclick="copyBk()">Copiar respaldo</button><div><label class="fl" for="bk">Para restaurar, pega aquí tu respaldo</label><textarea id="bk"></textarea></div><button class="btn2" onclick="restore($('#bk').value)">Restaurar</button></div>
  <div class="msg" id="msg">${esc(msg)}</div>
- <div class="card"><h2>Reiniciar</h2>${confirmReset?`<div class="mut">Esto borra todo tu registro. No se puede deshacer.</div><div class="btns" style="margin-top:8px"><button class="b" onclick="doReset()">Si, borrar todo</button><button class="g" onclick="confirmReset=false;render()">Cancelar</button></div>`:`<button class="g" onclick="confirmReset=true;render()">Borrar todos los datos</button>`}</div>`;
+ <div class="card stack"><h3>Reiniciar</h3>${confirmReset?`<div class="mut">Esto borra todo tu registro y no se puede deshacer.</div><div class="actions"><button class="btn" onclick="doReset()">Sí, borrar todo</button><button class="btn2" onclick="confirmReset=false;render()">Cancelar</button></div>`:`<button class="btn2" onclick="confirmReset=true;render()">Borrar todos los datos</button>`}</div></div>`;
 }
 function say(t){ msg=t; const m=$('#msg'); if(m) m.textContent=t; }
-function setStart(){ const v=$('#sd').value.trim(); if(/^\d{4}-\d{2}-\d{2}$/.test(v)){S.start=v;save();msg='Fecha guardada.';render();} else say('Escribe la fecha como AAAA-MM-DD.'); }
-function showBk(){ $('#bk').value=JSON.stringify(S); say('Respaldo listo. Copialo y guardalo.'); }
-function copyBk(){ const t=$('#bk'); if(!t.value) t.value=JSON.stringify(S); navigator.clipboard.writeText(t.value).then(()=>say('Respaldo copiado.'),()=>{t.select();say('Texto seleccionado: copialo manualmente.');}); }
-function restore(txt){ try{ const o=JSON.parse(txt); if(o.schema!==SCHEMA||!o.days) throw 0; S=o; save(); msg='Datos restaurados.'; render(); }catch(e){ say('Ese texto no es un respaldo valido de Forja Praxis.'); } }
-function impText(){ restore($('#bk').value); }
-function impFile(f){ if(!f) return; const r=new FileReader(); r.onload=()=>restore(r.result); r.readAsText(f); }
-function doReset(){ try{localStorage.removeItem(KEY);}catch(e){} S=load(); confirmReset=false; msg='Datos borrados.'; render(); }
+function setStart(){ const v=$('#sd').value.trim(); if(/^\d{4}-\d{2}-\d{2}$/.test(v)){S.start=v;save();toast('Fecha guardada');render();} else say('Escribe la fecha como AAAA-MM-DD.'); }
+function copyBk(){ const t=$('#bk'), txt=JSON.stringify(S); t.value=txt; navigator.clipboard.writeText(txt).then(()=>toast('Respaldo copiado'),()=>{t.select();say('Texto seleccionado: cópialo manualmente.');}); }
+function restore(txt){ try{const o=JSON.parse(txt); if(o.schema!==SCHEMA||!o.days) throw 0; S=o; save(); toast('Datos restaurados'); render();}catch(e){ say('Ese texto no es un respaldo válido de Forja Praxis.'); } }
+function doReset(){ try{localStorage.removeItem(KEY);}catch(e){} S=load(); confirmReset=false; toast('Datos borrados'); render(); }
 
 cur=Math.min(Math.max(dayNum(),1),28);
 render();
