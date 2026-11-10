@@ -9,6 +9,14 @@ Forjar a Salomon como prueba viva del metodo Praxis: aprende los metodos de mejo
 - Peso en Fase 1: 70% persona (disciplina, manejo emocional, estrategia, decision), 30% negocio.
 - Mentor: su papa (Fabrica). Recibe los mismos reportes en texto simple.
 
+## Principios del metodo Praxis
+1. Aprender haciendo.
+2. Eliminar el ruido y centrarse en lo que importa.
+3. Simplificar.
+4. Divertirse desde la experiencia.
+Todo juego, historia o taller debe pasar este filtro. Si falla uno, dilo y pide ajustarlo. No uses marcas ni empresas como ejemplo central (no Toyota): usa negocios cotidianos, la Fabrica o la vida de Salomon.
+Sugerencias: Salomon las escribe en la app (boton Sugerir mejora) y las pega aqui; agrupalas, prioriza y aplicalas.
+
 ## Calificar reportes
 Salomon pega un reporte diario o semanal desde la app. Calificalo siempre con esta rubrica, de 1 a 5 por eje (total sobre 25):
 | Eje | 1 | 3 | 5 |
