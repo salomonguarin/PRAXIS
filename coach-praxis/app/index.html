@@ -72,10 +72,34 @@ const WEEKS = [
   ['Auditoria final y puerta a Fase 2: evalua los 3 indicadores.','Dilo directo: pasaste o no pasaste.']]}
 ];
 const FORJA = [
- 'Estudia a un estratega (Anibal, Escipion, Musashi, Napoleon): 15 min y una decision aplicable hoy.',
- 'Explica un concepto Lean en 2 minutos, sin libreto, en voz alta o en video.',
- 'Haz hoy lo que mas evitas, antes del mediodia.',
- 'Caza un desperdicio propio y eliminalo hoy.'];
+ 'Ikigai: tabla de tres columnas: lo que tengo, lo que deseo tener y lo que hare para lograrlo.',
+ 'Napoleon Hill: escribe tu Objetivo Principal Definido en una frase, con fecha y lo que daras a cambio.',
+ 'Buzan: mapa mental de tu situacion actual. Imagen central, ramas curvas, una palabra por rama, 3 colores o mas.',
+ 'Inteligencia genial, Curiosita: escribe preguntas sobre tu vida y Praxis, sin responderlas. Elige 3 y buscales respuesta esta semana.',
+ 'Brian Tracy, ABCDE: lista tus tareas de la semana y clasificalas de A a E. Solo las A entran al plan.',
+ 'Maestria, Tarea de vida: que te atraia de nino (negocios, estrategia, animales, arte)? Escribe el hilo comun.',
+ 'Ikigai, estacion Feedback: pide a 3 personas de confianza que te digan que valoran de ti. Anota sin defenderte.',
+ 'Brian Tracy, tragate la rana: haz la tarea mas importante del dia antes de revisar el celular.',
+ 'Buzan: mapa mental de tus proyectos e ideas. Marca el unico que sigue; el resto va a la lista de espera.',
+ 'Maestria, aprendizaje: elige un maestro de mejora continua, observalo en profundidad y anota que hace distinto. Verifica el paso exacto en tu libro.',
+ 'Inteligencia genial, Sensazione: 5 minutos observando tu puesto de trabajo con cada sentido. Anota lo que no habias notado.',
+ 'Napoleon Hill, Master Mind: nombra 2 o 3 personas para un grupo de apoyo y que les pediras.',
+ '33 estrategias, No pelees la ultima guerra: que metodo viejo repites aunque ya no te funciona? Escribelo.',
+ 'Inteligencia genial, Dimostrazione: lista tus errores repetidos y la prueba concreta que haras para dejar de cometerlos.',
+ '33 estrategias, Declara la guerra a tu enemigo: nombra a la dispersion como tu enemigo y describe como se ve en tu dia.',
+ 'Tony Robbins, RPM: define resultado, proposito y plan de accion masiva para la semana.',
+ 'Tony Robbins, priming: disena una rutina matutina corta de gratitud, respiracion y visualizacion. Pruebala hoy.',
+ '33 estrategias, presencia de animo: escribe tu protocolo para cuando algo salga mal (que haces en los primeros 5 minutos).',
+ 'Inteligencia genial, Corporalita: 20 minutos de ejercicio y escritura con la mano izquierda.',
+ 'Buzan: mapa mental de tu rutina estandar y tus barreras poka-yoke.',
+ 'Inteligencia genial, Sfumato: sostiene 10 minutos una duda de Praxis sin resolverla. Anota lo que surge.',
+ 'Tony Robbins, RPM: define el resultado de tu mejora de 1% y por que importa.',
+ 'Maestria, experimentacion: disena un experimento pequeno para probar tu mejora y mide el resultado.',
+ 'Inteligencia genial, Connessione: busca 5 conexiones entre el 5S, el PHVA y tu vida diaria.',
+ '33 estrategias, urgencia y desesperacion: fija una fecha limite real que te obligue a avanzar.',
+ 'Inteligencia genial, Arte/Scienza: dibuja el flujo de tu manana y analizalo con datos de tu registro.',
+ 'Buzan + Gelb: mapa maestro de tu Fase 1: aprendizajes, antes/despues y siguiente paso.',
+ 'Ikigai y Napoleon Hill: repite la tabla de tres columnas y reescribe tu Objetivo Principal Definido. Compara con los dias 1 y 2.'];
 const QUOTES = [
  ['Simplificar antes de complejizar.','Principio de Praxis'],
  ['Mejorar 1% cada dia.','Principio de Praxis'],
@@ -101,7 +125,7 @@ function ymd(d){ const z=new Date(d.getTime()-d.getTimezoneOffset()*6e4); return
 function dayNum(){ if(!S.start) return 0; const a=new Date(S.start+'T00:00'), b=new Date(ymd(new Date())+'T00:00'); return Math.round((b-a)/864e5)+1; }
 function dd(n){ if(!S.days[n]) S.days[n]={b:[false,false,false],main:'',waste:'',unc:'',uncDone:false,kzDone:false,imp:''}; return S.days[n]; }
 function weekOf(n){ return Math.ceil(n/7); }
-function dayData(n){ const w=WEEKS[weekOf(n)-1], i=(n-1)%7; return {tool:w.t, task:w.d[i][0], reto:w.d[i][1], forja:FORJA[(n-1)%4]}; }
+function dayData(n){ const w=WEEKS[weekOf(n)-1], i=(n-1)%7; return {tool:w.t, task:w.d[i][0], reto:w.d[i][1], forja:FORJA[n-1]}; }
 function stat(n){ const d=S.days[n]; if(!d) return 'none'; const c=d.b.filter(Boolean).length; return c===3?'full':c>0?'part':'none'; }
 function weekMetrics(w){
  let done=0,prom=0,mej=0; const t=dayNum();
@@ -138,7 +162,7 @@ function vHoy(){
  return `<div class="card quote">${esc(q[0])}<div class="mut">${esc(q[1])}</div></div>
  <div class="card"><div class="row"><button class="g" onclick="step(-1)">Ant</button><div style="text-align:center"><b>Dia ${n}${n===today?' (hoy)':''}</b><div class="mut">Semana ${weekOf(n)}: ${esc(x.tool)}</div></div><button class="g" onclick="step(1)">Sig</button></div></div>
  <div class="card"><h2>Manana de 4 horas</h2>${blocks.map((b,i)=>`<label class="chk"><input type="checkbox" ${d.b[i]?'checked':''} onchange="setB(${n},${i},this.checked)"><span>${b}${i===1?'<div class="mut">'+esc(x.task)+'</div>':''}</span></label>`).join('')}</div>
- <div class="card"><h2>Reto de forja</h2><div>${esc(x.forja)}</div><h2 style="margin-top:12px">Accion incomoda</h2><div class="mut">${esc(x.reto)}</div>
+ <div class="card"><h2>Ejercicio de libro (30 min dentro del bloque profundo)</h2><div>${esc(x.forja)}</div><h2 style="margin-top:12px">Accion incomoda</h2><div class="mut">${esc(x.reto)}</div>
  <label class="chk"><input type="checkbox" ${d.uncDone?'checked':''} onchange="setF(${n},'uncDone',this.checked)"><span>Ejecute la accion incomoda</span></label>
  <label class="chk"><input type="checkbox" ${d.kzDone?'checked':''} onchange="setF(${n},'kzDone',this.checked)"><span>Hice mi mejora kaizen</span></label></div>
  <div class="card"><h2>Registro del dia</h2>

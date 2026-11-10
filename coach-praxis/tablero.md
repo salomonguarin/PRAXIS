@@ -36,6 +36,15 @@ Datos faltantes: gastos mensuales, pista de caja (ahorros aprox. COP 5 M), casos
 | 2 | Proyectos activos | por medir | 1 |
 | 3 | Mejoras kaizen y acciones incomodas por semana, con efecto medido | por medir | se fija tras la sem. 1 |
 
+## Libros y mentores (solo ejercicios, 30 min dentro del bloque profundo)
+| Semana | Ejercicios de libro |
+|---|---|
+| 1 | Ikigai (3 columnas), Hill (Objetivo Principal Definido), Buzan (mapa de situacion), Gelb Curiosita, Tracy ABCDE, Greene Tarea de vida, Ikigai Feedback |
+| 2 | Tracy rana, Buzan (proyectos), Greene aprendizaje, Gelb Sensazione, Hill Master Mind, 33 estrategias (ultima guerra), Gelb Dimostrazione |
+| 3 | 33 estrategias (enemigo), Robbins RPM, Robbins priming, 33 estrategias (presencia de animo), Gelb Corporalita, Buzan (rutina), Gelb Sfumato |
+| 4 | Robbins RPM, Greene experimentacion, Gelb Connessione, 33 estrategias (urgencia), Gelb Arte/Scienza, Buzan + Gelb (mapa maestro), Ikigai + Hill (cierre) |
+Regla: no se lee nada nuevo en Fase 1. Los ejercicios del calendario son los conceptos centrales de cada fuente; si tu libro trae un ejercicio mas especifico, usa el del libro.
+
 ## Puerta a Fase 2 (dia 30)
 Tres semanas seguidas cumpliendo los 3 indicadores y antes/despues propio documentado. Si no, repetir Fase 1.
 
