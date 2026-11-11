@@ -1,0 +1,12 @@
+{
+  "name": "praxis-manual-de-marca-fuente",
+  "version": "1.0.0",
+  "description": "Fuentes de construccion del manual de marca PRAXIS",
+  "scripts": {
+    "etapa1": "node etapa1/build.js"
+  },
+  "dependencies": {
+    "opentype.js": "1.3.4"
+  },
+  "private": true
+}
