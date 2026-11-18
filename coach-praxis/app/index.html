@@ -3,6 +3,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,1,0&display=block">
 <style>
 /* Layout: una columna amplia; Hoy = 3 sesiones grandes; cada sesion = un paso por pantalla */
 :root{
@@ -84,7 +85,7 @@ table{width:100%;border-collapse:collapse;font-size:16px;font-variant-numeric:ta
 .timerc{display:flex;flex-direction:column;gap:10px;text-align:center}
 .timerc .timer{font-size:52px}
 .actions.col{flex-direction:column}.actions.col button{width:100%}
-.sgb{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(72px + env(safe-area-inset-bottom,0px));z-index:6;background:var(--card);color:var(--ac);border:1px solid var(--ac);border-radius:99px;padding:8px 14px;font-size:14px;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,.12)}.sgb.low{bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+.sgb{width:48px;height:48px;padding:0!important;display:grid;place-items:center;font-size:22px!important;position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(72px + env(safe-area-inset-bottom,0px));z-index:6;background:var(--card);color:var(--ac);border:1px solid var(--ac);border-radius:99px;padding:8px 14px;font-size:14px;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,.12)}.sgb.low{bottom:calc(16px + env(safe-area-inset-bottom,0px))}
 .sgo{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:10;display:flex;align-items:flex-end;justify-content:center;padding:16px}.sgc{width:100%;max-width:640px}
 .opt2{display:block;width:100%;text-align:left;background:var(--field);color:var(--tx);border:1px solid var(--line);border-radius:12px;padding:14px;font-size:17px}.opt2 b{color:var(--ac);margin-right:6px}.opt2.on{border:2px solid var(--ac);background:var(--acs)}
 .case{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}.res{border-left:4px solid var(--ac);padding-left:12px}
@@ -98,13 +99,34 @@ table{width:100%;border-collapse:collapse;font-size:16px;font-variant-numeric:ta
 .badges{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.badge{border:1px dashed var(--line);border-radius:12px;padding:10px;display:flex;flex-direction:column;opacity:.5;font-size:15px}.badge.on{opacity:1;border:2px solid var(--ok)}
 .mt{display:flex;flex-wrap:wrap;gap:6px}.m6{display:grid;grid-template-columns:110px 1fr 34px;gap:10px;align-items:center;font-size:15px}.m6 .bar{margin:0}.m6 b{text-align:right}
 .map{width:100%;height:auto}.map .zone{fill:var(--field);stroke:var(--line)}.map .zone.past{fill:var(--oks)}.map .zone.now{fill:var(--acs);stroke:var(--ac)}.map .zl{fill:var(--mut);font:600 11px var(--body)}.map .ax{stroke:var(--mut)}.map .al{fill:var(--mut);font:12px var(--body)}.map .pth{fill:none;stroke:var(--ac);stroke-width:2.5}.map .pt{fill:var(--ac)}.map .me{fill:var(--ac);stroke:var(--card);stroke-width:3}
+.ms{font-family:'Material Symbols Rounded';font-weight:normal;font-style:normal;font-size:1.25em;line-height:1;display:inline-block;width:1em;height:1em;overflow:hidden;white-space:nowrap;vertical-align:-0.2em;flex:none;font-feature-settings:'liga';-webkit-font-smoothing:antialiased}.ms.sm{font-size:1.05em}
+.scene{display:flex;gap:14px;align-items:center;border-radius:16px;padding:16px;color:#fff;background:linear-gradient(135deg,var(--c1),var(--c2))}.scene h3{color:#fff;margin:2px 0 6px}
+.scene.l0{--c1:#2f6b3a;--c2:#6a9a3a}.scene.l1{--c1:#1f5f86;--c2:#3e97b5}.scene.l2{--c1:#3d4a5c;--c2:#6b7a8f}.scene.l3{--c1:#8a3a1c;--c2:#d0672e}.scene.l4{--c1:#5a3a26;--c2:#a0714a}.scene.l5{--c1:#2d2f7a;--c2:#5a62c9}
+.sc-ic{width:64px;height:64px;border-radius:18px;background:rgba(255,255,255,.18);display:grid;place-items:center;flex:none}.sc-ic .ms{font-size:40px}.sc-lv{font-size:13px;opacity:.9;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.sc-dots{display:flex;gap:6px}.sc-dots i{width:22px;height:6px;border-radius:3px;background:rgba(255,255,255,.3)}.sc-dots i.on{background:#fff}.sc-dots i.cur{outline:2px solid #fff;outline-offset:1px}
+.simple{display:flex;gap:12px;background:var(--acs);border-radius:14px;padding:14px;font-size:17px}.simple>.ms{color:var(--ac);font-size:28px}
+.story{font-size:18px}.term{background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline dotted var(--ac);text-decoration-thickness:2px;text-underline-offset:3px;cursor:pointer}
+.chips2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.chip2{display:flex;gap:10px;align-items:flex-start;background:var(--field);border:1px solid var(--line);border-radius:14px;padding:12px}.chip2>.ms{color:var(--ac);font-size:24px}.chip2 span{display:block;font-size:13px}.chip2 b{font-size:16px}
+.ask summary{cursor:pointer;color:var(--ac);font-weight:600;list-style:none}.btn.big{font-size:20px;padding:18px}
+.opt3{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:var(--card);color:var(--tx);border:2px solid var(--line);border-radius:16px;padding:14px;font-size:17px;transition:transform .15s}.opt3:active{transform:scale(.98)}.opt3 .lt{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--acs);color:var(--ac);font:700 20px var(--display);flex:none}.opt3.on{border-color:var(--ac);background:var(--acs)}.opt3.on .lt{background:var(--ac);color:var(--on-ac)}
+.reveal{border-radius:16px;padding:16px;border:2px solid var(--line);display:flex;flex-direction:column;gap:8px;animation:pop .45s ease}.reveal.ok{border-color:var(--ok);background:var(--oks)}.reveal.nt{border-color:var(--warn)}.reveal.bad{border-color:var(--ac);background:var(--acs)}
+.rv-h{display:flex;gap:12px;align-items:center}.rv-h .ms{font-size:40px}.reveal.ok .rv-h .ms{color:var(--ok)}.reveal.nt .rv-h .ms{color:var(--warn)}.reveal.bad .rv-h .ms{color:var(--ac)}.rv-t{font:700 26px var(--display)}
+.deltas{display:grid;grid-template-columns:1fr 1fr;gap:10px}.deltas>div{background:var(--field);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:2px}.deltas .ms{color:var(--ac);font-size:24px}.deltas b{font:700 24px var(--display)}.deltas .mut{font-size:13px}
+.real,.lesson{display:flex;gap:12px;align-items:flex-start;border-radius:14px;padding:14px}.real{background:var(--field);border:1px solid var(--line)}.lesson{background:var(--acs)}.real>.ms,.lesson>.ms{font-size:28px;color:var(--ac);flex:none}
+.ctile .num{color:#fff}.ctile.l0 .num{background:#3f7a3a}.ctile.l1 .num{background:#2a78a0}.ctile.l2 .num{background:#55647a}.ctile.l3 .num{background:#b8552a}.ctile.l4 .num{background:#7a5236}.ctile.l5 .num{background:#4048a8}
+.gls,.lvc{text-align:center;align-items:center}.glic{width:64px;height:64px;border-radius:50%;background:var(--acs);color:var(--ac);display:grid;place-items:center}.glic .ms{font-size:36px}.glic.big{width:96px;height:96px}.glic.big .ms{font-size:56px}.sgo.mid{align-items:center}.lvc{animation:pop .5s ease}
+.radar{width:100%;height:auto}.radar .rg{fill:none;stroke:var(--line)}.radar .rv{fill:var(--acs);stroke:var(--ac);stroke-width:2.5;fill-opacity:.8}.radar text{fill:var(--mut);font:12px var(--body)}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden}.confetti i{position:absolute;top:-12px;width:9px;height:14px;border-radius:2px;animation:fall 1.8s ease-in forwards}
+@keyframes fall{to{top:105%;transform:rotate(540deg)}}@keyframes pop{0%{transform:scale(.9);opacity:0}100%{transform:scale(1);opacity:1}}.shake{animation:shake .5s}@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 ul.rep{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:17px}
 .ph{cursor:default}.ph.lock{opacity:.7}
 </style>
 <div id="app"></div>
 <nav id="nav"></nav>
 <div id="toast" class="toast" hidden></div>
-<button id="sgb" class="sgb" onclick="openSug()">Sugerir mejora</button>
+<div id="gl" class="sgo" hidden onclick="if(event.target===this)this.hidden=true"><div class="card stack sgc gls" id="glx" role="dialog" aria-label="Qué significa"></div></div>
+<div id="lv" class="sgo mid" hidden><div class="card stack sgc lvc" id="lvx" role="dialog" aria-label="Celebración"></div></div>
+<button id="sgb" class="sgb" onclick="openSug()" aria-label="Sugerir mejora" title="Sugerir mejora"><span class="ms">rate_review</span></button>
 <div id="sg" class="sgo" hidden><div class="card stack sgc" role="dialog" aria-label="Sugerir mejora"><h3>Sugerir mejora</h3><div class="mut" id="sgx"></div><textarea id="sgt" aria-label="Tu sugerencia" placeholder="¿Qué mejorarías aquí?"></textarea><div class="actions"><button class="btn" onclick="saveSug()">Guardar</button><button class="btn2" onclick="$('#sg').hidden=true">Cancelar</button></div></div></div>
 <script>
 const SCHEMA=1, KEY='forja-praxis-v1';
@@ -457,6 +479,7 @@ function render(){
  $('#app').innerHTML = sess ? vSess() : {hoy:vHoy,emp:vEmp,plan:vPlan,met:vMet,prog:vProg,aj:vAj}[view]();
  if(sess && $('#tm')) { upTimer(); tick=setInterval(upTimer,1000); }
  updateMic();
+ if(document.querySelector('.cu')) countUp();
 }
 function go(v){ view=v; sess=null; msg=''; confirmReset=false; if(v==='hoy') cur=Math.min(Math.max(dayNum(),1),28); render(); scrollTo(0,0); }
 function startNow(){ S.start=ymd(new Date()); cur=1; save(); render(); }
@@ -526,10 +549,10 @@ function vSess(){
  <div class="eyebrow">Paso ${sess.s+1} de ${S0.steps.length}${st.min?' · '+st.min+' min':''}${st.src?' · '+esc(st.src):''}</div>
  <h2>${esc(st.t)}</h2>
  ${st.learnOpen?learnCard(st.learnOpen):''}
- <ol class="do">${st.do.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>
+ ${st.caso?'':`<ol class="do">${st.do.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`}
  ${st.learn?learnBtn(st.learn):''}
  ${st.praxis?exBtn(n):''}
- ${st.min&&!st.learnOpen?timerBox(n,'tm'+sess.k+'_'+sess.s,st.min):''}
+${st.min&&!st.learnOpen&&!st.caso?timerBox(n,'tm'+sess.k+'_'+sess.s,st.min):''}
  ${st.stats?statsBox(n):''}
  ${st.caso?caseBox(n):''}
  ${(st.f||[]).map(f=>field(n,f)).join('')}
@@ -682,29 +705,118 @@ function logros(){ const ds=Object.keys(S.days).map(Number), D=G().dec, full=ds.
  return [['Primer paso','Un día completo al 100%',full>=1],['Racha de 7','7 días seguidos al 100%',streak()>=7],['Caficultor','Supera el nivel 1',L>=1],['Pergamino','Supera el nivel 2',L>=2],['Trilla propia','Supera el nivel 3',L>=3],['Tostador','Supera el nivel 4',L>=4],['Estratega','10 grandes decisiones',greats>=10],['Las 6 M','Las 6 M en 70 o más',mm.length===6&&mm.every(v=>v>=70)],['Maestro del método','5 fichas completas',fichas>=5],['Retador','5 retos sorpresa',rs>=5],['Multinacional','Rango Multinacional',r>=5],['Imperio','Rango Imperio',r>=6]]; }
 function caseIdx(n){ return sessions(n)[1].steps.findIndex(s=>s.caso); }
 function mTags(C){ return `<div class="mt">${C.m.map(k=>`<span class="pill nt">${M6[k]}</span>`).join('')}</div>`; }
-function caseBox(n){
- const nx=caseFor(n); if(!nx) return `<div class="learn stack"><h3>Historia completa</h3><div>Superaste los 6 niveles. Mira tu empresa en la pestaña Empresa.</div></div>`;
- const ch=nx.ch, C=CASES[ch-1], dec=G().dec[ch], d=dd(n), done=d.cs===ch;
- let h=`<div class="case stack"><div class="eyebrow">Nivel ${C.lv+1}: ${LEVELS[C.lv].n} · Caso ${lvCases(C.lv).indexOf(ch)+1} de 5</div><h3>${esc(C.t)}</h3>${mTags(C)}`;
- if(nx.ref&&!done) h+=`<div class="why"><b>Refuerzo: </b>tu nivel ${C.lv+1} no alcanzó el mínimo para subir (decisiones ${Math.round(nx.g.avg*100)} de 60, tecnología ${Math.round(nx.g.tech*100)} de 50). Vuelve a decidir este caso.</div>`;
- h+=`<div>${esc(C.sit)}</div><ul class="rep">${C.dat.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><div class="kq">${esc(C.q)}</div>`;
- if(!done){ const sel=d.csel;
-  return h+ordFor(ch).map((i,j)=>`<button class="opt2 ${sel===i?'on':''}" onclick="setA(${n},'csel',${i},1)"><b>${'ABC'[j]}</b> ${esc(C.o[i].t)}</button>`).join('')+field(n,['cwhy','¿Por qué? Piensa en las 6 M: mano de obra, máquina, método, materiales, medición y medio ambiente','area'])+`<button class="btn" onclick="decide(${n},${ch},${nx.ref?1:0})">Tomar la decisión</button></div>`; }
- const o=C.o[dec.o], gr=GRADE[o.g];
- return h+`<div class="res stack"><span class="pill ${gr[1]}">${gr[0]}</span><div><b>Tu decisión: </b>${esc(o.t)}</div><div>${esc(o.r)}</div><div class="mut">Conocimiento +${Math.round(o.g*XMAX*10)/10} · Tecnología +${YMAX?Math.round(o.y/YMAX*1000)/10:0}</div></div>
- <div class="ex2"><b>Lo que pasó en la vida real · ${esc(C.src)}: </b>${esc(C.real)}</div>
- <div class="kq">Lección: ${esc(C.lec)}</div>${C.learn?learnBtn(C.learn):''}
- ${coachCaseBox(ch)}</div>`;
-}
-function decide(n,ch,ref){ const d=dd(n); if(d.csel==null){ toast('Elige una opción'); return; } const w=(d.cwhy||'').trim(); if(w.length<10){ toast('Explica tu porqué en 2 o 3 líneas'); return; }
- const before=rankIdx(company()), Lb=curLevel(), old=G().dec[ch]; G().dec[ch]={o:d.csel,why:w,day:n,t:Date.now(),h:old?(old.h||[]).concat([{o:old.o,why:old.why,t:old.t}]):undefined}; if(!G().dec[ch].h) delete G().dec[ch].h;
- d.cs=ch; d.csRef=!!ref; save(); const after=rankIdx(company()), La=curLevel(); render();
- toast(La>Lb?(La<LEVELS.length?'Subiste al nivel '+(La+1)+': '+LEVELS[La].n:'Superaste los 6 niveles'):after>before?'Nuevo rango: '+RANKS[after][0]:'Decisión tomada: '+GRADE[CASES[ch-1].o[d.csel].g][0]); }
 function retoCard(n){ const d=dd(n), r=RETOS[(n*7+3)%RETOS.length];
  if(!d.rsOpen) return `<button class="tile reto" onclick="setA(${n},'rsOpen',true,1)"><span class="num">?</span><span class="tx"><h3>Reto sorpresa</h3><span class="mut">Toca para revelarlo · +15 XP</span></span></button>`;
  return `<div class="card stack reto"><div class="eyebrow">Reto sorpresa del día</div><h3>${esc(r)}</h3><label class="chk" for="rsd"><input type="checkbox" id="rsd" ${d.rsDone?'checked':''} onchange="setA(${n},'rsDone',this.checked,1)"><span>Lo hice</span></label></div>`; }
+/* ---------- Juego visual: glosario, escenas, animaciones ---------- */
+const LVIC=['agriculture','water_drop','precision_manufacturing','local_fire_department','storefront','public'];
+const CIC=['eco','pest_control','groups','monitoring','trending_up','science','water_drop','thermostat','scale','emoji_events','precision_manufacturing','filter_alt','hourglass_bottom','build','health_and_safety','local_fire_department','scale','inventory_2','cleaning_services','school','account_balance_wallet','coffee','groups','restart_alt','verified','candlestick_chart','currency_exchange','travel_explore','flight_takeoff','castle'];
+const CS=['Las plantas de Salomón son viejas y se pueden enfermar de roya, un hongo que tumba las hojas. ¿Cambia todas de una vez, poco a poco o ninguna?','Un insecto diminuto, la broca, se está comiendo los granos. ¿Fumiga todo o revisa y ataca solo donde está?','Hay mucho café maduro y poca gente para recogerlo. ¿Cómo consigue y conserva a los recolectores?','Salomón no sabe cuál de sus terrenos le deja plata y cuál le cuesta. ¿Cómo lo averigua?','El café está más caro que nunca. ¿Vende ya, vende por partes o espera a que suba más?','El café sale con sabor a vinagre porque lo deja reposar sin medir el tiempo. ¿Cómo lo arregla?','El agua sucia del lavado del café llega al río. ¿Qué hace antes de que lo sancionen?','A veces entrega el café muy húmedo y se lo rechazan; otras veces muy seco y pierde kilos. ¿Cómo acierta?','Le pagan menos que al vecino porque su café trae más granos malos. ¿Qué cambia?','Uno de sus lotes salió excepcional. ¿Lo vende igual que el resto o lo destaca?','Le paga a otro para quitarle la cáscara al café. ¿Compra su propia máquina?','Un comprador se queja de granos defectuosos. ¿Cómo garantiza la calidad?','Los pedidos se atrasan aunque todos trabajan. ¿Dónde está el tapón?','La máquina se daña cada semana. ¿Repara cada vez o previene?','Un trabajador se lastimó en la máquina. ¿Cómo evita el próximo accidente?','Unos lotes salen quemados y otros crudos. ¿Cómo logra que todos salgan iguales?','Al tostar, el café pierde peso, y Salomón no lo cuenta en el precio. ¿Está ganando o perdiendo?','Tuesta una vez al mes y el café pierde aroma. ¿Cómo lo vende fresco?','La planta está desordenada y se pierde café. ¿Por dónde empieza?','Los trabajadores se van a los pocos meses. ¿Cómo hace que se queden?','La tienda vende bien, pero no alcanza la plata para pagar sueldos. ¿Qué pasa y qué hace?','Al lado venden café más barato. ¿Baja el precio o da algo que el otro no da?','En la mañana la fila es tan larga que la gente se va. ¿Contrata más gente o cambia la forma de trabajar?','Con más tiendas, el café ya no sabe igual en todas. ¿Cómo recupera el sabor?','Quiere que su café sea una marca reconocida en todo el país. ¿Cómo lo logra?','Un comprador extranjero quiere su café, pero el precio mundial sube y baja todos los días. ¿Cómo se protege?','Le van a pagar en dólares dentro de 6 meses y el dólar puede bajar. ¿Cómo asegura su ganancia?','Europa exige probar de qué finca viene cada saco y que no se taló bosque para sembrarlo. ¿Se prepara o espera?','Quiere abrir tiendas en un país que ya ama el café. ¿Copia su modelo o se adapta?','Le ofrecen entrar a hoteles, licores y turismo. ¿Crece en todo o se enfoca?'];
+CASES.forEach((c,i)=>{ c.s=CS[i]; c.ic=CIC[i]; });
+const GL=[
+ ['roya','Roya','eco','Enfermedad del café causada por un hongo. Aparecen manchas anaranjadas, como polvo, debajo de las hojas; las hojas se caen y la planta produce menos.'],
+ ['broca','Broca','pest_control','Un escarabajo muy pequeño que perfora el grano de café y pone sus huevos adentro. Daña el grano y baja la calidad y el precio.'],
+ ['cafetal(?:es)?','Cafetal','agriculture','El cultivo: el terreno sembrado con plantas de café.'],
+ ['variedad(?:es)?','Variedad','eco','Un tipo de planta de café con características propias: sabor, tamaño y resistencia a enfermedades.'],
+ ['renuev[ae]|renovaci[oó]n|renovar','Renovar','autorenew','Cambiar plantas viejas por nuevas, o podarlas, para que vuelvan a producir bien.'],
+ ['repase','Repase','replay','Volver a pasar por el lote para recoger los frutos que quedaron, incluidos los del suelo, donde se esconde la broca.'],
+ ['muestre[ao]','Muestreo','search','Revisar una parte pequeña, por ejemplo algunos árboles o granos al azar, para saber cómo está todo el lote sin revisarlo todo.'],
+ ['jornal','Jornal','badge','El pago de un día de trabajo en el campo, o el trabajo de una persona durante un día.'],
+ ['carga','Carga','inventory_2','En el café colombiano, una carga son 125 kilos de café pergamino seco. Es la medida con la que se negocia el precio interno.'],
+ ['pergamino','Café pergamino','grain','El grano ya despulpado, lavado y seco, que todavía conserva una cascarita delgada llamada pergamino. Así lo vende la mayoría de caficultores.'],
+ ['beneficio','Beneficio','water_drop','El proceso en la finca que convierte la fruta del café en café pergamino seco: despulpar, fermentar, lavar y secar.'],
+ ['despulpa[r]?','Despulpar','content_cut','Quitar la pulpa roja de la fruta para dejar solo el grano.'],
+ ['mucílago','Mucílago','opacity','Capa pegajosa y dulce que cubre el grano después de despulparlo. Se suelta con la fermentación y sale con el lavado.'],
+ ['ferment[ao]|fermentación','Fermentación','science','El tiempo en que el grano reposa para que se suelte el mucílago. Si se pasa, el café toma sabores malos, como a vinagre.'],
+ ['aguas (?:del beneficio|mieles)','Aguas del beneficio','water','El agua que sale de lavar el café, cargada de mucílago y pulpa. Si llega a los ríos, los contamina.'],
+ ['Ecomill','Ecomill','water_drop','Tecnología de Cenicafé para lavar el café con muy poca agua.'],
+ ['Fermaestro','Fermaestro','science','Herramienta de Cenicafé que indica cuándo la fermentación llegó a su punto.'],
+ ['Gravimet','Gravimet','scale','Método de Cenicafé para saber la humedad del café mientras se seca, pesando una muestra.'],
+ ['humedad','Humedad','humidity_percentage','Cuánta agua tiene el grano. El café pergamino seco debe quedar entre 10% y 12%: más húmedo se daña, más seco pierde peso.'],
+ ['factor de rendimiento','Factor de rendimiento','scale','Cuántos kilos de café pergamino seco se necesitan para sacar un saco de 70 kg de café excelso. Mientras menos se necesiten, mejor es el café y mejor se paga.'],
+ ['excelso','Café excelso','star','Café verde de buena calidad, listo para exportar, después de trillar y clasificar.'],
+ ['pasilla','Pasilla','do_not_disturb_on','Granos defectuosos o pequeños que se separan del café bueno. Se venden más baratos.'],
+ ['catador|catación','Catación','local_cafe','Prueba profesional del sabor del café. Se califica de 0 a 100 puntos; con 80 o más es café de especialidad.'],
+ ['microlote','Microlote','diamond','Una cantidad pequeña de café de un mismo lote, separada por su calidad especial.'],
+ ['tril(?:la|lar|ladora|lando)','Trilla','precision_manufacturing','Quitar el pergamino al grano seco para obtener el café verde.'],
+ ['descascara(?:do|dora)','Descascarado','precision_manufacturing','Parte de la trilla que rompe y retira la cascarita del pergamino.'],
+ ['maquila','Maquila','handshake','Pagarle a otro para que haga un proceso con su máquina, en vez de comprar la máquina.'],
+ ['merma','Merma','trending_down','El peso que se pierde en un proceso. Al trillar se pierde la cascarita; al tostar se pierde el agua del grano.'],
+ ['tost(?:ar|ión|adora)|tues(?:te|ta)','Tostión','local_fire_department','Calentar el café verde para que desarrolle aroma y sabor. Según Cenicafé, pierde entre 11% y 20% de su peso.'],
+ ['perfil de tueste','Perfil de tueste','tune','La receta del tueste: temperaturas y tiempos que se repiten para que cada lote sepa igual.'],
+ ['válvula','Válvula','air','Válvula de una sola vía en la bolsa: deja salir el gas del café recién tostado sin dejar entrar aire.'],
+ ['cuello de botella|restricción','Cuello de botella','hourglass_bottom','El paso más lento de un proceso. Todo el sistema avanza a su ritmo.'],
+ ['mantenimiento preventivo','Mantenimiento preventivo','build','Cuidar la máquina antes de que falle: limpiar, revisar y lubricar en fechas fijas.'],
+ ['SG-SST','SG-SST','health_and_safety','Sistema de Gestión de Seguridad y Salud en el Trabajo. En Colombia es obligatorio para los empleadores.'],
+ ['matriz de peligros','Matriz de peligros','warning','Lista de los peligros de cada puesto de trabajo, qué tan graves son y cómo se controlan.'],
+ ['guardas','Guardas','shield','Protecciones físicas que cubren las partes móviles de una máquina para evitar accidentes.'],
+ ['flujo de caja','Flujo de caja','account_balance_wallet','El registro del dinero que entra y sale cada semana. Muestra si vas a tener plata para pagar.'],
+ ['gota a gota','Gota a gota','money_off','Préstamo informal con intereses altísimos que se cobran a diario. Es ilegal y muy riesgoso.'],
+ ['(?:precio de )?bolsa de Nueva York|precio de bolsa','Bolsa de Nueva York','candlestick_chart','Mercado donde se fija cada día el precio internacional del café arábica. Sube y baja según la oferta y la demanda mundial.'],
+ ['diferencial','Diferencial','add_circle','Lo que se paga por encima o por debajo del precio de bolsa según la calidad y el origen del café.'],
+ ['forward|cubre','Cobertura (forward)','lock','Un acuerdo para fijar hoy un precio o una tasa de cambio futura, y así no perder si el mercado se mueve en contra.'],
+ ['tasa de cambio','Tasa de cambio','currency_exchange','Cuántos pesos vale un dólar. Si el dólar baja, el exportador recibe menos pesos por la misma venta.'],
+ ['deforestación','Libre de deforestación','forest','La regla europea exige que el café no venga de tierras donde se taló bosque después del 31 de diciembre de 2020.'],
+ ['georreferencia','Georreferenciar','location_on','Ubicar cada finca o lote con coordenadas en un mapa.'],
+ ['trazabilidad|traza','Trazabilidad','route','Poder seguir un producto desde su origen: de qué finca y lote viene cada bolsa.'],
+ ['debida diligencia','Debida diligencia','fact_check','Revisar y documentar que tu proveedor cumple las reglas antes de comprarle.'],
+ ['garantía de compra','Garantía de compra','verified','Compromiso de la Federación Nacional de Cafeteros de comprar el café de los productores a un precio público, a través de cooperativas.'],
+ ['cooperativa','Cooperativa','diversity_3','Empresa de los mismos caficultores que compra su café y les presta servicios.'],
+ ['intermediario','Intermediario','swap_horiz','Persona que compra al productor para revender; se queda con una parte del precio.'],
+ ['SICA','SICA','database','Sistema de Información Cafetera de la Federación: un registro de fincas y lotes de café.'],
+ ['erizo','Concepto del erizo','target','Idea de Jim Collins: enfocarse en lo único en lo que puedes ser el mejor, que te apasiona y que mueve tu economía.']
+].map(([re,t,i,d])=>({re:new RegExp('(?<![\\p{L}\\-])('+re+')(?![\\p{L}])','iu'),t,i,d}));
+function ic(n,c){ return `<span class="ms ${c||''}" aria-hidden="true">${n}</span>`; }
+function gl(txt,used){ let h=esc(txt); GL.forEach((g,k)=>{ if(used.has(k)) return; if(g.re.test(h)){ used.add(k); h=h.replace(g.re,`<button class="term" onclick="showTerm(${k})">$1</button>`); } }); return h; }
+function showTerm(k){ const g=GL[k]; $('#glx').innerHTML=`<div class="glic">${ic(g.i)}</div><h3>${esc(g.t)}</h3><div>${esc(g.d)}</div><button class="btn" onclick="$('#gl').hidden=true">Entendido</button>`; $('#gl').hidden=false; }
+function dIcon(t){ const s=t.toLowerCase(); return /cop|usd|precio|costo|margen|valor|ahorro|inversi|salario|caja/.test(s)?'payments':/recolector|operario|barista|empleado|equipo|gente/.test(s)?'groups':/agua/.test(s)?'water_drop':/día|mes|año|hora|minuto|tiempo|semana/.test(s)?'schedule':/tienda/.test(s)?'storefront':/finca|lote|cafetal|hect/.test(s)?'agriculture':/queja|reclam|rechaz|incidente|defect|paradas/.test(s)?'report':/%|brocad/.test(s)?'percent':'info'; }
+function dataChips(C,used){ return `<div class="chips2">${C.dat.map(x=>{ const t=x.replace(/\s*\(cifras de la historia\)/,''), i=t.indexOf(':'); return `<div class="chip2">${ic(dIcon(t))}<div><span class="mut">${gl(i>0?t.slice(0,i):'Dato',used)}</span><b>${gl(i>0?t.slice(i+1).trim():t,used)}</b></div></div>`; }).join('')}</div><div class="mut" style="font-size:13px">Cifras de la historia, no reales.</div>`; }
+function scene(C,ch,ref){ const L=C.lv, cs=lvCases(L), k=cs.indexOf(ch); return `<div class="scene l${L}"><div class="sc-ic">${ic(C.ic)}</div><div class="sc-tx"><div class="sc-lv">${ic(LVIC[L],'sm')} Nivel ${L+1} · ${LEVELS[L].n}</div><h3>${esc(C.t)}</h3><div class="sc-dots">${cs.map((c,i)=>`<i class="${G().dec[c]&&(i!==k||!ref)?'on':''} ${i===k?'cur':''}"></i>`).join('')}</div></div></div>`; }
+function confetti(){ if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; const box=document.createElement('div'); box.className='confetti'; const cols=['#b5432c','#3f8a4f','#d9a441','#6b8fd6','#e0705a']; for(let i=0;i<46;i++){ const p=document.createElement('i'); p.style.left=Math.random()*100+'%'; p.style.background=cols[i%cols.length]; p.style.animationDelay=(Math.random()*0.4)+'s'; p.style.transform='rotate('+(Math.random()*360)+'deg)'; box.appendChild(p);} document.body.appendChild(box); setTimeout(()=>box.remove(),2200); }
+function countUp(){ document.querySelectorAll('.cu').forEach(e=>{ const a=+e.dataset.a, b=+e.dataset.b, f=e.dataset.f||''; if(a===b){ e.textContent=fmtN(b,f); return; } const t0=performance.now(); const st=t=>{ const p=Math.min(1,(t-t0)/800); e.textContent=fmtN(a+(b-a)*(1-Math.pow(1-p,3)),f); if(p<1) requestAnimationFrame(st); }; requestAnimationFrame(st); }); }
+function fmtN(v,f){ return f==='m'?money(Math.round(v)):String(Math.round(v)); }
+function celebrate(t,sub,icn){ $('#lvx').innerHTML=`<div class="glic big">${ic(icn)}</div><h2>${esc(t)}</h2><div>${esc(sub)}</div><button class="btn" onclick="$('#lv').hidden=true">Seguir</button>`; $('#lv').hidden=false; confetti(); }
+async function askCase(ch,n){ const q=($('#cq')||{}).value||''; if(!q.trim()){ toast('Escribe tu duda'); return; } if(!SAMPLE||coachBusy) return; coachBusy=true; const C=CASES[ch-1], el=$('#cqa'); el.hidden=false; el.textContent='Pensando...';
+ const p='Explica en español muy simple, como a alguien que no sabe nada de café ni de negocios, con un ejemplo cotidiano. Máximo 90 palabras, sin emojis. No reveles cuál opción es la mejor.\n\nCaso: '+C.t+'. '+C.sit+'\nDatos: '+C.dat.join('; ')+'\nOpciones: '+C.o.map(o=>o.t).join(' | ')+'\nDuda de Salomón: '+q;
+ try{ const {text}=await SAMPLE(p,{cache:false,onText:({text})=>{ const e=$('#cqa'); if(e) e.textContent=text; }}); dd(n).cqa=text; save(); }catch(e){ el.textContent=coachErr(e.code); } finally{ coachBusy=false; } }
+function radar(M){ const ks=Object.keys(M6), cx=150, cy=128, R=92, pt=(i,r)=>{ const a=-Math.PI/2+i*2*Math.PI/ks.length; return [cx+r*Math.cos(a), cy+r*Math.sin(a)]; };
+ const rings=[0.33,0.66,1].map(f=>`<polygon class="rg" points="${ks.map((_,i)=>pt(i,R*f).join(',')).join(' ')}"/>`).join('');
+ const poly=`<polygon class="rv" points="${ks.map((k,i)=>pt(i,R*((M[k]||0)/100)).join(',')).join(' ')}"/>`;
+ const lab=ks.map((k,i)=>{ const [x,y]=pt(i,R+18); return `<text x="${x}" y="${y+4}" text-anchor="middle">${M6[k]}</text>`; }).join('');
+ return `<svg class="radar" viewBox="0 0 300 260" role="img" aria-label="Radar de gestión">${rings}${ks.map((_,i)=>{const [x,y]=pt(i,R);return `<line class="rg" x1="${cx}" y1="${cy}" x2="${x}" y2="${y}"/>`}).join('')}${poly}${lab}</svg>`; }
+
+function caseBox(n){
+ const nx=caseFor(n); if(!nx) return `<div class="scene l5"><div class="sc-ic">${ic('castle')}</div><div class="sc-tx"><h3>Historia completa</h3><div>Superaste los 6 niveles. Mira tu imperio en la pestaña Empresa.</div></div></div>`;
+ const ch=nx.ch, C=CASES[ch-1], dec=G().dec[ch], d=dd(n), done=d.cs===ch, used=new Set(), st=d.cst||0;
+ let h=`<div class="case stack">${scene(C,ch,nx.ref&&!done)}`;
+ if(nx.ref&&!done) h+=`<div class="why">${ic('replay','sm')} <b>Refuerzo:</b> el nivel ${C.lv+1} no alcanzó el mínimo para subir. Vuelve a decidir tu caso más débil.</div>`;
+ if(!done&&st===0){
+  h+=`<div class="simple">${ic('lightbulb')}<div><b>En palabras simples</b><br>${gl(C.s,used)}</div></div>
+  <div class="story">${gl(C.sit,used)}</div>${dataChips(C,used)}
+  <div class="mut" style="font-size:14px">${ic('touch_app','sm')} Toca las palabras subrayadas para ver qué significan.</div>
+  ${SAMPLE?`<details class="ask"><summary>${ic('help','sm')} Tengo una duda</summary><div class="stack" style="margin-top:10px"><input type="text" id="cq" placeholder="Por ejemplo: ¿qué es un hongo?" aria-label="Tu duda"><button class="btn2" onclick="askCase(${ch},${n})">Preguntarle al coach</button><div class="coach" id="cqa" ${d.cqa?'':'hidden'}>${esc(d.cqa||'')}</div></div></details>`:''}
+  <button class="btn big" onclick="setA(${n},'cst',1,1)">${ic('bolt','sm')} ¿Qué harías tú?</button></div>`;
+  return h; }
+ if(!done){ const sel=d.csel;
+  h+=`<div class="kq">${gl(C.q,used)}</div>`+ordFor(ch).map((i,j)=>`<button class="opt3 ${sel===i?'on':''}" onclick="setA(${n},'csel',${i},1)"><span class="lt">${'ABC'[j]}</span><span>${esc(C.o[i].t)}</span></button>`).join('')+field(n,['cwhy','¿Por qué? En 2 o 3 líneas','area'])+`<div class="actions"><button class="btn2" onclick="setA(${n},'cst',0,1)">${ic('arrow_back','sm')} Ver el caso</button><button class="btn" onclick="decide(${n},${ch},${nx.ref?1:0})">${ic('gavel','sm')} Decidir</button></div></div>`;
+  return h; }
+ const o=C.o[dec.o], gr=GRADE[o.g], pre=dec.pre||{x:0,y:0,v:0,e:1}, A=axes(), s=company();
+ return h+`<div class="reveal ${gr[1]}"><div class="rv-h">${ic(o.g===1?'military_tech':o.g>0.5?'balance':'warning')}<div><div class="rv-t">${gr[0]}</div><div class="mut">+${20+Math.round(o.g*10)} XP</div></div></div><div><b>Elegiste: </b>${esc(o.t)}</div><div>${gl(o.r,used)}</div></div>
+ <div class="deltas"><div>${ic('school')}<b class="cu" data-a="${pre.x}" data-b="${A.x}">${A.x}</b><span class="mut">Conocimiento</span></div><div>${ic('memory')}<b class="cu" data-a="${pre.y}" data-b="${A.y}">${A.y}</b><span class="mut">Tecnología</span></div><div>${ic('payments')}<b class="cu" data-a="${pre.v}" data-b="${s.v}" data-f="m">${money(s.v)}</b><span class="mut">Ventas al mes</span></div><div>${ic('groups')}<b class="cu" data-a="${pre.e}" data-b="${s.e}">${s.e}</b><span class="mut">Empleados</span></div></div>
+ <div class="real">${ic('public')}<div><b>En la vida real</b> · <span class="mut">${esc(C.src)}</span><br>${gl(C.real,used)}</div></div>
+ <div class="lesson">${ic('emoji_objects')}<div><b>La teoría detrás</b><br>${esc(C.lec)}</div></div>${C.learn?learnBtn(C.learn):''}
+ ${coachCaseBox(ch)}</div>`;
+}
+function decide(n,ch,ref){ const d=dd(n); if(d.csel==null){ toast('Elige una opción'); return; } const w=(d.cwhy||'').trim(); if(w.length<10){ toast('Explica tu porqué en 2 o 3 líneas'); return; }
+ const A0=axes(), s0=company(), before=rankIdx(s0), Lb=curLevel(), old=G().dec[ch];
+ const rec={o:d.csel,why:w,day:n,t:Date.now(),pre:{x:A0.x,y:A0.y,v:s0.v,e:s0.e}}; if(old) rec.h=(old.h||[]).concat([{o:old.o,why:old.why,t:old.t}]);
+ G().dec[ch]=rec; d.cs=ch; d.csRef=!!ref; d.cst=0; save(); const after=rankIdx(company()), La=curLevel(), g=CASES[ch-1].o[d.csel].g; render(); setTimeout(countUp,60);
+ if(La>Lb) celebrate(La<LEVELS.length?'Nivel '+(La+1)+': '+LEVELS[La].n:'Superaste los 6 niveles',La<LEVELS.length?LEVELS[La].d:'Tu café llegó al mundo.',La<LEVELS.length?LVIC[La]:'castle');
+ else if(after>before) celebrate('Nuevo rango: '+RANKS[after][0],RANKS[after][1],'workspace_premium');
+ else { if(g===1) confetti(); else if(g<0.5){ const r=document.querySelector('.reveal'); if(r){ r.classList.add('shake'); } } toast(GRADE[g][0]+' · +'+(20+Math.round(g*10))+' XP'); } }
 function caseCard(n){ const nx=caseFor(n); if(!nx) return ''; const C=CASES[nx.ch-1], done=dd(n).cs===nx.ch;
- return `<button class="tile" onclick="cur=${n};sess={k:1,s:caseIdx(${n})};render();scrollTo(0,0)"><span class="num">${done?'✓':'C'}</span><span class="tx"><h3>${nx.ref&&!done?'Caso de refuerzo':'Caso del día'}</h3><span class="mut">Nivel ${C.lv+1} · ${esc(C.t)}</span></span><span class="go" aria-hidden="true">›</span></button>`; }
+ return `<button class="tile ctile l${C.lv}" onclick="cur=${n};sess={k:1,s:caseIdx(${n})};render();scrollTo(0,0)"><span class="num">${done?ic('check'):ic(C.ic)}</span><span class="tx"><h3>${nx.ref&&!done?'Caso de refuerzo':'Caso del día'}</h3><span class="mut">Nivel ${C.lv+1} · ${esc(C.t)}</span></span><span class="go" aria-hidden="true">›</span></button>`; }
+
 function mapSvg(){ const W=320,H=270,px=36,py=26,sx=x=>px+x/100*(W-px-12),sy=y=>H-py-y/100*(H-py-12), pts=pathPts(), L=curLevel(), st=100/6;
  let g=''; for(let i=0;i<6;i++){ const x0=sx(i*st), y1=sy((i+1)*st), w=sx((i+1)*st)-x0, hh=sy(i*st)-y1; g+=`<rect class="zone ${i<L?'past':i===L?'now':''}" x="${x0}" y="${y1}" width="${w}" height="${hh}" rx="4"/><text class="zl" x="${x0+3}" y="${y1+12}">${i+1}</text>`; }
  const ax=`<line class="ax" x1="${px}" y1="${sy(0)}" x2="${sx(100)}" y2="${sy(0)}"/><line class="ax" x1="${px}" y1="${sy(0)}" x2="${px}" y2="${sy(100)}"/><text class="al" x="${sx(50)}" y="${H-4}" text-anchor="middle">Conocimiento</text><text class="al" transform="translate(11 ${sy(50)}) rotate(-90)" text-anchor="middle">Tecnología</text>`;
@@ -713,12 +825,12 @@ function mapSvg(){ const W=320,H=270,px=36,py=26,sx=x=>px+x/100*(W-px-12),sy=y=>
 function vEmp(){ const s=company(), r=rankIdx(s), A=axes(), L=curLevel(), M=m6(), D=G().dec, LL=Math.min(L,LEVELS.length-1), lg=logros();
  const lvls=LEVELS.map((x,i)=>{ const gg=gate(i); return `<div class="lad ${i<L?'past':i===L?'now':''}"><span class="n">${i<L?'✓':i+1}</span><span style="flex:1"><b>${x.n}</b><br><span class="mut">${x.d}</span></span>${gg.done?`<span class="pill ${gg.ok?'ok':'bad'}">${gg.ok?'Superado':'Refuerzo'}</span>`:''}</div>`; }).reverse().join('');
  const bars=Object.keys(M6).map(k=>`<div class="m6"><span>${M6[k]}</span><div class="bar"><i style="width:${M[k]||0}%"></i></div><b>${M[k]==null?'–':M[k]}</b></div>`).join('');
- const hist=Object.keys(D).map(Number).sort((a,b)=>b-a).map(c=>{const C=CASES[c-1],v=D[c],o=C.o[v.o],gr=GRADE[o.g],op=mOpen==='c'+c; return `<button class="dayrow" aria-expanded="${op}" onclick="mOpen=mOpen==='c${c}'?null:'c${c}';render()"><span class="n ${o.g===1?'l3':o.g>0.5?'l1':''}">${C.lv+1}</span><span style="flex:1">${esc(C.t)}</span><span class="pill ${gr[1]}">${gr[0]}</span></button>${op?`<div class="learn stack" style="margin:8px 0 12px">${mTags(C)}<div><b>Decidí: </b>${esc(o.t)}</div><div><b>Por qué: </b>${esc(v.why)}</div><div>${esc(o.r)}</div><div class="ex2"><b>Vida real: </b>${esc(C.real)}</div>${v.fb?`<div class="coach">${esc(v.fb)}</div>`:''}</div>`:''}`}).join('');
+ const hist=Object.keys(D).map(Number).sort((a,b)=>b-a).map(c=>{const C=CASES[c-1],v=D[c],o=C.o[v.o],gr=GRADE[o.g],op=mOpen==='c'+c; return `<button class="dayrow" aria-expanded="${op}" onclick="mOpen=mOpen==='c${c}'?null:'c${c}';render()"><span class="n ${o.g===1?'l3':o.g>0.5?'l1':''}">${C.lv+1}</span><span style="flex:1">${esc(C.t)}</span><span class="pill ${gr[1]}">${gr[0]}</span></button>${op?`<div class="learn stack" style="margin:8px 0 12px"><div><b>Decidí: </b>${esc(o.t)}</div><div><b>Por qué: </b>${esc(v.why)}</div><div>${esc(o.r)}</div><div class="ex2"><b>Vida real: </b>${esc(C.real)}</div>${v.fb?`<div class="coach">${esc(v.fb)}</div>`:''}</div>`:''}`}).join('');
  return `<div class="stack"><div class="eyebrow">Tu empresa de café</div>
  <div class="card stack"><label class="fl" for="cn">Nombre de tu empresa</label><input type="text" id="cn" value="${esc(coName())}" onchange="G().name=this.value.trim();save();render()"></div>
  <div class="card rankc"><div class="eyebrow">${L<LEVELS.length?'Nivel '+(L+1)+' de 6':'Historia completa'}</div><div class="big">${L<LEVELS.length?LEVELS[L].n:'Exportador mundial'}</div><div class="mut">${RANKS[r][0]} · ${esc(coName())} · ${xp()} XP</div><div class="stats" style="margin-top:12px"><div><div class="k">${A.x}</div><div class="mut">Conocimiento</div></div><div><div class="k">${A.y}</div><div class="mut">Tecnología</div></div><div><div class="k">${decN()}/${NC}</div><div class="mut">Casos</div></div></div></div>
- <div class="card stack"><h3>Tu mapa</h3>${mapSvg()}<div class="mut">Cada decisión te mueve en conocimiento y tecnología. Los cuadros son los 6 niveles; subes cuando superas la puerta de cada uno.</div></div>
- <div class="card stack"><h3>Tus 6 M</h3>${bars}<div class="mut">Calidad de tus decisiones en cada M, de 0 a 100.</div></div>
+ <div class="card stack"><h3>${ic('map','sm')} Tu mapa</h3>${mapSvg()}<div class="mut">Cada decisión te mueve en conocimiento y tecnología. Los cuadros son los 6 niveles; subes cuando superas la puerta de cada uno.</div></div>
+ <div class="card stack"><h3>${ic('radar','sm')} Tu radar de gestión</h3>${radar(M)}<div class="mut">Cómo decides en las 6 M de la gestión, de 0 a 100.</div></div>
  <div class="card stack"><h3>Indicadores del nivel ${LL+1}: ${LEVELS[LL].n}</h3><ul class="rep">${LEVELS[LL].k.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
  <div class="card stack"><h3>Niveles</h3>${lvls}<div class="mut">Puerta de cada nivel: decisiones en 60 o más y tecnología en 50 o más. Si no pasas, repites tu caso más débil.</div></div>
  <div class="card stats5"><div><div class="k">${money(s.v)}</div><div class="mut">Ventas al mes</div></div><div><div class="k">${s.e}</div><div class="mut">Empleados</div></div><div><div class="k">${s.t}</div><div class="mut">Tiendas</div></div><div><div class="k">${s.p}</div><div class="mut">Países</div></div></div>
@@ -737,7 +849,7 @@ async function coachDay(n){ if(coachBusy) return; coachBusy=true; const el=$('#c
  try{ const {text}=await SAMPLE(p,{cache:false,onText:({text})=>{const e=$('#cd'); if(e) e.textContent=text;}}); dd(n).coach=text; save(); }catch(e){ const x=$('#cd'); if(x) x.textContent=coachErr(e.code); } finally{ coachBusy=false; safeRender(); } }
 function coachCaseBox(ch){ if(!SAMPLE) return ''; const v=G().dec[ch]; return `<div class="coach" id="cc">${v.fb?esc(v.fb):'<span class="mut">El coach evalúa tu razonamiento, no solo la opción.</span>'}</div><button class="btn2" onclick="coachCase(${ch})">${v.fb?'Otra evaluación':'Que el coach evalúe mi razonamiento'}</button>`; }
 async function coachCase(ch){ if(coachBusy) return; coachBusy=true; const C=CASES[ch-1], v=G().dec[ch], el=$('#cc'); if(el) el.textContent='El coach está analizando tu decisión...';
- const p=COACH+'\nActúa como profesor de casos de negocios estilo Harvard. Evalúa el RAZONAMIENTO de Salomón, no solo la opción. Da: nota de 1 a 5, qué vio bien, qué no vio (riesgo, dato o concepto de mejora continua), qué haría un estratega y una pregunta para pensar más. Usa el lente de las 6 M (mano de obra, máquina, método, materiales, medición, medio ambiente).\n\nNivel: '+LEVELS[C.lv].n+'. M principales: '+C.m.map(k=>M6[k]).join(', ')+'\nCaso: '+C.t+'\nSituación: '+C.sit+'\nDatos: '+C.dat.join('; ')+'\nPregunta: '+C.q+'\nOpciones: '+C.o.map(o=>o.t).join(' | ')+'\nEligió: '+C.o[v.o].t+'\nSu razonamiento: '+v.why+'\nReferencia real: '+C.src+'. '+C.real+'\nLección esperada: '+C.lec;
+ const p=COACH+'\nActúa como profesor de casos de negocios estilo Harvard. Evalúa el RAZONAMIENTO de Salomón, no solo la opción. Da: nota de 1 a 5, qué vio bien, qué no vio (riesgo, dato o concepto de mejora continua), qué haría un estratega y una pregunta para pensar más. Analiza internamente con las 6 M (mano de obra, máquina, método, materiales, medición, medio ambiente), pero escribe en lenguaje simple, sin listarlas.\n\nNivel: '+LEVELS[C.lv].n+'. M principales: '+C.m.map(k=>M6[k]).join(', ')+'\nCaso: '+C.t+'\nSituación: '+C.sit+'\nDatos: '+C.dat.join('; ')+'\nPregunta: '+C.q+'\nOpciones: '+C.o.map(o=>o.t).join(' | ')+'\nEligió: '+C.o[v.o].t+'\nSu razonamiento: '+v.why+'\nReferencia real: '+C.src+'. '+C.real+'\nLección esperada: '+C.lec;
  try{ const {text}=await SAMPLE(p,{cache:false,onText:({text})=>{const e=$('#cc'); if(e) e.textContent=text;}}); v.fb=text; save(); }catch(e){ const x=$('#cc'); if(x) x.textContent=coachErr(e.code); } finally{ coachBusy=false; safeRender(); } }
 
 /* ---------- Dictado ---------- */
