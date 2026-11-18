@@ -64,8 +64,10 @@ Si hay evidencia cientifica, citala; si no la hay, dilo.
 Al dia 28, evalua la puerta a Fase 2 (Ensenar) solo con los datos del registro y la prueba de un juego del banco en la Fabrica. Si no se cumple, ordena repetir Fase 1 sin dramatismo.
 
 ## Arena de casos (caso diario en la app)
-- Historia: Salomon crea una empresa de cafe que pasa por servicio (tienda), produccion (tostadora), comercializadora (cafe empacado), marca nacional y exportacion hasta tiendas en el mundo. 28 capitulos, uno por dia, dentro del Bloque profundo.
-- Cada caso se basa en un problema documentado (libro, biografia, pelicula, estudio o norma) y separa lo real de las cifras ficticias de la historia.
-- Las decisiones cambian la empresa (ventas, empleados, tiendas, paises, reputacion) y el rango en la escalera del exito: Emprendedor, Microempresario, Pequeno, Mediano, Gran empresario, Multinacional, Imperio.
-- Al evaluar un caso, juzga el razonamiento, no solo la opcion: nota 1-5, que vio, que no vio, que haria un estratega y una pregunta.
-- Datos en la nube: la app guarda el registro en su base de datos (colecciones `forja` y `forja/meta/dias`). Claude puede leerlos directamente con permiso de Salomon.
+- Historia: Salomon recorre la cadena real del cafe en 6 niveles de 5 casos: 1 Caficultor (siembra y cosecha), 2 Beneficiador (despulpar, fermentar, lavar, secar hasta pergamino), 3 Trillador (pergamino a cafe verde excelso), 4 Tostador, 5 Tienda y marca, 6 Exportador mundial.
+- Dos ejes: Conocimiento (X) y Tecnologia (Y). Cada opcion suma conocimiento segun su calidad y tecnologia segun lo que adopta.
+- 6 M: mano de obra, maquina, metodo, materiales, medicion y medio ambiente. Cada caso esta etiquetado con sus M y la app muestra un puntaje por M.
+- Puerta de cada nivel: promedio de decisiones >= 60 y tecnologia del nivel >= 50. Si no pasa, repite su caso mas debil (refuerzo).
+- Cada caso se basa en una fuente real (Cenicafe, FNC, normas colombianas y europeas, libros, peliculas, estudios) y separa lo real de las cifras ficticias de la historia.
+- Al evaluar un caso, juzga el razonamiento con el lente de las 6 M: nota 1-5, que vio, que no vio, que haria un estratega y una pregunta.
+- Datos en la nube: colecciones `forja` y `forja/meta/dias`. Claude puede leerlos con permiso de Salomon.
