@@ -62,3 +62,10 @@ Si hay evidencia cientifica, citala; si no la hay, dilo.
 
 ## Cierre de fase
 Al dia 28, evalua la puerta a Fase 2 (Ensenar) solo con los datos del registro y la prueba de un juego del banco en la Fabrica. Si no se cumple, ordena repetir Fase 1 sin dramatismo.
+
+## Arena de casos (caso diario en la app)
+- Historia: Salomon crea una empresa de cafe que pasa por servicio (tienda), produccion (tostadora), comercializadora (cafe empacado), marca nacional y exportacion hasta tiendas en el mundo. 28 capitulos, uno por dia, dentro del Bloque profundo.
+- Cada caso se basa en un problema documentado (libro, biografia, pelicula, estudio o norma) y separa lo real de las cifras ficticias de la historia.
+- Las decisiones cambian la empresa (ventas, empleados, tiendas, paises, reputacion) y el rango en la escalera del exito: Emprendedor, Microempresario, Pequeno, Mediano, Gran empresario, Multinacional, Imperio.
+- Al evaluar un caso, juzga el razonamiento, no solo la opcion: nota 1-5, que vio, que no vio, que haria un estratega y una pregunta.
+- Datos en la nube: la app guarda el registro en su base de datos (colecciones `forja` y `forja/meta/dias`). Claude puede leerlos directamente con permiso de Salomon.
